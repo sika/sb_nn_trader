@@ -1,0 +1,207 @@
+DATE;TIME;DAY;ERROR_COUNTER;E_MSG;CALLING_FUNCTION
+2018-02-27;13:16;Tuesday;1;"{'reason': 'OK',
+ 'status_code': '200',
+ 'url': 'https://www.nordnet.se/blikund/start.html'}";<module>
+2018-02-27;13:25;Tuesday;1;;<module>
+2018-02-27;13:26;Tuesday;1;HTTPSConnectionPool(host='www.swedihbulls.com', port=443): Max retries exceeded with url: /Signin.aspx?lang=en (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x7f4b810b6a90>: Failed to establish a new connection: [Errno -2] Name or service not known',));<module>
+2018-02-27;13:33;Tuesday;1;400 Bad Request: The browser (or proxy) sent a request that this server could not understand.;<module>
+2018-02-27;15:40;Tuesday;1;;isMaxStockHeldAndActive
+2018-02-27;15:49;Tuesday;1;HTTPSConnectionPool(host='www.swedishbulls.com', port=443): Max retries exceeded with url: /Signin.aspx?lang=en (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x7f3d1dfdbb70>: Failed to establish a new connection: [Errno -3] Temporary failure in name resolution',));sbLogin
+2018-02-27;15:49;Tuesday;2;'NoneType' object has no attribute 'find';sbGetSignal
+2018-03-05;14:37;Monday;1;;sbGetSignal_afterMarketHours
+2018-03-05;16:26;Monday;1;;isPriceWithinBuyLevel
+2018-03-05;16:26;Monday;2;;isPriceWithinBuyLevel
+2018-03-05;17:08;Monday;1;;sbGetSignal
+2018-03-05;17:22;Monday;1;;sbGetSignal
+2018-03-06;11:38;Tuesday;1;;isLastPriceWithinBenchmark
+2018-03-06;15:08;Tuesday;1;;writeConfirmationStatistics
+2018-03-06;15:08;Tuesday;2;name 'stat_key_nameShortSb' is not defined;isConfirmationStatSet
+2018-03-06;15:08;Tuesday;3;;writeConfirmationStatistics
+2018-03-06;15:08;Tuesday;4;name 'stat_key_nameShortSb' is not defined;isConfirmationStatSet
+2018-03-06;15:08;Tuesday;5;;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;1;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;2;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;3;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;4;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;5;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;6;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;7;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;8;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;9;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-06;15:39;Tuesday;10;name 'counter' is not defined;writeConfirmationStatistics
+2018-03-09;12:10;Friday;1;;isConfirmationStatSet
+2018-03-09;12:11;Friday;1;;isConfirmationStatSet
+2018-03-09;13:52;Friday;1;[Errno 13] Permission denied: '/mnt/c/Users/skarlsson/Dropbox/Development/nordnet-api-00/python/3-trader/4-get-sb-signal-login/output/confirmationStatistics.csv';writeConfirmationStatistics
+2018-03-09;14:02;Friday;1;;sbGetSignal
+2018-03-21;10:12;Wednesday;1;;sbGetSignal
+2018-03-21;10:15;Wednesday;1;;sbGetSignal
+2018-03-21;15:16;Wednesday;1;;sbGetSignal
+2018-04-02;21:21;Monday;1;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/Development/nordnet-api-00/python/3-trader/4-get-sb-signal-login/input/stock-to-buy.csv';initStockStatus
+2018-04-02;21:21;Monday;2;('could not match', 'MediRätt AB', 'with', 'NAMESHORT_SB');getSbNameShortByNnName
+2018-04-02;21:21;Monday;3;('could not match', 'MediRätt AB', 'with', 'NAMESHORT_SB');getSbNameShortByNnName
+2018-04-02;21:21;Monday;4;('could not match', 'Dividend Sweden B', 'with', 'NAMESHORT_SB');getSbNameShortByNnName
+2018-04-05;15:36;Thursday;1;module 'trader_shared' has no attribute 'glo_stockToBuy_str';initStockStatus
+2018-04-05;15:36;Thursday;2;Can't convert 'int' object to str implicitly;setStockStatus
+2018-04-05;15:36;Thursday;3;module 'trader_shared' has no attribute 'glo_credSb';sbLogin
+2018-04-05;15:36;Thursday;4;'NoneType' object has no attribute 'find';sbGetSignal
+2018-04-05;15:39;Thursday;1;module 'trader_shared' has no attribute 'glo_stockToBuy_str';initStockStatus
+2018-04-05;15:51;Thursday;1;Can't convert 'int' object to str implicitly;setStockStatus
+2018-04-05;15:51;Thursday;2;name 'inspect' is not defined;sbLogin
+2018-04-05;15:51;Thursday;3;'NoneType' object has no attribute 'find';sbGetSignal
+2018-04-05;15:55;Thursday;1;"{'reason': 'Bad Request',
+ 'status_code': '400',
+ 'url': 'https://www.nordnet.se/api/2/authentication/basic/login'}";nordnetLogin
+2018-04-05;15:55;Thursday;2;'NoneType' object has no attribute 'next_sibling';setStockStatus
+2018-04-05;15:55;Thursday;3;'NoneType' object has no attribute 'get';sbLogin
+2018-04-05;15:55;Thursday;4;'NoneType' object has no attribute 'find';sbGetSignal
+2018-04-05;16:02;Thursday;1;'NoneType' object has no attribute 'find';sbGetSignal
+2018-04-05;16:02;Thursday;1;'NoneType' object has no attribute 'find';sbGetSignal
+2018-04-05;16:08;Thursday;1;Can't convert 'int' object to str implicitly;setStockStatus
+2018-04-05;16:50;Thursday;1;local variable 'test' referenced before assignment;triggerError
+2018-04-09;10:45;Monday;1;'NoneType' object is not iterable;resetStockStatus
+2018-04-09;10:47;Monday;1;'NoneType' object does not support item assignment;resetStockStatus
+2018-04-13;12:57;Friday;1;;getAmountAvailableFromNn
+2018-04-13;12:57;Friday;1;local variable 'r' referenced before assignment;getAmountAvailableFromNn
+2018-04-13;13:01;Friday;1;Can't convert 'int' object to str implicitly;getAmountAvailableFromNn
+2018-04-13;14:15;Friday;1;;getAmountAvailableFromNn
+2018-04-13;19:26;Friday;1;name 'fileName' is not defined;setStockStatusFromNn
+2018-04-13;19:28;Friday;1;name 'fileName' is not defined;setStockStatusFromNn
+2018-04-13;19:28;Friday;1;name 'fileName' is not defined;setStockStatusFromNn
+2018-04-13;19:30;Friday;1;;setStockStatusFromNn
+2018-04-13;19:31;Friday;1;name 'glo_stockToBuy_colNames' is not defined;setStockStatusFromNn
+2018-04-13;21:15;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;21:16;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;21:22;Friday;1;;setStockStatusFromNn
+2018-04-13;21:47;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;21:56;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;22:15;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;22:15;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;22:16;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;22:18;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;22:49;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;22:49;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;23:03;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;23:14;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;23:14;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;23:15;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;23:17;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;23:17;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;23:29;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-13;23:33;Friday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-14;01:12;Saturday;1;local variable 'r' referenced before assignment;getAmountAvailableFromNn
+2018-04-14;01:12;Saturday;2;float() argument must be a string or a number, not 'NoneType';setStockStatusFromNn
+2018-04-14;01:13;Saturday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-14;01:14;Saturday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-14;01:22;Saturday;1;'NoneType' object is not iterable;getRemovalList
+2018-04-14;01:22;Saturday;2;;setStockStatusFromNn
+2018-04-14;01:30;Saturday;1;;setStockStatusFromNn
+2018-04-14;01:36;Saturday;1;;setStockStatusFromNn
+2018-04-14;01:48;Saturday;1;'NoneType' object is not iterable;setStockStatusFromNn
+2018-04-15;15:06;Sunday;1;name 'days' is not defined;isStockFileOlderThanCondition
+2018-04-16;14:29;Monday;1;name 'sbLogin' is not defined;setSbWatchlist
+2018-04-16;14:29;Monday;1;name 'pprint' is not defined;setSbWatchlist
+2018-04-16;14:34;Monday;1;module 'shared' has no attribute 'glo_clearWatchlist';clearSbWatchlist
+2018-04-16;15:31;Monday;1;name 'mod' is not defined;getUnconfirmedWatchlist
+2018-04-16;16:43;Monday;1;name 'glo_stockStatus_list' is not defined;getNnStockPrice
+2018-04-16;16:43;Monday;2;name 'glo_stockStatus_list' is not defined;getCurrentNumberOfStocksHeld
+2018-04-16;16:43;Monday;3;name 'glo_stockStatus_list' is not defined;getCurrentNumberOfStocksActiveBuy
+2018-04-16;16:43;Monday;4;unsupported operand type(s) for +: 'NoneType' and 'NoneType';getNnStockVolume
+2018-04-16;20:11;Monday;1;name 'glo_stockStatus_list' is not defined;getNnStockPrice
+2018-04-16;20:11;Monday;2;name 'glo_stockStatus_list' is not defined;getCurrentNumberOfStocksHeld
+2018-04-16;20:11;Monday;3;name 'glo_stockStatus_list' is not defined;getCurrentNumberOfStocksActiveBuy
+2018-04-16;21:02;Monday;1;name 'getGlobalList' is not defined;getNnStockPrice
+2018-04-16;21:02;Monday;2;name 'getGlobalList' is not defined;getCurrentNumberOfStocksHeld
+2018-04-16;21:02;Monday;3;name 'getGlobalList' is not defined;getCurrentNumberOfStocksActiveBuy
+2018-04-16;21:03;Monday;1;module 'shared' has no attribute 'pathOutput';writeOrderStatistics
+2018-04-17;13:06;Tuesday;1;name 's' is not defined;getStockStatus
+2018-04-17;13:06;Tuesday;2;'NoneType' object is not iterable;setAndGetStockStatusFromNn
+2018-04-17;15:45;Tuesday;1;;sbGetSignal
+2018-04-18;13:52;Wednesday;1;request() got an unexpected keyword argument 'header';getNnStockPrice
+2018-04-18;13:52;Wednesday;2;float() argument must be a string or a number, not 'NoneType';getNnStockVolume
+2018-04-18;13:52;Wednesday;3;"{'reason': 'Bad Request',
+ 'status_code': '400',
+ 'url': 'https://www.nordnet.se/api/2/accounts/18272500/orders'}";nordnetPlaceOrder
+2018-04-18;13:52;Wednesday;4;request() got an unexpected keyword argument 'header';getNnStockPrice
+2018-04-18;13:53;Wednesday;5;float() argument must be a string or a number, not 'NoneType';getNnStockVolume
+2018-04-18;14:05;Wednesday;1;request() got an unexpected keyword argument 'header';getNnStockPrice
+2018-04-18;14:05;Wednesday;2;float() argument must be a string or a number, not 'NoneType';getNnStockVolume
+2018-04-18;14:05;Wednesday;3;"{'reason': 'Bad Request',
+ 'status_code': '400',
+ 'url': 'https://www.nordnet.se/api/2/accounts/18272500/orders'}";nordnetPlaceOrder
+2018-04-18;14:05;Wednesday;4;request() got an unexpected keyword argument 'header';getNnStockPrice
+2018-04-18;14:05;Wednesday;5;float() argument must be a string or a number, not 'NoneType';getNnStockVolume
+2018-04-18;14:07;Wednesday;1;;getNnStockPrice
+2018-04-18;14:07;Wednesday;2;float() argument must be a string or a number, not 'NoneType';getNnStockVolume
+2018-04-18;17:06;Wednesday;1;'NoneType' object is not iterable;setListKeys
+2018-04-18;17:12;Wednesday;1;'NoneType' object is not iterable;setListKeys
+2018-04-18;17:14;Wednesday;1;'NoneType' object is not iterable;setListKeys
+2018-04-18;17:17;Wednesday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;12:49;Thursday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-19;12:49;Thursday;2;'NoneType' object is not iterable;setListKeys
+2018-04-19;14:20;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;15:32;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;15:44;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;15:44;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;15:46;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;15:47;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;16:27;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;16:27;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;16:31;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;17:37;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-19;18:19;Thursday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;11:02;Friday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-20;11:05;Friday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-20;11:39;Friday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-20;11:43;Friday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-20;11:44;Friday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-20;11:44;Friday;2;'NoneType' object is not iterable;setListKeys
+2018-04-20;11:44;Friday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-20;11:44;Friday;2;'NoneType' object is not iterable;setListKeys
+2018-04-20;11:48;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;12:19;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;13:12;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;13:13;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;13:13;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;13:17;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;13:20;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;13:52;Friday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-20;13:52;Friday;2;'NoneType' object is not iterable;setListKeys
+2018-04-20;14:52;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;16:15;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;16:24;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;16:28;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;16:34;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;16:43;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;16:43;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;16:45;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-20;16:52;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-04-22;20:13;Sunday;1;'NoneType' object is not iterable;setListKeys
+2018-04-22;20:15;Sunday;1;'NoneType' object is not iterable;setListKeys
+2018-04-22;21:58;Sunday;1;'NoneType' object is not iterable;setListKeys
+2018-04-23;14:42;Monday;1;[Errno 2] No such file or directory: '/mnt/c/Users/skarlsson/Dropbox/Development/nordnet-api-00/python/3-trader/4-get-sb-signal-login/input/create-stock-lists/test-stock-info-afterSb.csv';getStockListFromFile
+2018-04-23;14:42;Monday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-23;14:42;Monday;2;'NoneType' object is not iterable;setListKeys
+2018-04-23;15:09;Monday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-23;15:09;Monday;2;'NoneType' object is not iterable;setListKeys
+2018-04-23;15:18;Monday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-23;15:18;Monday;2;'NoneType' object is not iterable;setListKeys
+2018-04-23;15:19;Monday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-23;15:19;Monday;2;'NoneType' object is not iterable;setListKeys
+2018-04-23;15:52;Monday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-23;15:52;Monday;2;'NoneType' object is not iterable;setListKeys
+2018-04-23;15:53;Monday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-23;15:53;Monday;2;'NoneType' object is not iterable;setListKeys
+2018-04-23;16:02;Monday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-23;16:02;Monday;2;'NoneType' object is not iterable;setListKeys
+2018-04-23;16:24;Monday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-23;16:24;Monday;2;'NoneType' object is not iterable;setListKeys
+2018-04-23;18:51;Monday;1;'NoneType' object is not iterable;setListKeys
+2018-04-23;22:45;Monday;1;'NoneType' object is not iterable;setListKeys
+2018-04-23;22:54;Monday;1;'NoneType' object is not iterable;setListKeys
+2018-04-24;00:25;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-04-24;00:39;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-04-24;14:40;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-04-24;15:01;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-04-24;15:59;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-04-24;16:10;Tuesday;1;'NoneType' object is not iterable;updateListFromListByKeys
+2018-04-24;16:10;Tuesday;2;'NoneType' object is not iterable;setListKeys
