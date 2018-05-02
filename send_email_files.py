@@ -32,7 +32,9 @@ def send_mail(send_to, subject, text, files):
         smtp.sendmail(credGmailAutotrading.get('username'), send_to, msg.as_string())
         smtp.close()
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n') 
+        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+    else:
+        print('email sent')
 
 def getListOfFiles():
     try:

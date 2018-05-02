@@ -31,11 +31,11 @@ glo_sb_history_signal = 'signal'
 
 glo_colValue_notAvailable = 'N/A'
 
-glo_test_bool = False
+glo_test_bool = True
 glo_test_str = 'test-'
 glo_stockInfo_test_file = 'stock-info-raw-4.csv'
 
-glo_runGetStocksFromSb_bool = False
+glo_runGetStocksFromSb_bool = True
 glo_runSetAllStockLists_bool = True
 
 def setFilteredStockList(rowDict):
@@ -408,7 +408,6 @@ def getStocksFromNn(stockInfo_list):
 
                 # checking complimentary list
                 if stock.get(mod_shared.glo_colName_compList):
-                    print('complimentary list:', stock.get(mod_shared.glo_colName_sbNameshort))
                     url_stock = stock[mod_shared.glo_colName_url_nn]
                     list_of_tuples = getNnStockPageData(url_stock)
                     if list_of_tuples:
