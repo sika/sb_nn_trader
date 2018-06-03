@@ -4,6 +4,46 @@
 		"selected_items":
 		[
 			[
+				"gro",
+				"group_1_list"
+			],
+			[
+				"buys_",
+				"buys_total"
+			],
+			[
+				"dict",
+				"dict_to"
+			],
+			[
+				"trade",
+				"trade_list"
+			],
+			[
+				"col_n",
+				"glo_colName_trade_price"
+			],
+			[
+				"col_",
+				"glo_colName_trade_price"
+			],
+			[
+				"glo_colNa",
+				"glo_colName_nameShortNordnet"
+			],
+			[
+				"trad",
+				"trade_list"
+			],
+			[
+				"order",
+				"orderStat_list"
+			],
+			[
+				"tra",
+				"trade_list"
+			],
+			[
 				"setStockL",
 				"setStockListGlobally"
 			],
@@ -72,15 +112,6 @@
 	"buffers":
 	[
 		{
-			"file": "create_stock_lists.py",
-			"settings":
-			{
-				"buffer_size": 44823,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "main.py",
 			"settings":
 			{
@@ -90,18 +121,37 @@
 			}
 		},
 		{
-			"file": "main_process_monitor.py",
+			"file": "send_email_files.py",
 			"settings":
 			{
-				"buffer_size": 2308,
+				"buffer_size": 2634,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "send_email_files.py",
+			"file": "test.py",
 			"settings":
 			{
-				"buffer_size": 2635,
+				"buffer_size": 11409,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "watchlist.py",
+			"settings":
+			{
+				"buffer_size": 5194,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "create_stock_lists.py",
+			"settings":
+			{
+				"buffer_size": 45306,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -110,23 +160,8 @@
 			"file": "shared.py",
 			"settings":
 			{
-				"buffer_size": 20128,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "test.py",
-			"settings":
-			{
-				"buffer_size": 4457,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "watchlist.py",
-			"settings":
-			{
-				"buffer_size": 5204,
+				"buffer_size": 24965,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -167,6 +202,13 @@
 	],
 	"file_history":
 	[
+		"/E/Dokument/Dropbox/development/sb_nn_trader/output/errorLog.csv",
+		"/E/Dokument/Dropbox/development/scraping_ufc/scrape_ufc_piratebay.py",
+		"/E/Dokument/Dropbox/development/sb_nn_trader/.gitignore",
+		"/E/Dokument/Dropbox/development/sb_nn_trader/create_stock_lists.py",
+		"/E/Dokument/Dropbox/development/sb_nn_trader/watchlist.py",
+		"/E/Dokument/Dropbox/development/sb_nn_trader/send_email_files.py",
+		"/E/Dokument/Dropbox/development/sb_nn_trader/main_process_monitor.py",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/sb_nn_trader.sublime-project",
 		"/E/Dokument/Dropbox/Development/nordnet-api-00/python/3-trader/4-get-sb-signal-login/create_stock_lists.py",
 		"/E/Dokument/Dropbox/Development/nordnet-api-00/python/3-trader/4-get-sb-signal-login/sb_nn_trader.sublime-project",
@@ -176,7 +218,7 @@
 	],
 	"find":
 	{
-		"height": 41.0
+		"height": 28.0
 	},
 	"find_in_files":
 	{
@@ -191,6 +233,120 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"0.5",
+			"1",
+			"glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange",
+			"group_1_list",
+			"filterFilteredStockInfo",
+			"_CHANGE_PERCENT",
+			"CLOSING-",
+			"SUM_BUYANDFAIL_MEDIAN_KEYVALUE_AND_MEDIAN_BUY_SELL_INTRADAY-CLOSING_CHANGE_PERCENT",
+			"glo_stockInfoUpdated_colNames",
+			"glo_stockInfo_file_updated",
+			"glo_stockInfo_file_updated_template",
+			"glo_stockInfo_file_updated",
+			"\n",
+			"glo_stockInfo_file_updated_template",
+			"_file",
+			"glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange",
+			"glo_complimentary_file",
+			"glo_colName_buyAndFailAverage_keyValue_minus_average_buy_sell_intradayClosingChange_percent",
+			"glo_colName_buyAndFailMedian_keyValue_minus_median_buy_sell_intradayClosingChange_percent",
+			"glo_colName_median_buyAndFailKeyValue_and_median_sellIntradayClosingChange_percent",
+			"glo_colName_buyAndFailAverage_keyValue_minus_average_sell_intradayClosingChange_percent",
+			"glo_colName_buyAndFailMedian_keyValue_minus_median_sell_intradayClosingChange_percent",
+			"temp_glo_filteredStockInfo_group1_list",
+			"filterFilteredStockInfo",
+			"median_buyAndSellIntradayClosing_and_buy_mediumCorrectAndFailKeyValue",
+			"stocks_not_matched",
+			"list_of_stockRequests_failed",
+			"else:\n                        list_of_stockRequests_failed.append(stock)",
+			"list_of_stockRequests_failed",
+			"list(set(list_of_stockRequests_failed))",
+			"list_of_stockRequests_failed",
+			"glo_runGetStocksFromSb_bool",
+			"glo_stockInfo_test_file",
+			"stock-info-raw",
+			"glo_stockInfo_test_file",
+			"getNnStockPageData",
+			"list_of_stockRequests_failed",
+			"median",
+			"writeListToCsvFile",
+			"sum_median_buyAndFailKeyValue_and_intraday_closing_sellAndShort",
+			"sum_average_buyAndFailKeyValue_and_intraday_closing_sellAndShort",
+			"sum_average_sellAndShortChange_and_buyAndFailAveragenKeyValue",
+			"sum_averageSellAndShortChange_and_buyAndFailAveragenKeyValue",
+			"sum_buyAndFailMedianKeyValue_and_intraday_closing_sellAndShort",
+			"_buy_change",
+			"sellAndShort_change",
+			"median_sellAndShort_change",
+			"sum_buyAndFailMedianKeyValue_and_intraday_closing_sellAndShort",
+			"sum_medianSellAndShortChange_and_buyAndFailMedianKeyValue",
+			"buy_percent_changes",
+			"sellAndShort_percent_changes",
+			"sum_medianSellAndShortChange_and_buyAndFailMedianKeyValue",
+			"sum_averageSellAndShortChange_and_buyAndFailAveragenKeyValue",
+			"glo_test_bool",
+			"getStocksFromNn",
+			"_test",
+			"BUY",
+			"SELL",
+			"glo_file_orderStatistics",
+			"rowFrom",
+			"rowTo",
+			".items()",
+			"list_of_key_overwriters",
+			"glo_stockToBuy_allData_list",
+			"updateListFromListByKeys",
+			"trade_date",
+			"trade_nn_name",
+			"orderStat_list",
+			"glo_file_orderStat",
+			"new_list",
+			"getColNamesFromFile",
+			"glo_stockToBuy_allData_colNames",
+			"glo_stockToBuy_allData_file",
+			"mod_shared.",
+			"mod_list.writeListToCsvFile",
+			"mod_list.writeStockList",
+			"writeStockList",
+			"getStockListFromFile",
+			"fileNamePath",
+			"updateListFromListByKeys",
+			"addKeyToOrderedDict",
+			"glo_file_orderStat",
+			"updateOrderStatistics",
+			"PER_CHANGE_HIGHEST_THROUGH_CURRENT",
+			"filterStocksToWatch",
+			"setListKeys",
+			"glo_stockToBuy_allData_colNames",
+			"mod_shared.glo_stockToBuy_allData_colNames",
+			"glo_stockToBuy_allData_file",
+			"glo_stockToBuy_allData_colNames",
+			"updateListFromListByKeys",
+			"setAllStockLists",
+			"updateListFromListByKeys",
+			"glo_stockToBuy_allData_colNames",
+			"glo_stockToBuy__allData_colNames",
+			"glo_stockToBuy_allData_file",
+			"setGlobalColNames",
+			"glo_stockToBuy_colNames",
+			"glo_stockToBuy_file",
+			"dateTodayStr",
+			"getDateTodayStr",
+			"setListKeys",
+			"BUY",
+			"'+ mod_shared.getDateTodayStr() + '",
+			"writeStockList",
+			"trade_list",
+			"records",
+			"rowDict",
+			"getStockListFromFile",
+			"ship",
+			"closedTrade_List",
+			"setAndGetStockStatusFromNn",
+			".getStockListFromFile",
+			"name_of_list",
 			"3-trader"
 		],
 		"highlight": true,
@@ -199,6 +355,15 @@
 		"regex": false,
 		"replace_history":
 		[
+			"glo_stockInfoUpdated_file",
+			"glo_colName_average_buyAndFailKeyValue_and_average_buyAndSellIntradayClosingPercentChange",
+			"glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange",
+			"glo_colName_median_buyAndFailKeyValue_and_median_sellIntradayClosingPercentChange",
+			"glo_colName_average_buyAndFailKeyValue_and_average_sellIntradayClosingPercentChange",
+			"glo_colName_median_buyAndFailKeyValue_and_median_sellIntradayClosingChange_percent",
+			"mod_shared.writeListToCsvFile",
+			"writeListToCsvFile",
+			"getListFromFile"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -209,41 +374,11 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "create_stock_lists.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 44823,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								22457,
-								22457
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1254.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "main.py",
 					"semi_transient": false,
 					"settings":
@@ -255,8 +390,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								49197,
+								49197
 							]
 						],
 						"settings":
@@ -266,139 +401,19 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 689.0,
+						"translation.y": 169.333333333,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "main_process_monitor.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2308,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
+					"buffer": 1,
 					"file": "send_email_files.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2635,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1192,
-								1192
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 477.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "shared.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 20128,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "test.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4457,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "watchlist.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5204,
+						"buffer_size": 2634,
 						"regions":
 						{
 						},
@@ -421,13 +436,133 @@
 					},
 					"stack_index": 3,
 					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "test.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11409,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7381,
+								7381
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1233.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "watchlist.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5194,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								279,
+								279
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 782.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "create_stock_lists.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 45306,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								43670,
+								43670
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2107.33333333,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "shared.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 24965,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3334,
+								3386
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 791.333333333,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
 				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 41.0
+		"height": 28.0
 	},
 	"input":
 	{
@@ -464,7 +599,7 @@
 	"project": "sb_nn_trader.sublime-project",
 	"replace":
 	{
-		"height": 76.0
+		"height": 52.0
 	},
 	"save_all_on_build": true,
 	"select_file":

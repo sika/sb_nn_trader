@@ -205,3 +205,69 @@ DATE;TIME;DAY;ERROR_COUNTER;E_MSG;CALLING_FUNCTION
 2018-04-24;15:59;Tuesday;1;'NoneType' object is not iterable;setListKeys
 2018-04-24;16:10;Tuesday;1;'NoneType' object is not iterable;updateListFromListByKeys
 2018-04-24;16:10;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-17;16:58;Thursday;1;;getDailyOrderStatistics
+2018-05-25;00:25;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-05-25;00:41;Friday;1;'NoneType' object is not iterable;setListKeys
+2018-05-25;01:07;Friday;1;'glo_stockToBuy_allData_file';updateListFromListByKeys
+2018-05-25;01:07;Friday;2;'NoneType' object is not iterable;setListKeys
+2018-05-25;01:10;Friday;1;'glo_stockToBuy_allData_file';updateListFromListByKeys
+2018-05-25;01:10;Friday;1;'glo_stockToBuy_allData_file';updateListFromListByKeys
+2018-05-25;01:13;Friday;1;'glo_stockToBuy_allData_file';updateListFromListByKeys
+2018-05-25;01:13;Friday;2;'NoneType' object is not iterable;setListKeys
+2018-05-25;01:23;Friday;1;;updateListFromListByKeys
+2018-05-25;01:23;Friday;2;'NoneType' object is not iterable;setListKeys
+2018-05-25;01:44;Friday;1;;setListKeys
+2018-05-25;01:44;Friday;2;;setListKeys
+2018-05-27;17:20;Sunday;1;;setListKeys
+2018-05-27;17:20;Sunday;2;;setListKeys
+2018-05-27;22:04;Sunday;1;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/output/no-file.csv';getStockListFromFile
+2018-05-27;22:45;Sunday;1;string indices must be integers;addKeysNotExisting
+2018-05-27;23:55;Sunday;1;'TRADE_PRICE';updateListFromListBy_existingKeys
+2018-05-27;23:59;Sunday;1;;updateListFromListBy_existingKeys
+2018-05-29;17:55;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;18:13;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;18:15;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;18:19;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;21:48;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;21:48;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;21:49;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;21:49;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;21:50;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;21:50;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:03;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:03;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:03;Tuesday;1;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/nn-complimentary-list.csv';getColNamesFromFile
+2018-05-29;22:03;Tuesday;2;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/stock-info-updated.csv';getColNamesFromFile
+2018-05-29;22:03;Tuesday;3;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/stock-to-buy.csv';getColNamesFromFile
+2018-05-29;22:03;Tuesday;4;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/stock-to-buy-all-data.csv';getColNamesFromFile
+2018-05-29;22:03;Tuesday;5;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/order-statistics.csv';getColNamesFromFile
+2018-05-29;22:03;Tuesday;6;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:03;Tuesday;7;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:03;Tuesday;1;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/nn-complimentary-list.csv';getColNamesFromFile
+2018-05-29;22:03;Tuesday;2;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/stock-info-updated.csv';getColNamesFromFile
+2018-05-29;22:03;Tuesday;3;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/stock-to-buy.csv';getColNamesFromFile
+2018-05-29;22:03;Tuesday;4;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/stock-to-buy-all-data.csv';getColNamesFromFile
+2018-05-29;22:03;Tuesday;5;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/templates/order-statistics.csv';getColNamesFromFile
+2018-05-29;22:06;Tuesday;6;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:06;Tuesday;7;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:06;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:06;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:09;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:09;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:12;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:12;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:15;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:15;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:17;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:17;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;22:26;Tuesday;1;;setListKeys
+2018-05-29;23:06;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;23:06;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;23:07;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;23:07;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;23:07;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;23:08;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-29;23:10;Tuesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-29;23:10;Tuesday;2;'NoneType' object is not iterable;setListKeys
+2018-05-30;06:14;Wednesday;1;'NoneType' object is not iterable;setListKeys
+2018-05-30;06:14;Wednesday;2;'NoneType' object is not iterable;setListKeys

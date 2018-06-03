@@ -339,7 +339,7 @@ def getStockStatus():
             newDict = json.loads(str(soup))
             newList = newDict.get('share')
             for item in newList:
-                temp_nNActive_dict = {}
+                temp_nNActive_dict = OrderedDict()
                 temp_nNActive_dict[mod_shared.glo_colName_nameNordnet] = item.get('longName')
                 temp_nnStockActiveType = item.get('buyOrSell')
                 if temp_nnStockActiveType == glo_status_tempValue_ActiveNnBuy: #active BUY
@@ -372,13 +372,13 @@ def setAndGetStockStatusFromNn():
         nNAmountAvailable_str = getAmountAvailableFromNn()
         setAmountAvailable(int(float(nNAmountAvailable_str)))
         
-        stocksToBuy_list = mod_shared.getStockListFromFile(mod_shared.path_input_main, mod_shared.glo_stockToBuy_file) 
+        stocksToBuy_list = mod_shared.getListFromFile(mod_shared.path_input_main, mod_shared.glo_stockToBuy_file) 
         stocksToBuy_list = resetStockStatus(stocksToBuy_list) # set default values to ACTIVE, AMOUNT_HELD etc
         
         nNHeldAndActive_list = getStockStatus()
         
         # update nNHeldAndActive_list to have all keys of stocksToBuy and values of stocks all updated
-        stocksAllUpdated_list = mod_shared.getStockListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockInfo_file_updated) 
+        stocksAllUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockInfoUpdated_file) 
         stockToBuy_keys = list(mod_shared.glo_stockToBuy_colNames.keys())
         for dict_active_held in nNHeldAndActive_list:
             for dict_all_stocks in stocksAllUpdated_list:
@@ -1309,23 +1309,36 @@ createPidFile(mod_shared.path_input_monitorProcess, mod_shared.glo_pid_file)
 setMaxNumberOfStocks(5)
 setMaxNumberOfActiveAboveMaxHeld(2)
 
-# Leave empty or remove to use real value
+# Comment out to use real value
 setAmountAvailableStatic(140)
 
+# CHECK CHECK CHECK isStockFileOlderThanCondition
 if isStockFileOlderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):
     askIfToRerunStockFile()
 
 stocksToBuy_list = setAndGetStockStatusFromNn()
 mod_shared.setStockListGlobally(stocksToBuy_list, mod_shared.glo_stockStatus_list_name)
 
-# clear and set new watchlist:
-mod_watch.main(stocksToBuy_list)
+# clear and set new watchlist (NOT NEEDED IF UNPAID SB ACCOUNT?)
+# mod_watch.main(stocksToBuy_list)
 
 while True:
     schedule.run_pending()
     if isMarketOpenNow():
         sbGetSignal()
         time.sleep(120)
+
+# PROCESS
+    - Should stock list be renewed?   
+    - Get list of stocks to buy
+    - Check NN for existing held and active
+    - set stock list according with held and active
+    - at specific time AFTER market closing, check list against SB to watch for signals   
+    - if signals found, check against stock list (held and active)   
+    - place order
+    - at specific time, end of day, check Nordnet for placed orders
+    - write order statistics 
+    - 
 
 # # for testing:
 # while True:

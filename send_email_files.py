@@ -45,7 +45,7 @@ def getListOfFiles():
             files_with_path.append(path+file)
         files_custom = [
             mod_shared.path_base + mod_shared.path_input_main + mod_shared.glo_stockToBuy_file,
-            mod_shared.path_base + mod_shared.path_input_createList + mod_shared.glo_stockInfo_file_updated
+            mod_shared.path_base + mod_shared.path_input_createList + mod_shared.glo_stockInfoUpdated_file
         ]
         files_with_path += files_custom
         return files_with_path

@@ -31,12 +31,12 @@ glo_sb_history_signal = 'signal'
 
 glo_colValue_notAvailable = 'N/A'
 
-glo_test_bool = True
+glo_test_bool = False
 glo_test_str = 'test-'
 glo_stockInfo_test_file = 'stock-info-raw-4.csv'
 
-glo_runGetStocksFromSb_bool = True
-glo_runSetAllStockLists_bool = True
+glo_runGetStocksFromSb_bool = False
+glo_runSetAllStockLists_bool = False
 
 def setFilteredStockList(rowDict):
     try:
@@ -58,12 +58,12 @@ def filterFilteredStockInfo(column_key, criteria, temp_glo_filteredStockInfo_lis
                 if row.get(column_key) != '':
                     if row.get(column_key) >= criteria:
                         temp_list.append(row)
-        elif column_key == mod_shared.glo_colName_buyAndFailMedian_keyValue: # percent correct buys
+        elif column_key == mod_shared.glo_colName_buyAndFailMedian_keyValue:
             for row in temp_glo_filteredStockInfo_list:
                 if row.get(column_key) != '':
                     if row.get(column_key) >= criteria:
                         temp_list.append(row)
-        elif column_key == mod_shared.glo_colName_buyAndFailAverage_keyValue: # percent correct buys
+        elif column_key == mod_shared.glo_colName_buyAndFailAverage_keyValue:
             for row in temp_glo_filteredStockInfo_list:
                 if row.get(column_key) != criteria:
                     temp_list.append(row)
@@ -86,6 +86,7 @@ def getNnStockPageData(url_stock):
         else:
             soup = BeautifulSoup(r.content, 'html.parser')
 
+            # Note: below line throws error if not finding searched title (e.g., when Nordnet page requires login to view content). Can be ignored
             stock_heading_sentence = soup.find('h1', class_="title").get_text(strip=True)
             # get nordnet name
             nnName = re.search(r'Kursdata för (.*?) \(', stock_heading_sentence).group(1)
@@ -125,32 +126,6 @@ def getPercentCorrect(soup_str, soup):
             counter_check = total_checks-counter_uncheck
             
             return round(100*(float(counter_check)/float(total_checks)), 1)                     
-    except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-
-def writeStockList(temp_list, name_path_file):
-    try:
-        glo_file_thisPath = mod_shared.path_base + name_path_file
-        with open (glo_file_thisPath, 'w', encoding='ISO-8859-1') as csvFile:
-            fieldnames = []
-            indexWithMaxNumOfKeys = 0
-            maxNumOfKeys = 0
-            counter = 0
-            # get index with most number of keys to get correct fieldnames
-            for dictTemp in temp_list:
-                if len(dictTemp.keys()) > maxNumOfKeys:
-                    maxNumOfKeys = len(dictTemp.keys())
-                    indexWithMaxNumOfKeys = counter
-                if counter == len(temp_list)-1:
-                    break
-                else:
-                    counter += 1
-            for key in temp_list[indexWithMaxNumOfKeys]:
-                fieldnames.append(key)
-            writer = csv.DictWriter(csvFile, fieldnames=fieldnames, delimiter = ';')
-            writer.writeheader()
-            for row in temp_list:
-                writer.writerow(row)
     except Exception as e:
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
 
@@ -412,8 +387,12 @@ def getStocksFromNn(stockInfo_list):
                     list_of_tuples = getNnStockPageData(url_stock)
                     if list_of_tuples:
                         stock.update(OrderedDict(list_of_tuples))
-                    else:
+                    # check for duplicates
+                    elif not any(d[mod_shared.glo_colName_sbNameshort] == stock.get(mod_shared.glo_colName_sbNameshort) for d in list_of_stockRequests_failed):
                         list_of_stockRequests_failed.append(stock)
+                        continue
+                    # if failed getNnStockPageData and stock already added to list_of_stockRequests_failed - continue with next stock
+                    else:
                         continue
                 else:
                     # split on NOT [a-zA-Z0-9_] (letters, digits, and underscores). Example: SAGA-B.ST -> ['SAGA', 'B', 'ST']
@@ -439,32 +418,33 @@ def getStocksFromNn(stockInfo_list):
                         r = mod_shared.requests_retry_session().post(urlNnSearch, data=payload)
                     except Exception as e:
                         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tURL:', urlNnSearch, '\n\tError:', str(e), '\n')
-                        list_of_stockRequests_failed.append(stock)
+                        if not any(d[mod_shared.glo_colName_sbNameshort] == stock.get(mod_shared.glo_colName_sbNameshort) for d in list_of_stockRequests_failed):
+                            list_of_stockRequests_failed.append(stock)
                         continue
                     else:
                         soup = BeautifulSoup(r.content, 'html.parser') # active are placed in "share"
                         urlNnStock_rel_list = soup.find(id=re.compile('search-results-container')).find_all('div', class_='instrument-name') # all divs (containing a tags) in search result
-                        if urlNnStock_rel_list: # if list not empty
-                            for i in range(0,5):
+                        if urlNnStock_rel_list:
+                            stock_was_found = False
+                            for i in range(0,len(urlNnStock_rel_list)):
                                 url_stock = urlNn + urlNnStock_rel_list[i].a['href']
-                                # list_of_tuples = getNnStockPageData(url_stock, s)
                                 list_of_tuples = getNnStockPageData(url_stock)
                                 if list_of_tuples:
                                     dict_temp = dict(list_of_tuples)
                                     if dict_temp.get(mod_shared.glo_colName_nameShortNordnet) == sb_nn_nameShort_match:
                                         stock.update(OrderedDict(list_of_tuples))
+                                        stock_was_found = True
                                         break
-                                else:
-                                    list_of_stockRequests_failed.append(stock)
-                                    continue
+                            if not stock_was_found:
+                                list_of_stockRequests_failed.append(stock)
 
                 # get intraday-closing price percent changes
                 market_id = stock.get(mod_shared.glo_colName_market_id)
                 identifier_id = stock.get(mod_shared.glo_colName_identifier_id)
                 # if market_id and identifier_id was previously found 
                 if market_id and identifier_id:
-                    dateTodayStr = mod_shared.getDateTodayStr()
-                    url = 'https://www.nordnet.se/graph/instrument/'+ market_id +'/'+identifier_id+'?from=1970-01-01&to='+dateTodayStr+'&fields=last,open,high,low,volume'
+                    dateYesterdayStr = mod_shared.getDateDeltaTodayStr(-1) # today's date only works when Nordnet has had time to updated historic figures
+                    url = 'https://www.nordnet.se/graph/instrument/'+ market_id +'/'+identifier_id+'?from=1970-01-01&to='+dateYesterdayStr+'&fields=last,open,high,low,volume'
                     try:
                         r = mod_shared.requests_retry_session().get(url)
                     except Exception as e:
@@ -476,8 +456,8 @@ def getStocksFromNn(stockInfo_list):
                         list_of_dicts_nn = json.loads(str(soup))
                         list_of_dicts_sb = stock.get(mod_shared.glo_colName_historySignalPrice)
                         
-                        buy_percent_changes = []
-                        sellAndShort_percent_changes = []
+                        intraday_closing_buy_percent_changes = []
+                        intraday_closing_sellAndShort_percent_changes = []
 
                         # for each signal in history from SB 
                         for dict_sb in list_of_dicts_sb:
@@ -498,35 +478,44 @@ def getStocksFromNn(stockInfo_list):
                                     # positive result: end_value (closing price) is higher than start_value (intraday price)
                                     if dict_sb.get(glo_sb_history_signal) == 'BUY':
                                         percentChange = mod_shared.getPercentChange(price_sb, price_nn) # start value; end value
-                                        buy_percent_changes.append(percentChange)
+                                        intraday_closing_buy_percent_changes.append(percentChange)
                                     elif dict_sb.get(glo_sb_history_signal) == 'SELL' or dict_sb.get(glo_sb_history_signal) == 'SHORT':
                                         percentChange = mod_shared.getPercentChange(price_sb, price_nn) # start value; end value
-                                        sellAndShort_percent_changes.append(percentChange)
+                                        intraday_closing_sellAndShort_percent_changes.append(percentChange)
 
                         # delete data of historic prices after usage
                         stock.pop(mod_shared.glo_colName_historySignalPrice, None)
 
-                        median_sellAndShort_change = round(median(sellAndShort_percent_changes),2)
-                        average_sellAndShort_change = round(sum(sellAndShort_percent_changes)/float(len(sellAndShort_percent_changes)), 2)
-                        median_buy_change = round(median(buy_percent_changes), 2)
-                        average_buy_change = round(sum(buy_percent_changes)/float(len(buy_percent_changes)), 2)
-                        sum_medianSellAndShortChange_and_buyAndFailMedianKeyValue = round(stock.get(mod_shared.glo_colName_buyAndFailMedian_keyValue) + median_sellAndShort_change, 2)
-                        sum_averageSellAndShortChange_and_buyAndFailAveragenKeyValue = round(stock.get(mod_shared.glo_colName_buyAndFailAverage_keyValue) + average_sellAndShort_change, 2)
+                        median_intraday_closing_sellAndShort = round(median(intraday_closing_sellAndShort_percent_changes),2)
+                        average_intraday_closing_sellAndShort = round(sum(intraday_closing_sellAndShort_percent_changes)/float(len(intraday_closing_sellAndShort_percent_changes)), 2)
                         
-                        list_of_tuples = [(mod_shared.glo_colName_median_sell_intradayClosingChange_percent, median_sellAndShort_change),
-                            (mod_shared.glo_colName_average_sell_intradayClosingChange_percent, average_sellAndShort_change),
-                            (mod_shared.glo_colName_median_buy_intradayClosingChange_percent, median_buy_change),
-                            (mod_shared.glo_colName_average_buy_intradayClosingChange_percent, average_buy_change),
-                            (mod_shared.glo_colName_buyAndFailMedian_keyValue_minus_median_sell_intradayClosingChange_percent, sum_medianSellAndShortChange_and_buyAndFailMedianKeyValue),
-                            (mod_shared.glo_colName_buyAndFailAverage_keyValue_minus_average_sell_intradayClosingChange_percent, sum_averageSellAndShortChange_and_buyAndFailAveragenKeyValue)]
+                        median_intraday_closing_buy = round(median(intraday_closing_buy_percent_changes), 2)
+                        average_intraday_closing_buy = round(sum(intraday_closing_buy_percent_changes)/float(len(intraday_closing_buy_percent_changes)), 2)
+                        
+                        sum_median_buyAndFailKeyValue_and_intraday_closing_sellAndShort = round(stock.get(mod_shared.glo_colName_buyAndFailMedian_keyValue) + median_intraday_closing_sellAndShort, 2)
+                        sum_average_buyAndFailKeyValue_and_intraday_closing_sellAndShort = round(stock.get(mod_shared.glo_colName_buyAndFailAverage_keyValue) + average_intraday_closing_sellAndShort, 2)
+                        
+                        sum_median_buyAndFailKeyValue_and_intraday_closing_sellAndBuy = round(stock.get(mod_shared.glo_colName_buyAndFailMedian_keyValue) + median_intraday_closing_sellAndShort - median_intraday_closing_buy, 2)
+                        sum_average_buyAndFailKeyValue_and_intraday_closing_sellAndBuy = round(stock.get(mod_shared.glo_colName_buyAndFailAverage_keyValue) + average_intraday_closing_sellAndShort - average_intraday_closing_buy, 2)
+
+                        list_of_tuples = [(mod_shared.glo_colName_median_sell_intradayClosingChange_percent, median_intraday_closing_sellAndShort),
+                            (mod_shared.glo_colName_average_sell_intradayClosingChange_percent, average_intraday_closing_sellAndShort),
+                            (mod_shared.glo_colName_median_buy_intradayClosingChange_percent, median_intraday_closing_buy),
+                            (mod_shared.glo_colName_average_buy_intradayClosingChange_percent, average_intraday_closing_buy),
+                            (mod_shared.glo_colName_median_buyAndFailKeyValue_and_median_sellIntradayClosingPercentChange, sum_median_buyAndFailKeyValue_and_intraday_closing_sellAndShort),
+                            (mod_shared.glo_colName_average_buyAndFailKeyValue_and_average_sellIntradayClosingPercentChange, sum_average_buyAndFailKeyValue_and_intraday_closing_sellAndShort),
+                            (mod_shared.glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange, sum_median_buyAndFailKeyValue_and_intraday_closing_sellAndBuy),
+                            (mod_shared.glo_colName_average_buyAndFailKeyValue_and_average_buyAndSellIntradayClosingPercentChange, sum_average_buyAndFailKeyValue_and_intraday_closing_sellAndBuy)]
 
                         stock.update(OrderedDict(list_of_tuples))
 
                         stockInfo_request_success.append(stock)
                 else:
-                    print('no Nordnet match for', stock.get(mod_shared.glo_colName_sbNameshort), 'with query:', query)
-                    stocks_not_matched.append(stock.get(mod_shared.glo_colName_sbNameshort))
-        
+                    if stock.get(mod_shared.glo_colName_sbNameshort) not in stocks_not_matched:
+                    # if not any(d[mod_shared.glo_colName_sbNameshort] == stock.get(mod_shared.glo_colName_sbNameshort) for d in stocks_not_matched):
+                        print('no Nordnet match for', stock.get(mod_shared.glo_colName_sbNameshort), 'with query:', query)
+                        stocks_not_matched.append(stock.get(mod_shared.glo_colName_sbNameshort))
+            
             if list_of_stockRequests_failed and attempts_counter < max_attempts:
                 print('\nstock url requests failed:')
                 stock_counter=1
@@ -574,99 +563,69 @@ def stringToFLoat(list_to_convert, list_of_key_exceptions):
 
 def filterStocksToWatch(stockInfoUpdated_list):
     try:
+        # Groups:
+            # * 1: 
+            # - name: 1_median_buyAndSellIntradayClosing_and_buy_medianCorrectAndFailKeyValue
+            # - Conditions to select: buys_total: + 30; sort by SUM_BUYANDFAIL_MEDIAN_KEYVALUE_AND_MEDIAN_BUY_SELL_INTRADAY-CLOSING-CHANGE_PERCENT 
+            # (high); select from value 1%
+            # - Conditions to buy: Buy only if intraday-closing is less than MEDIAN_BUY_INTRADAY-CLOSING-CHANGE_PERCENT; 
+            # (if multiple stocks fit selection, prioritize highest value or biggest diff in conditions above 
+
+            # * 2:
+            # - name: 2_average_buyAndSellIntradayClosing_and_buy_averageCorrectAndFailKeyValue
+            # - Conditions to select: buys_total: + 30; sort by SUM_BUYANDFAIL_AVERAGE_KEYVALUE_AND_AVERAGE_BUY_SELL_INTRADAY-CLOSING-CHANGE_PERCENT
+            # (high); select from value 1%
+            # - Conditions to buy: Buy only if intraday-closing is less than AVERAGE_BUY_INTRADAY-CLOSING-CHANGE_PERCENT; 
+            # (if multiple stocks fit selection, prioritize highest value or biggest diff in conditions above 
+
         list_of_key_exceptions = [
             mod_shared.glo_colName_market_id,
             mod_shared.glo_colName_identifier_id
         ]
         stockInfoUpdated_list = stringToFLoat(stockInfoUpdated_list, list_of_key_exceptions)
-        # GROUP1: Stable
-        # filter out minimum x percent buy correct
-        temp_glo_filteredStockInfo_group1_list = filterFilteredStockInfo(mod_shared.glo_colName_24_buys_correct_percent, 
-            65, stockInfoUpdated_list)
-
-        # filter out minumum x buyAndFail_median_keyvalue
-        temp_glo_filteredStockInfo_group1_list = filterFilteredStockInfo(mod_shared.glo_colName_buyAndFailMedian_keyValue, 
-            3, temp_glo_filteredStockInfo_group1_list)
-
-        # sort highest MEDIAN (overall) percent change
-        sorted_buyAndFail_median_keyvalue_list = []
-        sorted_buyAndFail_median_keyvalue_list = sorted(temp_glo_filteredStockInfo_group1_list, 
-            key=lambda k: k[mod_shared.glo_colName_buyAndFailMedian_keyValue], 
+        
+        # --- GROUP1 ---
+        # filter minimum amount of buys
+        group_1_list = [d for d in stockInfoUpdated_list if d.get(mod_shared.glo_colName_buysTotal) >= 30]
+        group_1_list = [d for d in group_1_list if d.get(mod_shared.glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange) >= 1]
+        group_1_list = sorted(group_1_list, 
+            key=lambda k: k[mod_shared.glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange], 
             reverse=True) # (list to sort; column to sort on; order)
+        for dict_item in group_1_list:
+            dict_item[mod_shared.glo_colName_stockToBuy_group] = mod_shared.glo_value_group_1
 
-        # get 30 highest of those
-        sortedFiltered_buyAndFail_median_keyvalue_list = []
-        for row in sorted_buyAndFail_median_keyvalue_list[:30]:
-            sortedFiltered_buyAndFail_median_keyvalue_list.append(row)
-
-        # sort with most amount of buys
-        sortedFiltered_buyAndFail_median_keyvalue_list = sorted(sortedFiltered_buyAndFail_median_keyvalue_list, 
-            key=lambda k: k[mod_shared.glo_colName_buysTotal], 
-            reverse=True) 
-
-        # get top 10 of those
-        group1_median_list = []
-        nameOfGroup_1 = 'GROUP 1_mediumRisk'
-        for row in sortedFiltered_buyAndFail_median_keyvalue_list[:15]:
-            # add "column with type: group1
-            row[mod_shared.glo_colName_stockToBuy_group] = nameOfGroup_1
-            group1_median_list.append(row)
-
-        print('\nTOP 10 GROUP 1')
-        for row in group1_median_list:
+        print('\nGROUP 1')
+        for row in group_1_list:
             print(row[mod_shared.glo_colName_sbNameshort],':', 
                 row[mod_shared.glo_colName_buysTotal],':', 
-                row[mod_shared.glo_colName_buyAndFailMedian_keyValue],':', 
-                row[mod_shared.glo_colName_24_buys_correct_percent], ':', 
+                row[mod_shared.glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange], ':', 
+                row[mod_shared.glo_colName_median_buy_intradayClosingChange_percent], ':', 
                 row[mod_shared.glo_colName_stockToBuy_group])
 
-        # GROUP2: High risk
-        # remove empty cells
-        temp_glo_filteredStockInfo_group2_list = filterFilteredStockInfo(mod_shared.glo_colName_buyAndFailAverage_keyValue, '', stockInfoUpdated_list)
-        # sort highest AVERAGE (overall) percent change
-        sorted_buyAndFail_average_keyvalue_list = []
-        sorted_buyAndFail_average_keyvalue_list = sorted(temp_glo_filteredStockInfo_group2_list, 
-            key=lambda k: k[mod_shared.glo_colName_buyAndFailAverage_keyValue], 
-            reverse=True) 
+        # # --- GROUP2 ---
+            # group_2_list = [d for d in stockInfoUpdated_list if d.get(mod_shared.glo_colName_buysTotal) >= 30]
+            # group_2_list = [d for d in group_2_list if d.get(mod_shared.glo_colName_average_buyAndFailKeyValue_and_average_buyAndSellIntradayClosingPercentChange) >= 0.5]
+            # group_2_list = sorted(group_2_list, 
+            #     key=lambda k: k[mod_shared.glo_colName_average_buyAndFailKeyValue_and_average_buyAndSellIntradayClosingPercentChange], 
+            #     reverse=True) # (list to sort; column to sort on; order); only doing for estetics
+            # for dict_item in group_2_list:
+            #     dict_item[mod_shared.glo_colName_stockToBuy_group] = mod_shared.glo_value_group_2
 
-        # get top x of those
-        sortedFiltered_buyAndFail_average_keyvalue_list = []
-        for row in sorted_buyAndFail_average_keyvalue_list[:30]:
-            sortedFiltered_buyAndFail_average_keyvalue_list.append(row)
+            # print('\nGROUP 2')
+            # for row in group_2_list:
+            #     print(row[mod_shared.glo_colName_sbNameshort],':', 
+            #         row[mod_shared.glo_colName_buysTotal],':', 
+            #         row[mod_shared.glo_colName_average_buyAndFailKeyValue_and_average_buyAndSellIntradayClosingPercentChange], ':', 
+            #         row[mod_shared.glo_colName_stockToBuy_group])
 
-        # sort highest buy amount
-        sortedFiltered_buyAndFail_average_keyvalue_list = sorted(sortedFiltered_buyAndFail_average_keyvalue_list, 
-            key=lambda k: k[mod_shared.glo_colName_buysTotal], 
-            reverse=True) 
+            # print('len group1:', len(group_1_list))
+            # print('len group2:', len(group_2_list))
 
-        # get top x of those
-        sortedFiltered_buyAndFail_average_keyvalue_list_2 = []
-        for row in sortedFiltered_buyAndFail_average_keyvalue_list[:20]:
-            sortedFiltered_buyAndFail_average_keyvalue_list_2.append(row)
-
-        # sort highest diff between current and highest price (try to catch stock in historic low)
-        sortedFiltered_buyAndFail_average_keyvalue_list_2 = sorted(sortedFiltered_buyAndFail_average_keyvalue_list_2, 
-            key=lambda k: k[mod_shared.glo_colName_percentChange_highestThroughCurrent], 
-            reverse=True) 
-
-        # get top x of those
-        group2_average_list = []
-        nameOfGroup_2 = 'GROUP 2_highRisk'
-        for row in sortedFiltered_buyAndFail_average_keyvalue_list_2[:5]:
-            row[mod_shared.glo_colName_stockToBuy_group] = nameOfGroup_2
-            group2_average_list.append(row)
-
-        print('\nTOP 10 GROUP 2')
-        for row in group2_average_list:
-            print(row[mod_shared.glo_colName_sbNameshort],':', 
-                row[mod_shared.glo_colName_buysTotal],':', 
-                row[mod_shared.glo_colName_buyAndFailAverage_keyValue],':', 
-                row[mod_shared.glo_colName_percentChange_highestThroughCurrent], ':', 
-                row[mod_shared.glo_colName_stockToBuy_group])
-   
         # merge lists 
-        stockToBuy_list = group1_median_list + group2_average_list # merging
-        stockToBuy_list = list(unique_everseen(stockToBuy_list)) # remove duplicates
+        stockToBuy_list = group_1_list
+        # stockToBuy_list = group_1_list + group_2_list # merging
+
+        # stockToBuy_list = list(unique_everseen(stockToBuy_list)) # remove duplicates
 
         return stockToBuy_list
     except Exception as e:
@@ -696,12 +655,12 @@ def setAllStockLists():
         if glo_runGetStocksFromSb_bool:
             if glo_test_bool:
                 print(inspect.stack()[0][3], 'in TEST MODE!')
-                stockInfo_list = mod_shared.getStockListFromFile(mod_shared.path_input_createList+mod_shared.path_input_test, glo_stockInfo_test_file)
+                stockInfo_list = mod_shared.getListFromFile(mod_shared.path_input_createList+mod_shared.path_input_test, glo_stockInfo_test_file)
             else:
-                stockInfo_list = mod_shared.getStockListFromFile(mod_shared.path_input_createList,  mod_shared.glo_stockInfo_file_raw)
+                stockInfo_list = mod_shared.getListFromFile(mod_shared.path_input_createList,  mod_shared.glo_stockInfo_file_raw)
             print('stockInfo_list:', len(stockInfo_list))
             
-            blacklist = mod_shared.getStockListFromFile(mod_shared.path_input_createList, mod_shared.glo_blacklist_file)
+            blacklist = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_blacklist_file)
             print('blacklist:', len(blacklist))
 
             # remove rows blacklist from stockInfo list
@@ -711,16 +670,16 @@ def setAllStockLists():
             stockInfo_list = getStocksFromSb(stockInfo_list)
 
             if glo_test_bool:
-                writeStockList(stockInfo_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockAfterSb_file_updated)
+                mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockAfterSb_file_updated)
             else:
-                writeStockList(stockInfo_list, mod_shared.path_input_createList + mod_shared.glo_stockAfterSb_file_updated)
+                mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList + mod_shared.glo_stockAfterSb_file_updated)
 
         if not glo_runGetStocksFromSb_bool:
             print('glo_runGetStocksFromSb_bool was', glo_runGetStocksFromSb_bool, '- NOT running getStocksFromSb')
             if glo_test_bool:
-                stockInfo_list = mod_shared.getStockListFromFile(mod_shared.path_input_createList, glo_test_str+mod_shared.glo_stockAfterSb_file_updated)
+                stockInfo_list = mod_shared.getListFromFile(mod_shared.path_input_createList, glo_test_str+mod_shared.glo_stockAfterSb_file_updated)
             else:
-                stockInfo_list = mod_shared.getStockListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockAfterSb_file_updated)
+                stockInfo_list = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockAfterSb_file_updated)
 
             # convert strings to float
             stockInfo_list = stringToFLoat(stockInfo_list, [])
@@ -729,7 +688,7 @@ def setAllStockLists():
                 if stock[mod_shared.glo_colName_historySignalPrice]:
                     stock[mod_shared.glo_colName_historySignalPrice] = ast.literal_eval(stock.get(mod_shared.glo_colName_historySignalPrice))
 
-        complimentary_list = mod_shared.getStockListFromFile(mod_shared.path_input_createList, mod_shared.glo_complimentary_file)
+        complimentary_list = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_complimentary_file)
 
         # updating items from complimentary list to stockInfo_list
         list_of_key_selectors = [mod_shared.glo_colName_sbNameshort]
@@ -740,13 +699,12 @@ def setAllStockLists():
             list_of_key_overwriters) # list to update, list to update from
         
         stockInfo_list = getStocksFromNn(stockInfo_list)
-
-        stockInfo_list = mod_shared.setListKeys(stockInfo_list, mod_shared.glo_stockInfoUpdated_colNames)
-
-        if glo_test_bool:
-            writeStockList(stockInfo_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockInfo_file_updated)
-        else:
-            writeStockList(stockInfo_list, mod_shared.path_input_createList + mod_shared.glo_stockInfo_file_updated)
+        if stockInfo_list:
+            stockInfo_list = mod_shared.setListKeys(stockInfo_list, mod_shared.glo_stockInfoUpdated_colNames)
+            if glo_test_bool:
+                mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockInfoUpdated_file)
+            else:
+                mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList + mod_shared.glo_stockInfoUpdated_file)
     except Exception as e:
         print ("ERROR in file", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))
     else:
@@ -756,24 +714,24 @@ def setStockToBuyList():
     print ('\nSTART', inspect.stack()[0][3])
     try:
         if glo_test_bool:
-            stockInfoUpdated_list = mod_shared.getStockListFromFile(mod_shared.path_input_createList, glo_test_str+mod_shared.glo_stockInfo_file_updated)
-        else:
-            stockInfoUpdated_list = mod_shared.getStockListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockInfo_file_updated)
-
-        stockToBuy_list = filterStocksToWatch(stockInfoUpdated_list)
-        
-        if glo_test_bool:
             print(inspect.stack()[0][3], 'in TEST MODE!')
-            writeStockList(stockToBuy_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_allData_file)
+            stockInfoUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList, glo_test_str+mod_shared.glo_stockInfoUpdated_file)
         else:
-            writeStockList(stockToBuy_list, mod_shared.path_input_createList+mod_shared.glo_stockToBuy_allData_file)
-       
-        stockToBuy_list = mod_shared.setListKeys(stockToBuy_list, mod_shared.glo_stockToBuy_colNames)
-        
-        if glo_test_bool:
-            writeStockList(stockToBuy_list, mod_shared.path_input_main + glo_test_str+mod_shared.glo_stockToBuy_file)
-        else:
-            writeStockList(stockToBuy_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_file)
+            stockInfoUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockInfoUpdated_file)
+    
+        if stockInfoUpdated_list:
+            stockToBuy_list = filterStocksToWatch(stockInfoUpdated_list)
+            # BP()
+
+            stockToBuy_allData_list = mod_shared.setListKeys(stockToBuy_list, mod_shared.glo_stockToBuy_allData_colNames)
+            stockToBuy_list = mod_shared.setListKeys(stockToBuy_list, mod_shared.glo_stockToBuy_colNames)
+
+            if glo_test_bool:
+                mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_allData_file)
+                mod_shared.writeListToCsvFile(stockToBuy_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_file)
+            else:
+                mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_allData_file)
+                mod_shared.writeListToCsvFile(stockToBuy_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_file)
     except Exception as e:
         print ("ERROR in file", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))
     else:

@@ -116,12 +116,12 @@ def main(stocksToBuy_list):
 
 # only run when script explicitly called
 if __name__ == "__main__":
-    # when called from other script DONT run getStockListFromFile (should be sent as parameter from calling script)
+    # when called from other script DONT run getListFromFile (should be sent as parameter from calling script)
     test_bool = False
     # test_bool = True
     if test_bool:
         print(inspect.stack()[0][3], 'in TEST MODE!')
-        stocksToBuy_list = mod_shared.getStockListFromFile(mod_shared.path_input_main, mod_shared.glo_stockToBuy_file)
+        stocksToBuy_list = mod_shared.getListFromFile(mod_shared.path_input_main, mod_shared.glo_stockToBuy_file)
         main(stocksToBuy_list)
     else:
         main()

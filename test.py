@@ -6,6 +6,7 @@ import json
 import time
 import datetime
 import inspect
+import collections
 from statistics import median
 from pprint import pprint
 from pprint import pformat
@@ -16,18 +17,146 @@ import sys
 import os    
 
 glo_file_this = os.path.basename(__file__)
+glo_file_orderStatistics = 'order-statistics.csv'
+glo_file_orderStatistics_test = 'test-order-statistics.csv'
+glo_file_noFile = 'no-file.csv'
 
-def test():
+glo_test = True
+
+def getDailyOrderStatistics():
     try:
-        test = 'shit'
-        [][2]
-    except Exception as e:
-        # print ('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
-        # print ('Error on line', format(sys.exc_info()[-1].tb_lineno), ':', str(e))
-        # print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        trade_list = []
+        if glo_test:
+            temp_list = [
+            {'NAMESHORT_NORDNET': 'SALT B',
+              'TRADE_PRICE': 10,
+              'TRADE_TIME': '2018-05-19 16:37:37',
+              'TRADE_TYPE': 'SELL'},
+            {'NAMESHORT_NORDNET': 'COPP B',
+              'TRADE_PRICE': 5,
+              'TRADE_TIME': '2018-05-19 16:22:52',
+              'TRADE_TYPE': 'SELL'},
+            {'NAMESHORT_NORDNET': 'STAR A',
+              'TRADE_PRICE': 100,
+              'TRADE_TIME': '2018-05-19 16:22:52',
+              'TRADE_TYPE': 'SELL'}
+              ]
+            for dict_item in temp_list:
+                dict_item[mod_shared.glo_colName_trade_time] = dict_item.get(mod_shared.glo_colName_trade_time).split()[0]
+                order_of_keys = list(dict_item.keys()) # keys will not retain order, but should not matter.
+                trade_list.append(mod_shared.getOrderedDictFromDict(dict_item, order_of_keys))
+        else: 
+            r, header, s = mod_shared.nordnetLogin() # login to nordnet
 
-test()
+            soup = BeautifulSoup(s.get('https://www.nordnet.se/mux/ajax/trade/orders/auto?accountNumber=18272500', headers=mod_shared.glo_urlHeader).content, 'html.parser') # active are placed in "share"
+            newDict = json.loads(str(soup))
+            closedTrade_list = newDict.get('trade')
+            if closedTrade_list:
+                for dict_item in closedTrade_list:
+                    dict_temp = OrderedDict()
+                    dict_temp[mod_shared.glo_colName_nameShortNordnet] = dict_item.get('shortName')
+                    dict_temp[mod_shared.glo_colName_trade_price] = str(dict_item.get('price')) # ex: 0.59 (int) -> '0.59'
+                    dict_temp[mod_shared.glo_colName_trade_volume] = str(dict_item.get('volume')) # ex: 2 (int) -> '2'
+                    dict_temp[mod_shared.glo_colName_trade_time] = dict_item.get('time') # ex: '2018-05-17 16:22:52'
+                    # remove time
+                    dict_temp[mod_shared.glo_colName_trade_time] = dict_temp.get(mod_shared.glo_colName_trade_time).split()[0] # ex: '2018-05-17'
+                    dict_temp[mod_shared.glo_colName_trade_type] = dict_item.get('type') # ex: 'Köpt' or 'Sålt'
+                    
+                    if dict_temp.get(mod_shared.glo_colName_trade_type) == 'Köpt':
+                        dict_temp[mod_shared.glo_colName_trade_type] = 'BUY'
+                    else:
+                        dict_temp[mod_shared.glo_colName_trade_type] = 'SELL'
+
+                    trade_list.append(dict_temp)
+            else:
+                print('No new order found in ' + inspect.stack()[0][3])
+                return False
+                    # dict_item contains
+                        # {'identifier': '108026',
+                        #  'market': 'NasdaqOMX Stockholm',
+                        #  'marketplace': '11',
+                        #  'name': 'Savosolar Plc',
+                        #  'orderId': '138749253',
+                        #  'price': 0.59,
+                        #  'priceText': '0,59 SEK',
+                        #  'shortName': 'SAVOS',
+                        #  'time': '2018-05-17 16:22:52',
+                        #  'timeText': '16:22:52',
+                        #  'type': 'Köpt',
+                        #  'volume': 1,
+                        #  'volumeText': '1'}
+
+    except Exception as e:
+        print ("ERROR in file", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))
+        # mod_shared.writeErrorLog(inspect.stack()[0][3], str(e))
+    else:
+        return trade_list
+
+def getUpdatedOrderStatistics(orderStat_list, trade_list):
+    try:
+        # calc percent change
+        for dict_trade in trade_list:
+            # get all stock dicts which matches a stock name in trade_list and where it is SELL and where the other stock is BUY
+            onlyOneStockName_list = [item for item in orderStat_list if dict_trade.get('NAMESHORT_NORDNET') in item['NAMESHORT_NORDNET'] and 
+            'BUY' in item['TRADE_TYPE'] and
+            'SELL' in dict_trade.get('TRADE_TYPE')]
+            if onlyOneStockName_list:
+                # get the stock dict with the highest date
+                onlyOneStockName_maxDate_dict = max(onlyOneStockName_list, key=lambda item:item['TRADE_TIME'])
+                # calc percent change
+                start_value = float(onlyOneStockName_maxDate_dict.get(mod_shared.glo_colName_trade_price))
+                end_value = dict_trade.get(mod_shared.glo_colName_trade_price)
+                percentage_change = round(mod_shared.getPercentChange(start_value, end_value), 2)
+                dict_trade[mod_shared.glo_colName_trade_percentChange] = percentage_change
+
+        for dict_trade in trade_list:
+            orderStat_list.append(dict_trade)
+    except Exception as e:
+        print ("ERROR in file", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))
+
+    else:
+        return orderStat_list
+
+
+trade_list = getDailyOrderStatistics()
+if trade_list:
+    # safer than setListKeys which deletes keys. This requires columns to be deleted manually from order-statistics.csv
+    trade_list = mod_shared.addKeysNotExisting(trade_list, mod_shared.glo_orderStatistics_colNames) 
+    # set keys already existing in trade_list to values of keys from stockToBuy_allData
+    stockToBuy_allData_list = mod_shared.getListFromFile(mod_shared.path_input_main, mod_shared.glo_stockToBuy_allData_file)
+    list_of_key_selectors = [mod_shared.glo_colName_nameShortNordnet]
+    trade_list = mod_shared.updateListFromListBy_existingKeys(trade_list,
+        stockToBuy_allData_list,
+        list_of_key_selectors) # list to update, list to update from
+    # BP()
+
+    # orderStat_list = mod_shared.getListFromFile(mod_shared.path_output, glo_file_noFile)
+
+    orderStat_list = mod_shared.getListFromFile(mod_shared.path_output, glo_file_orderStatistics)
+    if orderStat_list != False: # Important! Keep as False as longs as getListFromFile returns this for files not found.
+        org_len = len(orderStat_list)
+        orderStat_list_updated = getUpdatedOrderStatistics(orderStat_list, trade_list)
+        rev_len = len(orderStat_list_updated)
+        if rev_len > org_len:
+            mod_shared.writeListToCsvFile(orderStat_list_updated, mod_shared.path_output + glo_file_orderStatistics)
+        else:
+            print('Something might have gone wrong in', inspect.stack()[0][3], ': New', glo_file_orderStatistics, 'did not have more rows than old. No changes made.')
+    else:
+        print(glo_file_orderStatistics, 'did not exist. Creating new file with trade_list')
+        mod_shared.writeListToCsvFile(trade_list, mod_shared.path_output + glo_file_orderStatistics)
+
+# def test():
+#     try:
+#         test = 'shit'
+#         [][2]
+#     except Exception as e:
+#         # print ('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
+#         # print ('Error on line', format(sys.exc_info()[-1].tb_lineno), ':', str(e))
+#         # print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+#         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+
+# test()
+
 
 # # def requests_retry_session(retries=3, backoff_factor=0.3, status_forcelist=(500, 502, 504), session=None):
 # def requests_retry_session(retries=3, backoff_factor=0.3, session=None):

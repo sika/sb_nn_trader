@@ -31,10 +31,16 @@ glo_errorLog_file = 'errorLog.csv'
 glo_stockInfo_file_raw = 'stock-info-raw.csv'
 glo_blacklist_file = 'blacklist.csv'
 glo_complimentary_file = 'nn-complimentary-list.csv'
-glo_stockInfo_file_updated = 'stock-info-updated.csv'
+glo_complimentary_file_template = 'nn-complimentary-list-template.csv'
+glo_stockInfoUpdated_file = 'stock-info-updated.csv'
+glo_stockInfoUpdated_file_template = 'stock-info-updated-template.csv'
 glo_stockAfterSb_file_updated = 'stock-info-afterSb.csv'
 glo_stockToBuy_allData_file = 'stock-to-buy-all-data.csv'
+glo_stockToBuy_allData_file_template = 'stock-to-buy-all-data-template.csv'
 glo_stockToBuy_file = 'stock-to-buy.csv'
+glo_stockToBuy_file_template = 'stock-to-buy-template.csv'
+glo_orderStatistics_file = 'order-statistics.csv'
+glo_orderStatistics_file_template = 'order-statistics-template.csv'
 
 glo_fileToRunIfCrash_main = 'main.py'
 glo_pid_file = 'pid.txt'
@@ -71,17 +77,28 @@ glo_colName_buyMedianFailedPerChange = 'BUY_MEDIAN_FAILED_PERCENT_CHANGE'
 glo_colName_buyMedianSuccessPerChange = 'BUY_MEDIAN_SUCCESS_PERCENT_CHANGE'
 glo_colName_buyAndFailMedian_keyValue = 'BUYANDFAIL_MEDIAN_KEYVALUE'
 glo_colName_buyAndFailAverage_keyValue = 'BUYANDFAIL_AVERAGE_KEYVALUE'
-glo_colName_median_sell_intradayClosingChange_percent = 'MEDIAN_SELL_INTRADAY-CLOSING-CHANGE_PERCENT'
-glo_colName_average_sell_intradayClosingChange_percent = 'AVERAGE_SELL_INTRADAY-CLOSING-CHANGE_PERCENT'
-glo_colName_median_buy_intradayClosingChange_percent = 'MEDIAN_BUY_INTRADAY-CLOSING-CHANGE_PERCENT'
-glo_colName_average_buy_intradayClosingChange_percent = 'AVERAGE_BUY_INTRADAY-CLOSING-CHANGE_PERCENT'
-glo_colName_buyAndFailMedian_keyValue_minus_median_sell_intradayClosingChange_percent = 'SUM_BUYANDFAIL_MEDIAN_KEYVALUE_AND_MEDIAN_SELL_INTRADAY-CLOSING-CHANGE_PERCENT'
-glo_colName_buyAndFailAverage_keyValue_minus_average_sell_intradayClosingChange_percent = 'SUM_BUYANDFAIL_AVERAGE_KEYVALUE_AND_AVERAGE_SELL_INTRADAY-CLOSING-CHANGE_PERCENT'
+glo_colName_median_sell_intradayClosingChange_percent = 'MEDIAN_SELL_INTRADAY-CLOSING_PERCENT_CHANGE'
+glo_colName_average_sell_intradayClosingChange_percent = 'AVERAGE_SELL_INTRADAY-CLOSING_PERCENT_CHANGE'
+glo_colName_median_buy_intradayClosingChange_percent = 'MEDIAN_BUY_INTRADAY-CLOSING_PERCENT_CHANGE'
+glo_colName_average_buy_intradayClosingChange_percent = 'AVERAGE_BUY_INTRADAY-CLOSING_PERCENT_CHANGE'
+glo_colName_median_buyAndFailKeyValue_and_median_sellIntradayClosingPercentChange = 'SUM_BUYANDFAIL_MEDIAN_KEYVALUE_AND_MEDIAN_SELL_INTRADAY-CLOSING_PERCENT_CHANGE'
+glo_colName_average_buyAndFailKeyValue_and_average_sellIntradayClosingPercentChange = 'SUM_BUYANDFAIL_AVERAGE_KEYVALUE_AND_AVERAGE_SELL_INTRADAY-CLOSING_PERCENT_CHANGE'
+glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange = 'SUM_BUYANDFAIL_MEDIAN_KEYVALUE_AND_MEDIAN_BUY_SELL_INTRADAY-CLOSING_PERCENT_CHANGE'
+glo_colName_average_buyAndFailKeyValue_and_average_buyAndSellIntradayClosingPercentChange = 'SUM_BUYANDFAIL_AVERAGE_KEYVALUE_AND_AVERAGE_BUY_SELL_INTRADAY-CLOSING_PERCENT_CHANGE'
 glo_colName_percentChange_highestThroughCurrent = 'HIGHEST_THROUGH_CURRENT_PERCENT_CHANGE'
 
-glo_colName_stockToBuy_group = 'GROUP_BUY'
 glo_colName_compList = 'COMPLIMENTARY_LIST'
 glo_colName_historySignalPrice = 'HISTORY_SIGNAL_PRICE'
+glo_colName_stockToBuy_group = 'GROUP_BUY'
+glo_value_group_1 = '1_median_buyAndSellIntradayClosing_and_buy_medianCorrectAndFailKeyValue'
+glo_value_group_2 = '2_average_buyAndSellIntradayClosing_and_buy_averageCorrectAndFailKeyValue'
+
+# order statistics
+glo_colName_trade_time = 'TRADE_TIME'
+glo_colName_trade_price = 'TRADE_PRICE'
+glo_colName_trade_type = 'TRADE_TYPE'
+glo_colName_trade_volume = 'TRADE_VOLUME'
+glo_colName_trade_percentChange = 'TRADE_PERCENT_CHANGE'
 
 # mainly trader
 glo_stockStatus_list = []
@@ -97,6 +114,8 @@ glo_sbBaseStockPageUrl = 'https://www.swedishbulls.com/SignalPage.aspx?lang=en&T
 glo_complimentary_colNames = {}
 glo_stockInfoUpdated_colNames = {}
 glo_stockToBuy_colNames = {}
+glo_stockToBuy_allData_colNames = {}
+glo_orderStatistics_colNames = {}
 
 glo_urlHeader = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'}
 
@@ -261,6 +280,9 @@ def nordnetLogin():
 def getDateTodayStr():
     return datetime.date.today().strftime('%Y-%m-%d')
 
+def getDateDeltaTodayStr(days):
+    return (datetime.date.today() + datetime.timedelta(days)).strftime('%Y-%m-%d')
+
 def getTimestampCustomStr(custom):
     return datetime.datetime.now().strftime(custom)
 
@@ -301,6 +323,21 @@ def updateListFromListByKeys(list_to_update, list_to_update_from, list_of_key_se
                         for key_overwriter in list_of_key_overwriters:
                             if key_overwriter in rowFrom: # if key exist in dict
                                 rowTo[key_overwriter] = rowFrom[key_overwriter]
+                        break
+        return list_to_update
+    except Exception as e:
+        print ('ERROR in', inspect.stack()[0][3], ':', str(e))
+        writeErrorLog(inspect.stack()[0][3], str(e))
+
+def updateListFromListBy_existingKeys(list_to_update, list_to_update_from, list_of_key_selectors):
+    try:
+        for dict_to in list_to_update:
+            for dict_from in list_to_update_from:
+                for key_selector in list_of_key_selectors:
+                    if dict_to[key_selector] == dict_from[key_selector]:
+                        for k in dict_to:
+                            if k in dict_from:
+                                dict_to[k] = dict_from[k]
                         break
         return list_to_update
     except Exception as e:
@@ -346,17 +383,22 @@ def getGlobalList(name_of_list):
         print ('ERROR in', inspect.stack()[0][3], ':', str(e))
         writeErrorLog(inspect.stack()[0][3], str(e))
 
-def getStockListFromFile(path_rel, name_of_list):
+def getListFromFile(path_rel, name_of_file):
     try:
         temp_list = []
-        fileNamePath = path_base + path_rel + name_of_list
-        with open (fileNamePath, encoding='ISO-8859-1') as csvFile:
-            records = csv.DictReader(csvFile, delimiter=';') # omitting "fieldnames" - will make file headers fieldnames
-            fieldnames = records.fieldnames
-            for rowDict in records:
-                order_of_keys = fieldnames
-                temp_list.append(getOrderedDictFromDict(rowDict, order_of_keys))
-            return temp_list
+        path_and_fileName = path_base + path_rel + name_of_file
+        if os.path.isfile(path_and_fileName):
+            with open (path_and_fileName, encoding='ISO-8859-1') as csvFile:
+                records = csv.DictReader(csvFile, delimiter=';') # omitting "fieldnames" - will make file headers fieldnames
+                fieldnames = records.fieldnames
+                for rowDict in records:
+                    order_of_keys = fieldnames
+                    temp_list.append(getOrderedDictFromDict(rowDict, order_of_keys))
+                return temp_list
+        else:
+            print('file name and path does not exist:' + path_and_fileName)
+            print('returning False')
+            return False
     except Exception as e:
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
         writeErrorLog(inspect.stack()[0][3], str(e))
@@ -377,7 +419,7 @@ def getColNamesFromFile(rel_path_of_file, file_name):
 
 def setListKeys(list_to_set, dict_set_from):
     try:
-        # add keys-value pairs to list if not existing
+        # add key-value pairs to list if not existing
         for dict_to_set in list_to_set:
             for key_from, value_from in dict_set_from.items():
                 if key_from not in dict_to_set:
@@ -398,25 +440,55 @@ def setListKeys(list_to_set, dict_set_from):
         for dict_temp in new_list:
             new_ordered_list.append(OrderedDict((k, dict_temp[k]) for k in key_order_list))
 
+    except Exception as e:
+        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        writeErrorLog(inspect.stack()[0][3], str(e))
+
+    else:
         return new_ordered_list
+
+def addKeysNotExisting(list_to_set, dict_set_from):
+    try:
+        # add keys-value pairs to list if not existing
+        for dict_to_set in list_to_set:
+            for key_from, value_from in dict_set_from.items():
+                if key_from not in dict_to_set:
+                    dict_to_set[key_from] = value_from
+
+        # arrange keys in new list in same order as dict_set_from
+        key_order_list = list(dict_set_from.keys())
+        new_ordered_list = []
+        for dict_temp in list_to_set:
+            new_ordered_list.append(OrderedDict((k, dict_temp[k]) for k in key_order_list))
 
     except Exception as e:
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
         writeErrorLog(inspect.stack()[0][3], str(e))
 
+    else:
+        return new_ordered_list
+
 def setGlobalColNames():
     try:
-        dict_colNames = getColNamesFromFile(path_input_template, glo_complimentary_file) # path, file
+        dict_colNames = getColNamesFromFile(path_input_template, glo_complimentary_file_template) # path, file
         global glo_complimentary_colNames
         glo_complimentary_colNames = dict_colNames
 
-        dict_colNames = getColNamesFromFile(path_input_template, glo_stockInfo_file_updated) # path, file
+        dict_colNames = getColNamesFromFile(path_input_template, glo_stockInfoUpdated_file_template) # path, file
         global glo_stockInfoUpdated_colNames
         glo_stockInfoUpdated_colNames = dict_colNames
 
-        dict_colNames = getColNamesFromFile(path_input_template, glo_stockToBuy_file) # path, file
+        dict_colNames = getColNamesFromFile(path_input_template, glo_stockToBuy_file_template) # path, file
         global glo_stockToBuy_colNames
         glo_stockToBuy_colNames = dict_colNames
+        
+        dict_colNames = getColNamesFromFile(path_input_template, glo_stockToBuy_allData_file_template) # path, file
+        global glo_stockToBuy_allData_colNames
+        glo_stockToBuy_allData_colNames = dict_colNames
+
+        dict_colNames = getColNamesFromFile(path_input_template, glo_orderStatistics_file_template) # path, file
+        global glo_orderStatistics_colNames
+        glo_orderStatistics_colNames = dict_colNames
 
     except Exception as e:
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
@@ -446,6 +518,32 @@ def getPercentChange(start_value, end_value):
     except Exception as e:
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
         writeErrorLog(inspect.stack()[0][3], str(e))    
+
+def writeListToCsvFile(temp_list, name_path_file):
+    try:
+        glo_file_thisPath = path_base + name_path_file
+        with open (glo_file_thisPath, 'w', encoding='ISO-8859-1') as csvFile:
+            fieldnames = []
+            indexWithMaxNumOfKeys = 0
+            maxNumOfKeys = 0
+            counter = 0
+            # get index with most number of keys to get correct fieldnames
+            for dictTemp in temp_list:
+                if len(dictTemp.keys()) > maxNumOfKeys:
+                    maxNumOfKeys = len(dictTemp.keys())
+                    indexWithMaxNumOfKeys = counter
+                if counter == len(temp_list)-1:
+                    break
+                else:
+                    counter += 1
+            for key in temp_list[indexWithMaxNumOfKeys]:
+                fieldnames.append(key)
+            writer = csv.DictWriter(csvFile, fieldnames=fieldnames, delimiter = ';')
+            writer.writeheader()
+            for row in temp_list:
+                writer.writerow(row)
+    except Exception as e:
+        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
 
 def main():
     try:
