@@ -13,6 +13,7 @@ import csv
 import sys
 from collections import OrderedDict
 from pprint import pprint
+from pprint import pformat
 
 # paths
 path_base = os.path.dirname(os.path.abspath(__file__))
@@ -35,10 +36,10 @@ glo_complimentary_file_template = 'nn-complimentary-list-template.csv'
 glo_stockInfoUpdated_file = 'stock-info-updated.csv'
 glo_stockInfoUpdated_file_template = 'stock-info-updated-template.csv'
 glo_stockAfterSb_file_updated = 'stock-info-afterSb.csv'
-glo_stockToBuy_allData_file = 'stock-to-buy-all-data.csv'
-glo_stockToBuy_allData_file_template = 'stock-to-buy-all-data-template.csv'
-glo_stockToBuy_file = 'stock-to-buy.csv'
-glo_stockToBuy_file_template = 'stock-to-buy-template.csv'
+glo_stockToBuy_allData_file = 'stocks-to-buy-all-data.csv'
+glo_stockToBuy_allData_file_template = 'stocks-to-buy-all-data-template.csv'
+glo_stockToBuy_file = 'stocks-to-buy.csv'
+glo_stockToBuy_file_template = 'stocks-to-buy-template.csv'
 glo_orderStatistics_file = 'order-statistics.csv'
 glo_orderStatistics_file_template = 'order-statistics-template.csv'
 
@@ -55,9 +56,9 @@ glo_colName_url_sb = 'URL_SB'
 glo_colName_url_nn = 'URL_NN'
 glo_colName_active = 'ACTIVE'
 glo_colName_activeTemp = 'ACTIVE_TEMP'
-glo_colName_amountHeld = 'AMOUNT_HELD'
+glo_colName_amountHeld = 'VOLUME_HELD'
 glo_colName_price = 'PRICE'
-glo_colName_priceTemp = 'PRICE_TEMP'
+# glo_colName_priceTemp = 'PRICE_TEMP'
 
 glo_colName_6_percent = 'MONTH_6_PERCENT_CORRECT'
 glo_colName_6_value = 'MONTH_6_VALUE'
@@ -117,7 +118,7 @@ glo_stockToBuy_colNames = {}
 glo_stockToBuy_allData_colNames = {}
 glo_orderStatistics_colNames = {}
 
-glo_urlHeader = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'}
+glo_urlHeader_userAgent = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'}
 
 glo_credSb = 'credSb'
 glo_credNordnet = 'credNordnet'
@@ -130,6 +131,16 @@ glo_sbLoginFormSubmit = 'ctl00$MainContent$btnSubmit'
 glo_clearWatchlist = 'ctl00$MainContent$DeleteAll'
 
 glo_counter_error = 0
+glo_sellPercentageSubtraction = 10
+
+def errorHandler(e_msg):
+    try:
+        # print ('\nERROR: \n\tFile:', temp_glo_file_this, '\n\tFunction:', calling_function, '\n\tLine:', line_number, '\n\tError:', str(e_msg), '\n')
+        print ('\nERROR: \n\tFile:', inspect.stack()[1][1], '\n\tFunction:', inspect.stack()[1][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e_msg), '\n')
+        writeErrorLog(inspect.stack()[1][3], format(sys.exc_info()[-1].tb_lineno), inspect.stack()[1][1], str(e_msg))
+    except Exception as e:
+        print ('\nERROR: \n\tFile:', inspect.stack()[0][1], '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        writeErrorLog(inspect.stack()[0][3], format(sys.exc_info()[-1].tb_lineno), inspect.stack()[0][1], str(e))
 
 def incrCounterError():
     try:
@@ -147,6 +158,7 @@ def getCounterError():
         writeErrorLog(inspect.stack()[0][3], str(e))    
 
 def resetCounterError():
+    print(inspect.stack()[0][3])
     try:
         global glo_counter_error
         glo_counter_error += 0
@@ -154,7 +166,7 @@ def resetCounterError():
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
         writeErrorLog(inspect.stack()[0][3], str(e))    
 
-def writeErrorLog (callingFunction, eStr):
+def writeErrorLog (callingFunction, errorLine, errorFile, eStr):
     print ('\nSTART', inspect.stack()[0][3])
     try:
         incrCounterError()
@@ -164,21 +176,26 @@ def writeErrorLog (callingFunction, eStr):
         errorCounter = 'ERROR_COUNTER'
         errorCallingFunction = 'CALLING_FUNCTION'
         errorMsg = 'E_MSG'
+        colName_errorLine = 'Line'
+        colName_errorFile = 'File'
         file_errorLog = path_base + path_output + glo_errorLog_file
         file_exists = os.path.isfile(file_errorLog)
         if getCounterError() <= 100:
             with open (file_errorLog, 'a') as csvFile:
-                fieldnames = [errorDate, errorTime, errorDay, errorCounter, errorMsg, errorCallingFunction]
+                fieldnames = [errorDate, errorTime, errorDay, errorCounter, colName_errorFile, errorCallingFunction, colName_errorLine, errorMsg]
                 writer = csv.DictWriter(csvFile, fieldnames=fieldnames, delimiter = ';')
                 if not file_exists:
                     writer.writeheader()
-                writer.writerow({errorDate: getDateTodayStr(), 
+                writer.writerow({errorDate: getDateToday_customFormat_str('%Y-%m-%d'), 
                     errorTime: getTimestampCustomStr('%H:%M'), 
-                    errorDay: getDateTodayCustomStr('%A'), 
+                    errorDay: getDateToday_customFormat_str('%A'), 
                     errorCounter: str(glo_counter_error),
                     errorCallingFunction: callingFunction,
+                    colName_errorLine: errorLine,
+                    colName_errorFile: errorFile,
                     errorMsg: eStr})
-                sendEmail('ERROR: ' + callingFunction, eStr)
+                # sendEmail('ERROR: ' + callingFunction, eStr)
+                sendEmail('ERROR: {}; Line: {}'.format(callingFunction, str(errorLine)), eStr)
     except Exception as e:
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
 
@@ -238,27 +255,28 @@ def sbLogin():
 def nordnetLogin():
     # print ('\nSTART', inspect.stack()[0][3])    
     try:
-        s = requests.session()
+        # s = requests.session()
+        s = requests_retry_session()
         
-        header = {'Accept': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36'}
+        header = {'Accept': 'application/json'}
+        # add pre-defined user-agent
+        header.update(glo_urlHeader_userAgent)
 
         urlGetLoginPage = 'https://www.nordnet.se/mux/login/start.html?cmpi=start-loggain&state=signin'
-        r = s.get(urlGetLoginPage)
+        r = s.get(urlGetLoginPage) 
         if r.status_code != 200:
             print(urlGetLoginPage, 'failed!')
 
         # Anonymous to get cookie
         urlPostAnonymous = 'https://www.nordnet.se/api/2/login/anonymous'
-        r = s.post(urlPostAnonymous, headers=header)
+        r = s.post(urlPostAnonymous, headers=header) 
         if r.status_code != 200:
             print(urlPostAnonymous, 'failed!')
 
         # Login post
         urlPostLogin = 'https://www.nordnet.se/api/2/authentication/basic/login'
         credNord = getCredentials(glo_credNordnet)
-        r = s.post(urlPostLogin, headers=header, data=credNord)
-
+        r = s.post(urlPostLogin, headers=header, data=credNord) 
         if r.status_code != 200:
             print(urlPostLogin, 'failed!')
             print('status_code:', r.status_code)
@@ -277,17 +295,14 @@ def nordnetLogin():
         # print('END', inspect.stack()[0][3], '\n')
         return (r, header, s)
 
-def getDateTodayStr():
-    return datetime.date.today().strftime('%Y-%m-%d')
+def getDateToday_customFormat_str(customFormat): #e.g., '%d.%m.%Y' for '30.06.2018'
+    return datetime.date.today().strftime(customFormat)
 
-def getDateDeltaTodayStr(days):
-    return (datetime.date.today() + datetime.timedelta(days)).strftime('%Y-%m-%d')
+def getDate_deltaToday_customFormat_str(days, customFormat):
+    return (datetime.date.today() + datetime.timedelta(days)).strftime(customFormat)
 
-def getTimestampCustomStr(custom):
-    return datetime.datetime.now().strftime(custom)
-
-def getDateTodayCustomStr(custom):
-    return datetime.date.today().strftime(custom)
+def getTimestampCustomStr(customFormat):
+    return datetime.datetime.now().strftime(customFormat)
 
 def getSecondsFromTime(days, hours, minutes, seconds):
     try:
@@ -360,14 +375,14 @@ def removeListFromListByKey(list_to_keep, list_to_remove, list_of_key_selectors)
         print ('ERROR in', inspect.stack()[0][3], ':', str(e))
         writeErrorLog(inspect.stack()[0][3], str(e))
 
-def setStockListGlobally(temp_list, name_of_list):
+def setListGlobal(list_to_set, name_of_list):
     try:
         # if name_of_list == glo_stockInfo_list_name:
         #     global glo_stockInfo_list
-        #     glo_stockInfo_list = temp_list
+        #     glo_stockInfo_list = list_to_set
         if name_of_list == glo_stockStatus_list_name:
             global glo_stockStatus_list
-            glo_stockStatus_list = temp_list
+            glo_stockStatus_list = list_to_set
     except Exception as e:
         print ('ERROR in', inspect.stack()[0][3], ':', str(e))
         writeErrorLog(inspect.stack()[0][3], str(e))
@@ -519,31 +534,40 @@ def getPercentChange(start_value, end_value):
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
         writeErrorLog(inspect.stack()[0][3], str(e))    
 
-def writeListToCsvFile(temp_list, name_path_file):
+def writeListToCsvFile(list_to_write, name_path_file):
     try:
-        glo_file_thisPath = path_base + name_path_file
-        with open (glo_file_thisPath, 'w', encoding='ISO-8859-1') as csvFile:
-            fieldnames = []
-            indexWithMaxNumOfKeys = 0
-            maxNumOfKeys = 0
-            counter = 0
-            # get index with most number of keys to get correct fieldnames
-            for dictTemp in temp_list:
-                if len(dictTemp.keys()) > maxNumOfKeys:
-                    maxNumOfKeys = len(dictTemp.keys())
-                    indexWithMaxNumOfKeys = counter
-                if counter == len(temp_list)-1:
-                    break
-                else:
-                    counter += 1
-            for key in temp_list[indexWithMaxNumOfKeys]:
-                fieldnames.append(key)
-            writer = csv.DictWriter(csvFile, fieldnames=fieldnames, delimiter = ';')
-            writer.writeheader()
-            for row in temp_list:
-                writer.writerow(row)
+        if list_to_write:
+            glo_file_thisPath = path_base + name_path_file
+            with open (glo_file_thisPath, 'w', encoding='ISO-8859-1') as csvFile:
+                fieldnames = []
+                indexWithMaxNumOfKeys = 0
+                maxNumOfKeys = 0
+                counter = 0
+                # get index with most number of keys to get correct fieldnames
+                for dictTemp in list_to_write:
+                    if len(dictTemp.keys()) > maxNumOfKeys:
+                        maxNumOfKeys = len(dictTemp.keys())
+                        indexWithMaxNumOfKeys = counter
+                    if counter == len(list_to_write)-1:
+                        break
+                    else:
+                        counter += 1
+                for key in list_to_write[indexWithMaxNumOfKeys]:
+                    fieldnames.append(key)
+                writer = csv.DictWriter(csvFile, fieldnames=fieldnames, delimiter = ';')
+                writer.writeheader()
+                for row in list_to_write:
+                    writer.writerow(row)
+        else:
+            print('{}: list for file {} was empty: no file being written'.format(inspect.stack()[0][3], name_path_file))
     except Exception as e:
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+
+def getDecimalFromPercentage(percentageNumber):
+    try:
+        return float(percentageNumber/100)
+    except Exception as e:
+        errorHandler(e)
 
 def main():
     try:

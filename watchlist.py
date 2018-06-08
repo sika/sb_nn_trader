@@ -56,7 +56,7 @@ def setSbWatchlist(stocksToBuy_list):
 
             # add new headers
             headers = {'Referer' : url_stock,
-            'User-Agent' : mod_shared.glo_urlHeader.get('User-Agent'),
+            'User-Agent' : mod_shared.glo_urlHeader_userAgent.get('User-Agent'),
             'X-MicrosoftAjax' : 'Delta=true',
             'X-Requested-With' : 'XMLHttpRequest',
             'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'}

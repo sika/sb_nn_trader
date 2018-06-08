@@ -4,6 +4,90 @@
 		"selected_items":
 		[
 			[
+				"isSt",
+				"isStockActiveTemp"
+			],
+			[
+				"glo_colName_",
+				"glo_colName_amountHeld"
+			],
+			[
+				"sellP",
+				"glo_sellPercentageSubtraction"
+			],
+			[
+				"glo_colName_sb",
+				"glo_colName_sbNameshort"
+			],
+			[
+				"glo_orderNn_k",
+				"glo_orderNn_key_volume"
+			],
+			[
+				"glo_orderNn_key_",
+				"glo_orderNn_key_side"
+			],
+			[
+				"paylo",
+				"payloadOrder"
+			],
+			[
+				"break",
+				"breakAtFirstBuy"
+			],
+			[
+				"isd",
+				"isdigit"
+			],
+			[
+				"glo_or",
+				"glo_orderNn_key_price"
+			],
+			[
+				"glo_",
+				"glo_sbSignalBuy"
+			],
+			[
+				"glo_orderNn_key",
+				"glo_orderNn_key_marketId"
+			],
+			[
+				"glo_colName",
+				"glo_colName_identifier_id"
+			],
+			[
+				"glo_order",
+				"glo_orderNn_key_identifier"
+			],
+			[
+				"getPay",
+				"getPayloadOrder_staticValues"
+			],
+			[
+				"glo_col",
+				"glo_colName_url_nn"
+			],
+			[
+				"dict_sto",
+				"dict_stockStatus"
+			],
+			[
+				"glo_sb",
+				"glo_sbSignalSell"
+			],
+			[
+				"glo_sig",
+				"glo_sbSignalShort"
+			],
+			[
+				"error",
+				"errorHandler"
+			],
+			[
+				"buy",
+				"buy"
+			],
+			[
 				"gro",
 				"group_1_list"
 			],
@@ -88,14 +172,6 @@
 				"stocksToBuy_list"
 			],
 			[
-				"glo_colName",
-				"glo_colName_sbNameshort"
-			],
-			[
-				"glo_colName_",
-				"glo_colName_nameNordnet"
-			],
-			[
 				"dict_",
 				"dict_active"
 			],
@@ -115,7 +191,7 @@
 			"file": "main.py",
 			"settings":
 			{
-				"buffer_size": 75299,
+				"buffer_size": 94231,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -133,7 +209,7 @@
 			"file": "test.py",
 			"settings":
 			{
-				"buffer_size": 11409,
+				"buffer_size": 11438,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -142,7 +218,7 @@
 			"file": "watchlist.py",
 			"settings":
 			{
-				"buffer_size": 5194,
+				"buffer_size": 5204,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -151,7 +227,7 @@
 			"file": "create_stock_lists.py",
 			"settings":
 			{
-				"buffer_size": 45306,
+				"buffer_size": 45340,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -160,9 +236,19 @@
 			"file": "shared.py",
 			"settings":
 			{
-				"buffer_size": 24965,
+				"buffer_size": 25910,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 87 files for \"setStockListGlobally\"\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\main.py:\n  485              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:\n  486                  row.update({mod_shared.glo_colName_active:sbActiveType})\n  487:         mod_shared.setStockListGlobally(local_glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)\n  488      except Exception as e:\n  489          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n  ...\n  512              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:\n  513                  row.update({mod_shared.glo_colName_activeTemp:sbActiveType})\n  514:         mod_shared.setStockListGlobally(local_glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)\n  515      except Exception as e:\n  516          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n  ...\n  523              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:\n  524                  row.update({mod_shared.glo_colName_activeTemp:glo_status_value_activeTempDefault})\n  525:         mod_shared.setStockListGlobally(local_glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)\n  526      except Exception as e:\n  527          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n  ...\n  987          for row in local_glo_stockStatus_list:\n  988              row[mod_shared.glo_colName_activeTemp] = glo_status_value_activeTempDefault\n  989:         mod_shared.setStockListGlobally(local_glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)\n  990      except Exception as e:\n  991          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n  ...\n 1000          # setStockStatus()\n 1001          stocksToBuy_list = setAndGetStockStatusFromNn()\n 1002:         mod_shared.setStockListGlobally(stocksToBuy_list, mod_shared.glo_stockStatus_list_name)\n 1003          if isStockFileOlderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):\n 1004              mod_list.main()\n ....\n 1364  \n 1365  stocksToBuy_list = setAndGetStockStatusFromNn()\n 1366: mod_shared.setStockListGlobally(stocksToBuy_list, mod_shared.glo_stockStatus_list_name)\n 1367  \n 1368  # clear and set new watchlist (NOT NEEDED IF UNPAID SB ACCOUNT?)\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\shared.py:\n  370          writeErrorLog(inspect.stack()[0][3], str(e))\n  371  \n  372: def setStockListGlobally(temp_list, name_of_list):\n  373      try:\n  374          # if name_of_list == glo_stockInfo_list_name:\n\n7 matches across 2 files\n\n\nSearching 87 files for \"glo_stockStatus_list_name\"\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\main.py:\n  424  def isStockHeld(sbStockNameShort):\n  425      try:\n  426:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  427          for row in local_glo_stockStatus_list:\n  428              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort and row.get(mod_shared.glo_colName_amountHeld) != glo_status_value_amountHeldDefault:\n  ...\n  448  def getStocksNumberHeld(sbStockNameShort):\n  449      try:\n  450:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  451          for row in local_glo_stockStatus_list:\n  452              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:\n  ...\n  481      print ('\\n', inspect.stack()[0][3])\n  482      try:\n  483:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  484          for row in local_glo_stockStatus_list:\n  485              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:\n  486                  row.update({mod_shared.glo_colName_active:sbActiveType})\n  487:         mod_shared.setListGlobal(local_glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)\n  488      except Exception as e:\n  489          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n  ...\n  492  def isStockActive(sbStockNameShort, sbActiveType):\n  493      try:\n  494:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  495          for row in local_glo_stockStatus_list:\n  496              if sbActiveType == glo_sbSignalBuy:\n  ...\n  508      print ('\\n', inspect.stack()[0][3])\n  509      try:\n  510:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  511          for row in local_glo_stockStatus_list:\n  512              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:\n  513                  row.update({mod_shared.glo_colName_activeTemp:sbActiveType})\n  514:         mod_shared.setListGlobal(local_glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)\n  515      except Exception as e:\n  516          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n  ...\n  519  def delStockActiveTemp(sbStockNameShort):\n  520      try:\n  521:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  522          for row in local_glo_stockStatus_list:\n  523              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:\n  524                  row.update({mod_shared.glo_colName_activeTemp:glo_status_value_activeTempDefault})\n  525:         mod_shared.setListGlobal(local_glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)\n  526      except Exception as e:\n  527          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n  ...\n  530  def isStockActiveTemp(sbStockNameShort, sbActiveType):\n  531      try:\n  532:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  533          for row in local_glo_stockStatus_list:\n  534              if sbActiveType == glo_sbSignalBuy:\n  ...\n  580  # def isStockPriceChanged(sbStockNameShort, sbSignalType):\n  581  #     try:\n  582: #         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  583  #         percentageChangeLimit = 0.5\n  584  #         if sbSignalType == glo_sbSignalBuy:\n  ...\n  610  def getSbNameShortByNnName(nnStockName):\n  611      try:\n  612:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  613          for row in local_glo_stockStatus_list:\n  614              if row.get(mod_shared.glo_colName_nameNordnet) == nnStockName:\n  ...\n  698      try:\n  699          counter = 0\n  700:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  701          for row in local_glo_stockStatus_list:\n  702              if row.get(mod_shared.glo_colName_amountHeld) != glo_status_value_amountHeldDefault:\n  ...\n  710      try:\n  711          counter = 0\n  712:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  713          for row in local_glo_stockStatus_list:\n  714              if row.get(mod_shared.glo_colName_activeTemp) == glo_status_value_activeBuy:\n  ...\n  722      try:\n  723          counter = 0\n  724:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  725          for row in local_glo_stockStatus_list:\n  726              if row.get(mod_shared.glo_colName_activeTemp) == glo_status_value_activeSell:\n  ...\n  766          sellDecimalChange = sellPercentageChange/100\n  767          urlNnStock = None\n  768:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  769          for row in local_glo_stockStatus_list:\n  770              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:\n  ...\n  849              glo_orderNn_key_validUntil: orderNnValueValidUntil\n  850          }\n  851:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  852          for row in local_glo_stockStatus_list:\n  853              if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:\n  ...\n  984      print ('\\nSTART', inspect.stack()[0][3])\n  985      try:\n  986:         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)\n  987          for row in local_glo_stockStatus_list:\n  988              row[mod_shared.glo_colName_activeTemp] = glo_status_value_activeTempDefault\n  989:         mod_shared.setListGlobal(local_glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)\n  990      except Exception as e:\n  991          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n  ...\n 1000          # setStockStatus()\n 1001          stocksToBuy_list = setAndGetStockStatusFromNn()\n 1002:         mod_shared.setListGlobal(stocksToBuy_list, mod_shared.glo_stockStatus_list_name)\n 1003          if isStockFileOlderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):\n 1004              mod_list.main()\n ....\n 1364  \n 1365  stocksToBuy_list = setAndGetStockStatusFromNn()\n 1366: mod_shared.setListGlobal(stocksToBuy_list, mod_shared.glo_stockStatus_list_name)\n 1367  \n 1368  # clear and set new watchlist (NOT NEEDED IF UNPAID SB ACCOUNT?)\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\shared.py:\n  103  # mainly trader\n  104  glo_stockStatus_list = []\n  105: glo_stockStatus_list_name = 'glo_stockStatus_list'\n  106  \n  107  # mainly create lists\n  ...\n  375          #     global glo_stockInfo_list\n  376          #     glo_stockInfo_list = list_to_set\n  377:         if name_of_list == glo_stockStatus_list_name:\n  378              global glo_stockStatus_list\n  379              glo_stockStatus_list = list_to_set\n  ...\n  387          #     global glo_stockInfo_list\n  388          #     glo_stockInfo_list = temp_list\n  389:         if name_of_list == glo_stockStatus_list_name:\n  390              return glo_stockStatus_list\n  391      except Exception as e:\n\n24 matches across 2 files\n\n\nSearching 88 files for \"getDateTodayStr\"\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\main.py:\n  197              if not file_exists:\n  198                  writer.writeheader()\n  199:             writer.writerow({statDate: mod_shared.getDateTodayStr(), \n  200                  statTime: mod_shared.getTimestampCustomStr(\"%H:%M\"), \n  201                  statDay: mod_shared.getDateTodayCustomStr('%A'), \n  ...\n  225              if not file_exists:\n  226                  writer.writeheader()\n  227:             statDict = {glo_stat_key_date: mod_shared.getDateTodayStr(), \n  228                  glo_stat_key_time: mod_shared.getTimestampCustomStr(\"%H:%M\"), \n  229                  glo_stat_key_day: mod_shared.getDateTodayCustomStr('%A'), \n  ...\n  250                      row.get(glo_stat_key_nameShortSb) == sbStockNameShort and \n  251                      row.get(glo_stat_key_confirmation) == sbSignalConf and\n  252:                     row.get(glo_stat_key_date) == mod_shared.getDateTodayStr()\n  253                      ):\n  254                      return True\n  ...\n  814          orderNnStockValidUntil = None\n  815          if isMarketOpenNow():\n  816:             orderNnStockValidUntil = mod_shared.getDateTodayStr()\n  817          else:\n  818              noMatch = True\n  819              day = 1\n  820              while noMatch:\n  821:                 dateTodayStr = mod_shared.getDateTodayStr()\n  822                  timeStr = '10:00' # red day open half day always 9-13\n  823                  timestampToday = datetime.datetime.strptime(dateTodayStr + ' ' + timeStr, '%Y-%m-%d %H:%M')\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\shared.py:\n  182                  if not file_exists:\n  183                      writer.writeheader()\n  184:                 writer.writerow({errorDate: getDateTodayStr(), \n  185                      errorTime: getTimestampCustomStr('%H:%M'), \n  186                      errorDay: getDateTodayCustomStr('%A'), \n  ...\n  287          return (r, header, s)\n  288  \n  289: def getDateTodayStr():\n  290      return datetime.date.today().strftime('%Y-%m-%d')\n  291  \n\n7 matches across 2 files\n\n\nSearching 88 files for \"getDateToday_customFormat_str\"\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\main.py:\n  197              if not file_exists:\n  198                  writer.writeheader()\n  199:             writer.writerow({statDate: mod_shared.getDateToday_customFormat_str('%Y-%m-%d')(), \n  200                  statTime: mod_shared.getTimestampCustomStr(\"%H:%M\"), \n  201:                 statDay: mod_shared.getDateToday_customFormat_str('%A'), \n  202                  statNameshortSb: sbStockNameShort,\n  203                  statSignal: payloadOrder[glo_orderNn_key_side], \n  ...\n  225              if not file_exists:\n  226                  writer.writeheader()\n  227:             statDict = {glo_stat_key_date: mod_shared.getDateToday_customFormat_str('%Y-%m-%d')(), \n  228                  glo_stat_key_time: mod_shared.getTimestampCustomStr(\"%H:%M\"), \n  229:                 glo_stat_key_day: mod_shared.getDateToday_customFormat_str('%A'), \n  230                  glo_stat_key_nameShortSb: sbStockNameShort,\n  231                  glo_stat_key_signal: sbSignalType, \n  ...\n  250                      row.get(glo_stat_key_nameShortSb) == sbStockNameShort and \n  251                      row.get(glo_stat_key_confirmation) == sbSignalConf and\n  252:                     row.get(glo_stat_key_date) == mod_shared.getDateToday_customFormat_str('%Y-%m-%d')()\n  253                      ):\n  254                      return True\n  ...\n  814          orderNnStockValidUntil = None\n  815          if isMarketOpenNow():\n  816:             orderNnStockValidUntil = mod_shared.getDateToday_customFormat_str('%Y-%m-%d')()\n  817          else:\n  818              noMatch = True\n  819              day = 1\n  820              while noMatch:\n  821:                 dateTodayStr = mod_shared.getDateToday_customFormat_str('%Y-%m-%d')()\n  822                  timeStr = '10:00' # red day open half day always 9-13\n  823                  timestampToday = datetime.datetime.strptime(dateTodayStr + ' ' + timeStr, '%Y-%m-%d %H:%M')\n  ...\n 1332                      signal_type = signalList_table_months24[0].find_all('td')[2].get_text()\n 1333                      # True if latest signal date is today AND that signal is allowed (e.g., NOT 'QUIT')\n 1334:                     if latestSignal_date == mod_shared.getDateToday_customFormat_str(\"%d.%m.%Y\") and signal_type in glo_allowedSignals_list:\n 1335                          # get signal price (e.g., '14.2200')\n 1336                          signal_priceIntraday = signalList_table_months24[0].find_all('td')[1].get_text()\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\shared.py:\n  182                  if not file_exists:\n  183                      writer.writeheader()\n  184:                 writer.writerow({errorDate: getDateToday_customFormat_str('%Y-%m-%d')(), \n  185                      errorTime: getTimestampCustomStr('%H:%M'), \n  186:                     errorDay: getDateToday_customFormat_str('%A'), \n  187                      errorCounter: str(glo_counter_error),\n  188                      errorCallingFunction: callingFunction,\n  ...\n  287          return (r, header, s)\n  288  \n  289: def getDateToday_customFormat_str(customFormat): #e.g., '%d.%m.%Y' for '30.06.2018'\n  290      return datetime.date.today().strftime(customFormat)\n  291  \n\n11 matches across 2 files\n\n\nSearching 88 files for \"getDateToday_customFormat_str('%Y-%m-%d')\"\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\main.py:\n  197              if not file_exists:\n  198                  writer.writeheader()\n  199:             writer.writerow({statDate: mod_shared.getDateToday_customFormat_str('%Y-%m-%d'), \n  200                  statTime: mod_shared.getTimestampCustomStr(\"%H:%M\"), \n  201                  statDay: mod_shared.getDateToday_customFormat_str('%A'), \n  ...\n  225              if not file_exists:\n  226                  writer.writeheader()\n  227:             statDict = {glo_stat_key_date: mod_shared.getDateToday_customFormat_str('%Y-%m-%d'), \n  228                  glo_stat_key_time: mod_shared.getTimestampCustomStr(\"%H:%M\"), \n  229                  glo_stat_key_day: mod_shared.getDateToday_customFormat_str('%A'), \n  ...\n  250                      row.get(glo_stat_key_nameShortSb) == sbStockNameShort and \n  251                      row.get(glo_stat_key_confirmation) == sbSignalConf and\n  252:                     row.get(glo_stat_key_date) == mod_shared.getDateToday_customFormat_str('%Y-%m-%d')\n  253                      ):\n  254                      return True\n  ...\n  814          orderNnStockValidUntil = None\n  815          if isMarketOpenNow():\n  816:             orderNnStockValidUntil = mod_shared.getDateToday_customFormat_str('%Y-%m-%d')\n  817          else:\n  818              noMatch = True\n  819              day = 1\n  820              while noMatch:\n  821:                 dateTodayStr = mod_shared.getDateToday_customFormat_str('%Y-%m-%d')\n  822                  timeStr = '10:00' # red day open half day always 9-13\n  823                  timestampToday = datetime.datetime.strptime(dateTodayStr + ' ' + timeStr, '%Y-%m-%d %H:%M')\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\shared.py:\n  182                  if not file_exists:\n  183                      writer.writeheader()\n  184:                 writer.writerow({errorDate: getDateToday_customFormat_str('%Y-%m-%d'), \n  185                      errorTime: getTimestampCustomStr('%H:%M'), \n  186                      errorDay: getDateToday_customFormat_str('%A'), \n\n6 matches across 2 files\n\n\nSearching 88 files for \"pformat\"\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\create_stock_lists.py:\n   16  from collections import OrderedDict\n   17  from pprint import pprint\n   18: from pprint import pformat\n   19  \n   20  glo_file_this = os.path.basename(__file__)\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\main.py:\n   18  from collections import OrderedDict\n   19  from pprint import pprint\n   20: from pprint import pformat\n   21  \n   22  # Static price update at setStockStatus?\n   ..\n 1038              updateAmountAvailable(sbSignalType, payloadOrder)\n 1039              writeOrderStatistics(sbStockNameShort, payloadOrder)\n 1040:             mod_shared.sendEmail(sbStockNameShort + ':' + sbSignalType, sbStockNameShort + '\\n'+ pformat(payloadOrder))\n 1041              return None\n 1042  \n ....\n 1053              updateAmountAvailable(sbSignalType, payloadOrder)\n 1054              writeOrderStatistics(sbStockNameShort, payloadOrder)\n 1055:             mod_shared.sendEmail(sbStockNameShort + ':' + sbSignalType, sbStockNameShort + '\\n'+ pformat(payloadOrder))\n 1056          else:\n 1057              print('FAILED: order failed!')\n ....\n 1063              'url': r.url\n 1064              }\n 1065:             mod_shared.writeErrorLog(inspect.stack()[0][3], pformat(responseDict))\n 1066      except Exception as e:\n 1067          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n ....\n 1090          #     setStockActiveTemp(sbStockNameShort, sbSignalType)\n 1091          #     # setStockPriceTemp(sbStockNameShort, payloadOrder.get(orderNnValuePrice))\n 1092:         #     # sendEmail(sbStockNameShort + ':' + sbSignalType, sbStockNameShort + '\\n'+ pformat(payloadOrder))\n 1093          # else:\n 1094          #     print('PRETEND order FAILED!')\n ....\n 1679  #             if row.get(mod_shared.glo_colName_active) != glo_status_value_activeDefault:\n 1680  #                 sbj = row.get(mod_shared.glo_colName_sbNameshort) + ' is active: ' + row.get(mod_shared.glo_colName_active)\n 1681: #                 body = pformat(row)\n 1682  #                 sendEmail(sbj, body)\n 1683  #     except Exception as e:\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\shared.py:\n  283              'url': r.url\n  284              }\n  285:             writeErrorLog(inspect.stack()[0][3], pformat(responseDict))\n  286      except Exception as e: # catch error\n  287          print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n\nE:\\Dokument\\Dropbox\\development\\sb_nn_trader\\test.py:\n   10  from statistics import median\n   11  from pprint import pprint\n   12: from pprint import pformat\n   13  import requests\n   14  from requests.adapters import HTTPAdapter\n\n9 matches across 4 files\n",
+			"settings":
+			{
+				"buffer_size": 21367,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
 			}
 		}
 	],
@@ -202,11 +288,11 @@
 	],
 	"file_history":
 	[
+		"/E/Dokument/Dropbox/development/sb_nn_trader/watchlist.py",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/output/errorLog.csv",
 		"/E/Dokument/Dropbox/development/scraping_ufc/scrape_ufc_piratebay.py",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/.gitignore",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/create_stock_lists.py",
-		"/E/Dokument/Dropbox/development/sb_nn_trader/watchlist.py",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/send_email_files.py",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/main_process_monitor.py",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/sb_nn_trader.sublime-project",
@@ -233,6 +319,97 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"setStockActiveTemp",
+			"signalList_delta",
+			"priceStockStr",
+			"formatNnStockPriceForSell",
+			"sellDecimalChange",
+			"sellPercentageChange",
+			"getNnS",
+			"stockList_len",
+			"resetTempActive",
+			"setAndGetStockStatusFromNn",
+			"setAmountAvailable",
+			"updateAmountAvailable",
+			"sbSignalType",
+			"sbStockNameShort",
+			"local_glo_stockStatus_list",
+			"setStockActiveTemp",
+			"volume",
+			"getPayloadOrder_dynamic_buy",
+			"getNnStockVolume",
+			"orderNnValuePriceFloat",
+			"getCurrentNumberOfStocksHeld",
+			"getMaxNumberOfStocks",
+			"resetStockStatus",
+			"setAndGetStockStatusFromNn",
+			"placing or",
+			"nordnet_handleOrder_afterClosing",
+			"nordnetPlaceOrder_afterClosing",
+			"\"",
+			"payloadOrder_dynamic_dict.get(glo_orderNn_key_volume)",
+			"price",
+			"getAmountAvailable",
+			"getNnStockVolume",
+			"getNnStockPrice",
+			"payloadOrder_dynamic",
+			"nn_priceClosing",
+			"payloadOrder_staticValues",
+			"getPayloadOrderValues",
+			"glo_urlHeader",
+			"ss",
+			"s",
+			"pformat",
+			"requests_retry_session",
+			"nordnetLogin",
+			"nordnetPlaceOrder",
+			"NordnetPlaceOrder",
+			"nordnetPlaceOrder",
+			"getDateToday_customFormat_str('%Y-%m-%d')",
+			"getDateToday_customFormat_str('%Y-%m-%d')()",
+			"getDateToday_customFormat_str",
+			"getDateTodayStr",
+			"getDate_deltaToday_customFormat_Str",
+			"getDateTodayCustomStr",
+			"getDateTodayStr",
+			"getDateDeltaTodayStr",
+			"custom",
+			"group_1_list",
+			"priceStockStr",
+			"signal_price",
+			"setAndGetStockStatusFromNn",
+			"True",
+			"sbSignal",
+			"sbStockNameShort",
+			"stocksToBuy_list",
+			"sbActiveType",
+			"sbStockNameShort",
+			"isStockActiveTemp",
+			"glo_allowedSignals_list",
+			"stockStatus_list",
+			"dict_stockToBuy",
+			"row",
+			"local_glo_stockStatus_list",
+			"stocksToBuy_list",
+			"sbSignal",
+			"isStockActiveTemp",
+			"signalList_table_months_24",
+			"setAmountAvailableStatic",
+			"setAndGetStockStatusFromNn",
+			"glo_stockStatus_list_name",
+			"name_of_list",
+			"temp_list",
+			"setStockListGlobally",
+			"e",
+			"sbGetSignal_afterMarketHours",
+			"getAmountAvailableFromNn",
+			"setAndGetStockStatusFromNn",
+			"resetStockStatus",
+			"setAndGetStockStatusFromNn",
+			"False",
+			"glo_timeConditionRerunStockFile",
+			"BUY",
+			"SELL",
 			"0.5",
 			"1",
 			"glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange",
@@ -269,85 +446,7 @@
 			"stock-info-raw",
 			"glo_stockInfo_test_file",
 			"getNnStockPageData",
-			"list_of_stockRequests_failed",
-			"median",
-			"writeListToCsvFile",
-			"sum_median_buyAndFailKeyValue_and_intraday_closing_sellAndShort",
-			"sum_average_buyAndFailKeyValue_and_intraday_closing_sellAndShort",
-			"sum_average_sellAndShortChange_and_buyAndFailAveragenKeyValue",
-			"sum_averageSellAndShortChange_and_buyAndFailAveragenKeyValue",
-			"sum_buyAndFailMedianKeyValue_and_intraday_closing_sellAndShort",
-			"_buy_change",
-			"sellAndShort_change",
-			"median_sellAndShort_change",
-			"sum_buyAndFailMedianKeyValue_and_intraday_closing_sellAndShort",
-			"sum_medianSellAndShortChange_and_buyAndFailMedianKeyValue",
-			"buy_percent_changes",
-			"sellAndShort_percent_changes",
-			"sum_medianSellAndShortChange_and_buyAndFailMedianKeyValue",
-			"sum_averageSellAndShortChange_and_buyAndFailAveragenKeyValue",
-			"glo_test_bool",
-			"getStocksFromNn",
-			"_test",
-			"BUY",
-			"SELL",
-			"glo_file_orderStatistics",
-			"rowFrom",
-			"rowTo",
-			".items()",
-			"list_of_key_overwriters",
-			"glo_stockToBuy_allData_list",
-			"updateListFromListByKeys",
-			"trade_date",
-			"trade_nn_name",
-			"orderStat_list",
-			"glo_file_orderStat",
-			"new_list",
-			"getColNamesFromFile",
-			"glo_stockToBuy_allData_colNames",
-			"glo_stockToBuy_allData_file",
-			"mod_shared.",
-			"mod_list.writeListToCsvFile",
-			"mod_list.writeStockList",
-			"writeStockList",
-			"getStockListFromFile",
-			"fileNamePath",
-			"updateListFromListByKeys",
-			"addKeyToOrderedDict",
-			"glo_file_orderStat",
-			"updateOrderStatistics",
-			"PER_CHANGE_HIGHEST_THROUGH_CURRENT",
-			"filterStocksToWatch",
-			"setListKeys",
-			"glo_stockToBuy_allData_colNames",
-			"mod_shared.glo_stockToBuy_allData_colNames",
-			"glo_stockToBuy_allData_file",
-			"glo_stockToBuy_allData_colNames",
-			"updateListFromListByKeys",
-			"setAllStockLists",
-			"updateListFromListByKeys",
-			"glo_stockToBuy_allData_colNames",
-			"glo_stockToBuy__allData_colNames",
-			"glo_stockToBuy_allData_file",
-			"setGlobalColNames",
-			"glo_stockToBuy_colNames",
-			"glo_stockToBuy_file",
-			"dateTodayStr",
-			"getDateTodayStr",
-			"setListKeys",
-			"BUY",
-			"'+ mod_shared.getDateTodayStr() + '",
-			"writeStockList",
-			"trade_list",
-			"records",
-			"rowDict",
-			"getStockListFromFile",
-			"ship",
-			"closedTrade_List",
-			"setAndGetStockStatusFromNn",
-			".getStockListFromFile",
-			"name_of_list",
-			"3-trader"
+			"list_of_stockRequests_failed"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -355,6 +454,12 @@
 		"regex": false,
 		"replace_history":
 		[
+			"glo_urlHeader_userAgent",
+			"getDateToday_customFormat_str('%Y-%m-%d')",
+			"getDate_deltaToday_customFormat_str",
+			"getDateToday_customFormat_str",
+			"getDate_deltaToday_customFormat_Str",
+			"setListGlobal",
 			"glo_stockInfoUpdated_file",
 			"glo_colName_average_buyAndFailKeyValue_and_average_buyAndSellIntradayClosingPercentChange",
 			"glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange",
@@ -383,15 +488,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 75299,
+						"buffer_size": 94231,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								49197,
-								49197
+								83668,
+								83668
 							]
 						],
 						"settings":
@@ -401,7 +506,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 169.333333333,
+						"translation.y": 8461.33333333,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -420,8 +525,68 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								2634,
+								2634
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 585.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "test.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11438,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6476,
+								6476
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1691.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "watchlist.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5204,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								366,
+								366
 							]
 						],
 						"settings":
@@ -434,67 +599,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "test.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11409,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7381,
-								7381
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1233.0,
-						"zoom_level": 1.0
-					},
 					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "watchlist.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5194,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								279,
-								279
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 782.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -503,15 +608,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 45306,
+						"buffer_size": 45340,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								43670,
-								43670
+								25513,
+								25513
 							]
 						],
 						"settings":
@@ -521,10 +626,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2107.33333333,
+						"translation.y": 6884.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -533,15 +638,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 24965,
+						"buffer_size": 25910,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3334,
-								3386
+								5905,
+								5905
 							]
 						],
 						"settings":
@@ -551,10 +656,309 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 791.333333333,
+						"translation.y": 3761.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21367,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										294,
+										314
+									],
+									[
+										796,
+										816
+									],
+									[
+										1320,
+										1340
+									],
+									[
+										1800,
+										1820
+									],
+									[
+										2228,
+										2248
+									],
+									[
+										2541,
+										2561
+									],
+									[
+										2834,
+										2854
+									],
+									[
+										3230,
+										3255
+									],
+									[
+										3635,
+										3660
+									],
+									[
+										3952,
+										3977
+									],
+									[
+										4279,
+										4304
+									],
+									[
+										4678,
+										4703
+									],
+									[
+										4963,
+										4988
+									],
+									[
+										5294,
+										5319
+									],
+									[
+										5684,
+										5709
+									],
+									[
+										6037,
+										6062
+									],
+									[
+										6440,
+										6465
+									],
+									[
+										6748,
+										6773
+									],
+									[
+										7023,
+										7048
+									],
+									[
+										7315,
+										7340
+									],
+									[
+										7629,
+										7654
+									],
+									[
+										7935,
+										7960
+									],
+									[
+										8292,
+										8317
+									],
+									[
+										8633,
+										8658
+									],
+									[
+										8955,
+										8980
+									],
+									[
+										9210,
+										9235
+									],
+									[
+										9621,
+										9646
+									],
+									[
+										9927,
+										9952
+									],
+									[
+										10154,
+										10179
+									],
+									[
+										10383,
+										10408
+									],
+									[
+										10650,
+										10675
+									],
+									[
+										11023,
+										11038
+									],
+									[
+										11343,
+										11358
+									],
+									[
+										11773,
+										11788
+									],
+									[
+										12003,
+										12018
+									],
+									[
+										12186,
+										12201
+									],
+									[
+										12595,
+										12610
+									],
+									[
+										12815,
+										12830
+									],
+									[
+										13181,
+										13210
+									],
+									[
+										13347,
+										13376
+									],
+									[
+										13665,
+										13694
+									],
+									[
+										13849,
+										13878
+									],
+									[
+										14255,
+										14284
+									],
+									[
+										14511,
+										14540
+									],
+									[
+										14720,
+										14749
+									],
+									[
+										15234,
+										15263
+									],
+									[
+										15699,
+										15728
+									],
+									[
+										15853,
+										15882
+									],
+									[
+										16084,
+										16113
+									],
+									[
+										16526,
+										16567
+									],
+									[
+										16878,
+										16919
+									],
+									[
+										17340,
+										17381
+									],
+									[
+										17594,
+										17635
+									],
+									[
+										17801,
+										17842
+									],
+									[
+										18234,
+										18275
+									],
+									[
+										18656,
+										18663
+									],
+									[
+										18879,
+										18886
+									],
+									[
+										19194,
+										19201
+									],
+									[
+										19507,
+										19514
+									],
+									[
+										19727,
+										19734
+									],
+									[
+										20233,
+										20240
+									],
+									[
+										20600,
+										20607
+									],
+									[
+										20861,
+										20868
+									],
+									[
+										21261,
+										21268
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								18886,
+								18860
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 6,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 5568.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]

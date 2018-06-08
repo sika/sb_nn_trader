@@ -33,10 +33,10 @@ glo_colValue_notAvailable = 'N/A'
 
 glo_test_bool = False
 glo_test_str = 'test-'
-glo_stockInfo_test_file = 'stock-info-raw-4.csv'
+glo_stockInfo_test_file = 'stock-info-raw-1.csv'
 
-glo_runGetStocksFromSb_bool = False
-glo_runSetAllStockLists_bool = False
+glo_runGetStocksFromSb_bool = True
+glo_runSetAllStockLists_bool = True
 
 def setFilteredStockList(rowDict):
     try:
@@ -443,7 +443,7 @@ def getStocksFromNn(stockInfo_list):
                 identifier_id = stock.get(mod_shared.glo_colName_identifier_id)
                 # if market_id and identifier_id was previously found 
                 if market_id and identifier_id:
-                    dateYesterdayStr = mod_shared.getDateDeltaTodayStr(-1) # today's date only works when Nordnet has had time to updated historic figures
+                    dateYesterdayStr = mod_shared.getDate_deltaToday_customFormat_str(-1, '%Y-%m-%d') # today's date only works when Nordnet has had time to updated historic figures
                     url = 'https://www.nordnet.se/graph/instrument/'+ market_id +'/'+identifier_id+'?from=1970-01-01&to='+dateYesterdayStr+'&fields=last,open,high,low,volume'
                     try:
                         r = mod_shared.requests_retry_session().get(url)
@@ -569,7 +569,7 @@ def filterStocksToWatch(stockInfoUpdated_list):
             # - Conditions to select: buys_total: + 30; sort by SUM_BUYANDFAIL_MEDIAN_KEYVALUE_AND_MEDIAN_BUY_SELL_INTRADAY-CLOSING-CHANGE_PERCENT 
             # (high); select from value 1%
             # - Conditions to buy: Buy only if intraday-closing is less than MEDIAN_BUY_INTRADAY-CLOSING-CHANGE_PERCENT; 
-            # (if multiple stocks fit selection, prioritize highest value or biggest diff in conditions above 
+            # (if multiple stocks fit selection, prioritize highest value or biggest diff in conditions above) 
 
             # * 2:
             # - name: 2_average_buyAndSellIntradayClosing_and_buy_averageCorrectAndFailKeyValue
@@ -622,12 +622,12 @@ def filterStocksToWatch(stockInfoUpdated_list):
             # print('len group2:', len(group_2_list))
 
         # merge lists 
-        stockToBuy_list = group_1_list
-        # stockToBuy_list = group_1_list + group_2_list # merging
+        stocksToBuy_list = group_1_list
+        # stocksToBuy_list = group_1_list + group_2_list # merging
 
-        # stockToBuy_list = list(unique_everseen(stockToBuy_list)) # remove duplicates
+        # stocksToBuy_list = list(unique_everseen(stocksToBuy_list)) # remove duplicates
 
-        return stockToBuy_list
+        return stocksToBuy_list
     except Exception as e:
         print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')    
 
@@ -720,18 +720,18 @@ def setStockToBuyList():
             stockInfoUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockInfoUpdated_file)
     
         if stockInfoUpdated_list:
-            stockToBuy_list = filterStocksToWatch(stockInfoUpdated_list)
+            stocksToBuy_list = filterStocksToWatch(stockInfoUpdated_list)
             # BP()
 
-            stockToBuy_allData_list = mod_shared.setListKeys(stockToBuy_list, mod_shared.glo_stockToBuy_allData_colNames)
-            stockToBuy_list = mod_shared.setListKeys(stockToBuy_list, mod_shared.glo_stockToBuy_colNames)
+            # stockToBuy_allData_list = mod_shared.setListKeys(stocksToBuy_list, mod_shared.glo_stockToBuy_allData_colNames)
+            stocksToBuy_list = mod_shared.setListKeys(stocksToBuy_list, mod_shared.glo_stockToBuy_colNames)
 
             if glo_test_bool:
-                mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_allData_file)
-                mod_shared.writeListToCsvFile(stockToBuy_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_file)
+                # mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_allData_file)
+                mod_shared.writeListToCsvFile(stocksToBuy_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_file)
             else:
-                mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_allData_file)
-                mod_shared.writeListToCsvFile(stockToBuy_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_file)
+                # mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_allData_file)
+                mod_shared.writeListToCsvFile(stocksToBuy_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_file)
     except Exception as e:
         print ("ERROR in file", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))
     else:
