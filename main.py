@@ -1388,7 +1388,7 @@ def incr_scrapeSbForSignalsAfterMarketIsClosed_counter():
     except Exception as e:
         mod_shared.errorHandler(e)
 
-schedule.every().day.at("17:08").do(scrapeSbForSignalsAfterMarketIsClosed) 
+schedule.every().day.at("19:30").do(scrapeSbForSignalsAfterMarketIsClosed) 
 schedule.every().day.at("20:30").do(scrapeSbForSignalsAfterMarketIsClosed)
 # get and set stats of closed orders
 schedule.every().day.at("21:30").do(setOrderStatistics)
