@@ -33,7 +33,7 @@ glo_colValue_notAvailable = 'N/A'
 
 glo_test_bool = False
 glo_test_str = 'test-'
-glo_stockInfo_test_file = 'stock-info-raw-1.csv'
+glo_stockInfo_test_file = 'stock-info-raw-4.csv'
 
 glo_runGetStocksFromSb_bool = True
 glo_runSetAllStockLists_bool = True
@@ -43,7 +43,7 @@ def setFilteredStockList(rowDict):
         global glo_filteredStockInfo_list
         glo_filteredStockInfo_list.append(rowDict)
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')  
+        mod_shared.errorHandler(e)  
 
 def filterFilteredStockInfo(column_key, criteria, temp_glo_filteredStockInfo_list):
     try:
@@ -70,7 +70,7 @@ def filterFilteredStockInfo(column_key, criteria, temp_glo_filteredStockInfo_lis
         temp_glo_filteredStockInfo_list = temp_list
         return temp_glo_filteredStockInfo_list
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')     
+        mod_shared.errorHandler(e)     
 
 def getNnStockPageData(url_stock):
     try:
@@ -81,7 +81,7 @@ def getNnStockPageData(url_stock):
         try:
             r = mod_shared.requests_retry_session().get(url_stock)
         except Exception as e:
-            print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tURL:', url_stock, '\n\tError:', str(e), '\n')
+            mod_shared.errorHandler(e)
             return False
         else:
             soup = BeautifulSoup(r.content, 'html.parser')
@@ -102,7 +102,7 @@ def getNnStockPageData(url_stock):
             (mod_shared.glo_colName_identifier_id, identifier_id),
             (mod_shared.glo_colName_url_nn, url_stock)]
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        mod_shared.errorHandler(e)
     else:
         return list_of_tuples
         
@@ -111,7 +111,7 @@ def getMultiplicationValue(soup_str, soup):
         value_6 = soup.find(id=re.compile(soup_str)).parent.parent.next_sibling.get_text()
         return int(float(value_6.replace(",", "")))             
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        mod_shared.errorHandler(e)
 
 def getPercentCorrect(soup_str, soup):
     try:
@@ -127,7 +127,7 @@ def getPercentCorrect(soup_str, soup):
             
             return round(100*(float(counter_check)/float(total_checks)), 1)                     
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        mod_shared.errorHandler(e)
 
 def getStocksFromSb(stockInfo_list):
     print ('\nSTART', inspect.stack()[0][3])
@@ -156,7 +156,6 @@ def getStocksFromSb(stockInfo_list):
                 try:
                     r = mod_shared.requests_retry_session().get(url_sb)
                 except Exception as e:
-                    print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tURL:', url_sb, '\n\tError:', str(e), '\n')
                     list_of_stocks_failed.append(stock)
                     continue
                 else:
@@ -186,8 +185,7 @@ def getStocksFromSb(stockInfo_list):
                         price_last_close = float(soup.find(id='MainContent_lastpriceboxsub').get_text(strip=True).replace(',', ''))
                     except Exception as e:
                         print('price_last_close FAILED')
-                        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-                        pass
+                        mod_shared.errorHandler(e)
 
                     soup_str_6 = 'MainContent_signalpagehistory_PatternHistory6_cell'
                     value_6 = getMultiplicationValue(soup_str_6, soup)
@@ -355,7 +353,7 @@ def getStocksFromSb(stockInfo_list):
 
         return stockInfo_request_success
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        mod_shared.errorHandler(e)
 
 def getStocksFromNn(stockInfo_list):
     print ('\nSTART', inspect.stack()[0][3])
@@ -417,7 +415,6 @@ def getStocksFromNn(stockInfo_list):
                         # Initial stock search
                         r = mod_shared.requests_retry_session().post(urlNnSearch, data=payload)
                     except Exception as e:
-                        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tURL:', urlNnSearch, '\n\tError:', str(e), '\n')
                         if not any(d[mod_shared.glo_colName_sbNameshort] == stock.get(mod_shared.glo_colName_sbNameshort) for d in list_of_stockRequests_failed):
                             list_of_stockRequests_failed.append(stock)
                         continue
@@ -448,7 +445,6 @@ def getStocksFromNn(stockInfo_list):
                     try:
                         r = mod_shared.requests_retry_session().get(url)
                     except Exception as e:
-                        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tURL:', url_stock, '\n\tError:', str(e), '\n')
                         list_of_stockRequests_failed.append(stock)
                         continue
                     else:
@@ -546,7 +542,7 @@ def getStocksFromNn(stockInfo_list):
 
         return stockInfo_request_success
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        mod_shared.errorHandler(e)
 
 def stringToFLoat(list_to_convert, list_of_key_exceptions):
     try:
@@ -559,7 +555,7 @@ def stringToFLoat(list_to_convert, list_of_key_exceptions):
                         pass
         return list_to_convert
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')   
+        mod_shared.errorHandler(e)   
 
 def filterStocksToWatch(stockInfoUpdated_list):
     try:
@@ -629,7 +625,7 @@ def filterStocksToWatch(stockInfoUpdated_list):
 
         return stocksToBuy_list
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')    
+        mod_shared.errorHandler(e)    
 
 def deleteKeyValuesFromOrderedDict(list_to_update, list_of_keys):
     try:
@@ -638,7 +634,7 @@ def deleteKeyValuesFromOrderedDict(list_to_update, list_of_keys):
                 del row1[keyRow]
         return list_to_update
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')  
+        mod_shared.errorHandler(e)  
 
 def addKeyToOrderedDict(list_to_update, list_of_keys):
     try:
@@ -647,7 +643,7 @@ def addKeyToOrderedDict(list_to_update, list_of_keys):
                 row1[keyRow] = ''
         return list_to_update
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')      
+        mod_shared.errorHandler(e)      
 
 def setAllStockLists():
     print ('\nSTART', inspect.stack()[0][3])
@@ -706,7 +702,7 @@ def setAllStockLists():
             else:
                 mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList + mod_shared.glo_stockInfoUpdated_file)
     except Exception as e:
-        print ("ERROR in file", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))
+        mod_shared.errorHandler(e)
     else:
         print('END', inspect.stack()[0][3], '\n')
 
@@ -733,7 +729,7 @@ def setStockToBuyList():
                 # mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_allData_file)
                 mod_shared.writeListToCsvFile(stocksToBuy_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_file)
     except Exception as e:
-        print ("ERROR in file", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))
+        mod_shared.errorHandler(e)
     else:
         print('END', inspect.stack()[0][3], '\n')
 
@@ -744,7 +740,7 @@ def main():
         time.sleep(3)
         setStockToBuyList()
     except Exception as e:
-        print ("ERROR in file", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))
+        mod_shared.errorHandler(e)
 
 # only run when script explicitly called
 if __name__ == "__main__":

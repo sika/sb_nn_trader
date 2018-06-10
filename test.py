@@ -19,20 +19,34 @@ import math
 
 glo_file_this = os.path.basename(__file__)
 
+s = requests.session()
+
+header = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.79 Safari/537.36'}
+r = s.get('http://1337x.to/search/ufc+225/1/', headers=header)
+if r.status_code != 200:
+    print('FAIL')
+    print(r.status_code)
+
+soup = BeautifulSoup(r.content, 'html.parser')
+print(soup)
+BP()
 
 
-def isStockActive():
-    return False
+# start True/False --------------------------------
+
+# def isStockActive():
+#     return False
 
 
-def isStockActiveTemp():
-    return True
+# def isStockActiveTemp():
+#     return True
 
-if not isStockActive() and not isStockActiveTemp():
-    print('TRUE')
-else:
-    print('False')
+# if not isStockActive() and not isStockActiveTemp():
+#     print('TRUE')
+# else:
+#     print('False')
 
+# END True/False --------------------------------
 
 
 # start rnd --------------------------------------

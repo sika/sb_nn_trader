@@ -147,15 +147,13 @@ def incrCounterError():
         global glo_counter_error
         glo_counter_error += 1
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))    
+        mod_shared.errorHandler(e)    
 
 def getCounterError():
     try:
         return glo_counter_error
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))    
+        mod_shared.errorHandler(e)    
 
 def resetCounterError():
     print(inspect.stack()[0][3])
@@ -163,8 +161,7 @@ def resetCounterError():
         global glo_counter_error
         glo_counter_error += 0
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))    
+        mod_shared.errorHandler(e)    
 
 def writeErrorLog (callingFunction, errorLine, errorFile, eStr):
     print ('\nSTART', inspect.stack()[0][3])
@@ -231,8 +228,7 @@ def getCredentials(domain):
             pwd = conf['gmail_autotrade']['password']
             return {'username': username, 'pwd': pwd}
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 def sbLogin():
     # print ('\nSTART', inspect.stack()[0][3])
@@ -246,8 +242,7 @@ def sbLogin():
         form[glo_sbLoginFormPass].value = credSb.get('pwd')
         browser.submit_form(form, submit=form[glo_sbLoginFormSubmit])
     except Exception as e: # catch error
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
     else:
         # print('END', inspect.stack()[0][3], '\n')
         return (browser)
@@ -288,9 +283,7 @@ def nordnetLogin():
             }
             writeErrorLog(inspect.stack()[0][3], pformat(responseDict))
     except Exception as e: # catch error
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        msg = 'status code: ' + r.status_code + '; ' + r.text
-        writeErrorLog(inspect.stack()[0][3], msg)
+        mod_shared.errorHandler(e)
     else:
         # print('END', inspect.stack()[0][3], '\n')
         return (r, header, s)
@@ -312,8 +305,7 @@ def getSecondsFromTime(days, hours, minutes, seconds):
         
         return days*day_sec + hours*hour_sec + minutes*min_sec + seconds
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 def getTimestamp():
     return datetime.datetime.now()
@@ -326,8 +318,7 @@ def getOrderedDictFromDict(dictTemp, order_of_keys_list):
         list_of_tuples = [(key, dictTemp[key]) for key in order_of_keys_list]
         return OrderedDict(list_of_tuples)
     except Exception as e:
-        print ('ERROR in', inspect.stack()[0][3], ':', str(e))
-        writeErrorLog(inspect.stack()[0][3], str(e)) 
+        mod_shared.errorHandler(e) 
 
 def updateListFromListByKeys(list_to_update, list_to_update_from, list_of_key_selectors, list_of_key_overwriters):
     try:
@@ -341,8 +332,7 @@ def updateListFromListByKeys(list_to_update, list_to_update_from, list_of_key_se
                         break
         return list_to_update
     except Exception as e:
-        print ('ERROR in', inspect.stack()[0][3], ':', str(e))
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 def updateListFromListBy_existingKeys(list_to_update, list_to_update_from, list_of_key_selectors):
     try:
@@ -356,8 +346,7 @@ def updateListFromListBy_existingKeys(list_to_update, list_to_update_from, list_
                         break
         return list_to_update
     except Exception as e:
-        print ('ERROR in', inspect.stack()[0][3], ':', str(e))
-        writeErrorLog(inspect.stack()[0][3], str(e)) 
+        mod_shared.errorHandler(e) 
 
 def removeListFromListByKey(list_to_keep, list_to_remove, list_of_key_selectors):
     try:
@@ -372,8 +361,7 @@ def removeListFromListByKey(list_to_keep, list_to_remove, list_of_key_selectors)
                 unique_list.append(dict_keep)
         return unique_list
     except Exception as e:
-        print ('ERROR in', inspect.stack()[0][3], ':', str(e))
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 def setListGlobal(list_to_set, name_of_list):
     try:
@@ -384,8 +372,7 @@ def setListGlobal(list_to_set, name_of_list):
             global glo_stockStatus_list
             glo_stockStatus_list = list_to_set
     except Exception as e:
-        print ('ERROR in', inspect.stack()[0][3], ':', str(e))
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 def getGlobalList(name_of_list):
     try:
@@ -395,8 +382,7 @@ def getGlobalList(name_of_list):
         if name_of_list == glo_stockStatus_list_name:
             return glo_stockStatus_list
     except Exception as e:
-        print ('ERROR in', inspect.stack()[0][3], ':', str(e))
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 def getListFromFile(path_rel, name_of_file):
     try:
@@ -415,8 +401,7 @@ def getListFromFile(path_rel, name_of_file):
             print('returning False')
             return False
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 def getColNamesFromFile(rel_path_of_file, file_name):
     try:
@@ -429,8 +414,7 @@ def getColNamesFromFile(rel_path_of_file, file_name):
                 ordered_dict[colName] = ''   
             return ordered_dict
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 def setListKeys(list_to_set, dict_set_from):
     try:
@@ -456,9 +440,7 @@ def setListKeys(list_to_set, dict_set_from):
             new_ordered_list.append(OrderedDict((k, dict_temp[k]) for k in key_order_list))
 
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))
-
+        mod_shared.errorHandler(e)
     else:
         return new_ordered_list
 
@@ -477,9 +459,7 @@ def addKeysNotExisting(list_to_set, dict_set_from):
             new_ordered_list.append(OrderedDict((k, dict_temp[k]) for k in key_order_list))
 
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))
-
+        mod_shared.errorHandler(e)
     else:
         return new_ordered_list
 
@@ -506,8 +486,7 @@ def setGlobalColNames():
         glo_orderStatistics_colNames = dict_colNames
 
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 def requests_retry_session(retries=3, backoff_factor=0.3, session=None):
     try:
@@ -524,15 +503,14 @@ def requests_retry_session(retries=3, backoff_factor=0.3, session=None):
         return session
         
     except Exception as e:
-        print ('ERROR in function' ,inspect.stack()[0][3], ':', str(e))
+        mod_shared.errorHandler(e)
 
 def getPercentChange(start_value, end_value):
     try:
         # positive result: end_value is higher than start_value
         return ((end_value - start_value) / start_value)*100
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))    
+        mod_shared.errorHandler(e)    
 
 def writeListToCsvFile(list_to_write, name_path_file):
     try:
@@ -561,7 +539,7 @@ def writeListToCsvFile(list_to_write, name_path_file):
         else:
             print('{}: list for file {} was empty: no file being written'.format(inspect.stack()[0][3], name_path_file))
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        mod_shared.errorHandler(e)
 
 def getDecimalFromPercentage(percentageNumber):
     try:
@@ -573,7 +551,6 @@ def main():
     try:
         setGlobalColNames()
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
-        writeErrorLog(inspect.stack()[0][3], str(e))
+        mod_shared.errorHandler(e)
 
 main()

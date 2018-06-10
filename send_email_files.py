@@ -32,7 +32,7 @@ def send_mail(send_to, subject, text, files):
         smtp.sendmail(credGmailAutotrading.get('username'), send_to, msg.as_string())
         smtp.close()
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')
+        mod_shared.errorHandler(e)
     else:
         print('email sent')
 
@@ -50,7 +50,7 @@ def getListOfFiles():
         files_with_path += files_custom
         return files_with_path
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')     
+        mod_shared.errorHandler(e)     
 
 def main():
     try:
@@ -58,7 +58,7 @@ def main():
         pprint(files_with_path)
         send_mail('simon.autotrading@gmail.com', 'autotrade files', '', files_with_path)
     except Exception as e:
-        print ('\nERROR: \n\tFile:', glo_file_this, '\n\tFunction:', inspect.stack()[0][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e), '\n')     
+        mod_shared.errorHandler(e)     
 
 if __name__ == "__main__":
    main()
