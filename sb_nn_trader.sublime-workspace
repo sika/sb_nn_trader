@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"test_",
+				"test_overall"
+			],
+			[
+				"status",
+				"status_code"
+			],
+			[
 				"setAc",
 				"setStockActiveTemp"
 			],
@@ -36,10 +44,6 @@
 				"glo_key_statusCode"
 			],
 			[
-				"status",
-				"status_text"
-			],
-			[
 				"glo_stockSt",
 				"glo_stockStatus_list"
 			],
@@ -50,10 +54,6 @@
 			[
 				"Val",
 				"ValueError"
-			],
-			[
-				"test_",
-				"test_abortOrder"
 			],
 			[
 				"nn_",
@@ -251,7 +251,7 @@
 			"file": "main.py",
 			"settings":
 			{
-				"buffer_size": 69092,
+				"buffer_size": 61230,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -260,7 +260,7 @@
 			"file": "send_email_files.py",
 			"settings":
 			{
-				"buffer_size": 2634,
+				"buffer_size": 2226,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -269,7 +269,7 @@
 			"file": "test.py",
 			"settings":
 			{
-				"buffer_size": 16699,
+				"buffer_size": 17180,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -278,7 +278,7 @@
 			"file": "create_stock_lists.py",
 			"settings":
 			{
-				"buffer_size": 45349,
+				"buffer_size": 42712,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -287,7 +287,7 @@
 			"file": "shared.py",
 			"settings":
 			{
-				"buffer_size": 26663,
+				"buffer_size": 23297,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -296,7 +296,8 @@
 			"file": "main_process_monitor.py",
 			"settings":
 			{
-				"buffer_size": 2308,
+				"buffer_size": 2028,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -337,6 +338,7 @@
 	],
 	"file_history":
 	[
+		"/E/Dokument/Dropbox/development/sb_nn_trader/sb_nn_trader.sublime-project",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/output/errorLog.csv",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/watchlist.py",
 		"/E/Dokument/Dropbox/development/scraping_ufc/scrape_ufc_piratebay.py",
@@ -344,7 +346,6 @@
 		"/E/Dokument/Dropbox/development/sb_nn_trader/create_stock_lists.py",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/send_email_files.py",
 		"/E/Dokument/Dropbox/development/sb_nn_trader/main_process_monitor.py",
-		"/E/Dokument/Dropbox/development/sb_nn_trader/sb_nn_trader.sublime-project",
 		"/E/Dokument/Dropbox/Development/nordnet-api-00/python/3-trader/4-get-sb-signal-login/create_stock_lists.py",
 		"/E/Dokument/Dropbox/Development/nordnet-api-00/python/3-trader/4-get-sb-signal-login/sb_nn_trader.sublime-project",
 		"/E/Dokument/Dropbox/Development/scraping_ufc/scrape_ufc_piratebay.py",
@@ -368,6 +369,30 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"scrapeSbForSignalsAfterMarketIsClosed",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')",
+			"Exception",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')",
+			"Exception",
+			"print ('ERROR in function' ,inspect.stack()[0][3], ':', str(e))",
+			"Exception",
+			"print ('ERROR in', inspect.stack()[0][3], ':', str(e))\n        writeErrorLog(inspect.stack()[0][3], str(e))",
+			"exception",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n        writeErrorLog(inspect.stack()[0][3], str(e))",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')",
+			"Exception",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tURL:', url_stock, '\\n\\tError:', str(e), '\\n')",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tURL:', url_sb, '\\n\\tError:', str(e), '\\n')",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tURL:', urlNnSearch, '\\n\\tError:', str(e), '\\n')",
+			"print (\"ERROR in file\", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno)",
+			"        print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n        mod_shared.writeErrorLog(inspect.stack()[0][3], str(e))",
+			"print (\"ERROR in function\", inspect.stack()[0][3] +': '+ str(e))\n        mod_shared.writeErrorLog(inspect.stack()[0][3], str(e))",
+			"print (\"ERROR in file\", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))\n        mod_shared.writeErrorLog(inspect.stack()[0][3], str(e))",
+			"print (\"ERROR in file\", glo_file_this, 'and function' ,inspect.stack()[0][3], ':', str(e))\n        mod_shared.writeErrorLog(inspect.stack()[0][3], str(e))\n",
+			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')\n        mod_shared.writeErrorLog(inspect.stack()[0][3], str(e))\n",
 			" errorHandler",
 			"setAmountAvailableStatic",
 			"setMaxNumberOfActiveAboveMaxHeld",
@@ -471,31 +496,7 @@
 			",4)",
 			",3)",
 			",2)",
-			",1)",
-			"1))",
-			"''",
-			"500",
-			"up",
-			"plus500",
-			"rnd2",
-			"closest",
-			"str(round(n-math.fmod(n,f),prec))",
-			"0.0005",
-			"plus02",
-			"plus1",
-			"plus5",
-			"0.02",
-			"plus10",
-			"20",
-			"1",
-			"plus50",
-			"0.2",
-			"plus100",
-			"0.1",
-			"plus200",
-			"nplus200",
-			"5",
-			"0.1"
+			",1)"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -540,15 +541,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 69092,
+						"buffer_size": 61230,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								68310,
-								68310
+								60918,
+								60918
 							]
 						],
 						"settings":
@@ -558,7 +559,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2926.0,
+						"translation.y": 5172.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -570,15 +571,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2634,
+						"buffer_size": 2226,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1619,
-								1619
+								518,
+								518
 							]
 						],
 						"settings":
@@ -588,10 +589,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 106.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -600,15 +601,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16699,
+						"buffer_size": 17180,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								563,
-								563
+								837,
+								481
 							]
 						],
 						"settings":
@@ -618,10 +619,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 216.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -630,7 +631,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 45349,
+						"buffer_size": 42712,
 						"regions":
 						{
 						},
@@ -648,10 +649,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 150.0,
+						"translation.y": 91.3333333333,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -660,15 +661,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 26663,
+						"buffer_size": 23297,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7837,
-								7837
+								6193,
+								6214
 							]
 						],
 						"settings":
@@ -678,7 +679,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1504.0,
+						"translation.y": 1647.33333333,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -690,15 +691,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2308,
+						"buffer_size": 2028,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1962,
+								1962
 							]
 						],
 						"settings":
@@ -711,7 +712,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -797,7 +798,7 @@
 	"show_minimap": false,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 397.0,
 	"status_bar_visible": true,
 	"template_settings":
