@@ -6,3 +6,36 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-06-08;16:46;Friday;1;main.py;scrapeSbForSignalsAfterMarketIsClosed;1289;
 2018-06-08;16:54;Friday;1;main.py;scrapeSbForSignalsAfterMarketIsClosed;1295;
 2018-06-08;16:54;Friday;2;main.py;scrapeSbForSignalsAfterMarketIsClosed;1295;
+2018-06-11;22:08;Monday;1;main.py;setAndGetStockStatusFromNn;270;
+2018-06-11;22:08;Monday;2;main.py;scrapeSbForSignals_afterMarketIsClosed;688;'NoneType' object is not iterable
+2018-06-11;22:08;Monday;3;main.py;getUpdatedOrderStatistics;1254;name 'mod_shared' is not defined
+2018-06-11;22:08;Monday;4;main.py;setOrderStatistics;1158;object of type 'NoneType' has no len()
+2018-06-11;22:08;Monday;5;main.py;resetTempActive;605;'NoneType' object is not iterable
+2018-06-11;22:11;Monday;1;main.py;scrapeSbForSignals_afterMarketIsClosed;716;'NoneType' object is not iterable
+2018-06-11;22:11;Monday;2;main.py;getUpdatedOrderStatistics;1256;name 'mod_shared' is not defined
+2018-06-11;22:11;Monday;3;main.py;setOrderStatistics;1160;object of type 'NoneType' has no len()
+2018-06-11;22:11;Monday;4;main.py;resetTempActive;607;'NoneType' object is not iterable
+2018-06-11;23:22;Monday;1;main.py;scrapeSbForSignals_afterMarketIsClosed;726;
+2018-06-11;23:22;Monday;2;main.py;getUpdatedOrderStatistics;1292;name 'mod_shared' is not defined
+2018-06-11;23:22;Monday;3;main.py;setOrderStatistics;1196;object of type 'NoneType' has no len()
+2018-06-11;23:25;Monday;1;main.py;scrapeSbForSignals_afterMarketIsClosed;727;
+2018-06-11;23:25;Monday;2;main.py;getUpdatedOrderStatistics;1292;name 'mod_shared' is not defined
+2018-06-11;23:25;Monday;3;main.py;setOrderStatistics;1196;object of type 'NoneType' has no len()
+2018-06-11;23:27;Monday;1;main.py;scrapeSbForSignals_afterMarketIsClosed;780;
+2018-06-11;23:27;Monday;2;main.py;getUpdatedOrderStatistics;1293;name 'mod_shared' is not defined
+2018-06-11;23:27;Monday;3;main.py;setOrderStatistics;1197;object of type 'NoneType' has no len()
+2018-06-11;23:49;Monday;1;main.py;setAndGetStockStatusFromNn;293;
+2018-06-11;23:49;Monday;2;main.py;scrapeSbForSignals_afterMarketIsClosed;750;'NoneType' object is not iterable
+2018-06-11;23:50;Monday;3;main.py;getUpdatedOrderStatistics;1316;name 'mod_shared' is not defined
+2018-06-11;23:50;Monday;4;main.py;setOrderStatistics;1220;object of type 'NoneType' has no len()
+2018-06-11;23:50;Monday;5;main.py;resetTempActive;667;'NoneType' object is not iterable
+2018-06-11;23:52;Monday;1;main.py;scrapeSbForSignals_afterMarketIsClosed;781;
+2018-06-11;23:52;Monday;2;main.py;getUpdatedOrderStatistics;1317;name 'mod_shared' is not defined
+2018-06-11;23:52;Monday;3;main.py;setOrderStatistics;1221;object of type 'NoneType' has no len()
+2018-06-11;23:53;Monday;1;main.py;getUpdatedOrderStatistics;1306;name 'mod_shared' is not defined
+2018-06-11;23:53;Monday;2;main.py;setOrderStatistics;1210;object of type 'NoneType' has no len()
+2018-06-12;00:04;Tuesday;1;main.py;getUpdatedOrderStatistics;1307;name 'mod_shared' is not defined
+2018-06-12;00:04;Tuesday;2;main.py;setOrderStatistics;1210;object of type 'NoneType' has no len()
+2018-06-12;00:12;Tuesday;1;main.py;getUpdatedOrderStatistics;1307;name 'mod_shared' is not defined
+2018-06-12;00:12;Tuesday;2;main.py;setOrderStatistics;1210;object of type 'NoneType' has no len()
+2018-06-12;00:13;Tuesday;1;main.py;setOrderStatistics;1212;name 'mod_shared' is not defined

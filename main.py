@@ -24,7 +24,7 @@ from pprint import pformat
 # Only use stop-loss?
 glo_file_this = os.path.basename(__file__)
 
-test_overall = False
+test_overall = True
 
 # --- Global variables
 
@@ -185,9 +185,9 @@ def getStockStatus():
         # get HELD
         temp_nNHeld_list = []
         if test:
-            print(inspect.stack()[0][3], 'in TEST MODE!')
+            print('TEST MODE: {}'.format(inspect.stack()[0][3]))
             temp_nNHeld_dict = OrderedDict()
-            temp_nNHeld_dict[mod_shared.glo_colName_nameNordnet] = 'G5 Entertainment AB'
+            temp_nNHeld_dict[mod_shared.glo_colName_nameNordnet] = 'Copperstone Resources AB ser. B'
             temp_nNHeld_dict[mod_shared.glo_colName_amountHeld] = '100'
             temp_nNHeld_list.append(temp_nNHeld_dict)
             
@@ -262,33 +262,34 @@ def setAndGetStockStatusFromNn():
         
         stocksToBuy_list = mod_shared.getListFromFile(mod_shared.path_input_main, mod_shared.glo_stockToBuy_file)
         stocksToBuy_list = resetStockStatus(stocksToBuy_list) # set default values to ACTIVE, AMOUNT_HELD etc
+
         # get stocks with held and active info
         nNHeldAndActive_list = getStockStatus()
 
-        # update stocksToBuy_list with held and active (those stocks existing in stocksToBuy_list)
-        list_of_key_selectors = [mod_shared.glo_colName_nameNordnet]
-        list_of_key_overwriters = list(mod_shared.glo_stockToBuy_colNames.keys())
-        stocksToBuy_list = mod_shared.updateListFromListByKeys(stocksToBuy_list, nNHeldAndActive_list, list_of_key_selectors, list_of_key_overwriters) # list to overwrite, list to overwrite with, -, -
-        # list of those already updated in stocksToBuy
-        key_selector = mod_shared.glo_colName_nameNordnet
-        removal_list = getRemovalList(stocksToBuy_list, nNHeldAndActive_list, key_selector)
-
-        if removal_list:
-            # remove stocks from nNHeldAndActive_list
-            list_of_key_selectors = [mod_shared.glo_colName_nameNordnet]
-            nNHeldAndActive_list = mod_shared.removeListFromListByKey(nNHeldAndActive_list, removal_list, list_of_key_selectors)
-
+        # scenarios:
+        # - not stocks found
+        # - stocks found: non-existing in stocksToBuy_list
+        # - stocks found: some existing in stocksToBuy_list
+        # - stocks found: all existing in stocksToBuy_list
+        if not nNHeldAndActive_list:
+            # no stocks found (list is empty). Returning unaltered stocksToBuy_list
+            return stocksToBuy_list
+        else:
+            # stocks found
+            # remove any already existing in stocksToBuy_list
+            stocks_to_remove = [d.get(mod_shared.glo_colName_nameNordnet) for d in nNHeldAndActive_list]
+            stocksToBuy_list = [d for d in stocksToBuy_list if d.get(mod_shared.glo_colName_nameNordnet) not in stocks_to_remove]
+            # update nNHeldAndActive_list with keys of stocksToBuy_list
             nNHeldAndActive_list = mod_shared.setListKeys(nNHeldAndActive_list, mod_shared.glo_stockToBuy_colNames)
-
-            # updating pot
+            # update with data from stocksToBuy_list
             stocksAllUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockInfoUpdated_file) 
             list_of_key_selectors = [mod_shared.glo_colName_nameNordnet]
             list_of_key_overwriters = list(mod_shared.glo_stockToBuy_colNames.keys())
             nNHeldAndActive_list = mod_shared.updateListFromListByKeys(nNHeldAndActive_list, stocksAllUpdated_list, list_of_key_selectors, list_of_key_overwriters) # list to overwrite, list to overwrite with, -, -
+            # merge the lists
+            stocksToBuy_list += nNHeldAndActive_list
 
-            stockStatus_list = stocksToBuy_list + nNHeldAndActive_list
-
-        return stockStatus_list
+            return stocksToBuy_list
     except Exception as e:
         mod_shared.errorHandler(e)
 
@@ -1249,7 +1250,7 @@ def getUpdatedOrderStatistics(orderStat_list, dailyOrders_nordnet_list):
                 onlyOneStockName_maxDate_dict = max(onlyOneStockName_list, key=lambda item:item['TRADE_TIME'])
                 # calc percent change
                 start_value = float(onlyOneStockName_maxDate_dict.get(mod_shared.glo_colName_trade_price))
-                end_value = dict_trade.get(mod_shared.glo_colName_trade_price)
+                end_value = float(dict_trade.get(mod_shared.glo_colName_trade_price))
                 percentage_change = round(mod_shared.getPercentChange(start_value, end_value), 2)
                 dict_trade[mod_shared.glo_colName_trade_percentChange] = percentage_change
 
@@ -1321,7 +1322,7 @@ setMaxNumberOfStocks(7)
 setMaxNumberOfActiveAboveMaxHeld(2)
 
 # Comment out to use real value
-setAmountAvailableStatic(800)
+setAmountAvailableStatic(1)
 
 # Equivalent is also executed in runtime (resetDaily)
 if isStockFileOlderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):
@@ -1333,8 +1334,8 @@ while True and test_overall == False:
 
 if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
-    scrapeSbForSignals_afterMarketIsClosed() 
-    scrapeSbForSignals_afterMarketIsClosed()
+    # scrapeSbForSignals_afterMarketIsClosed() 
+    # scrapeSbForSignals_afterMarketIsClosed()
     # get and set stats of closed orders
     setOrderStatistics()
     resetDaily()

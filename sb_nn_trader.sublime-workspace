@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"key",
+				"key_to_look_for"
+			],
+			[
+				"glo_colName_",
+				"glo_colName_nameNordnet"
+			],
+			[
 				"test_",
 				"test_overall"
 			],
@@ -70,10 +78,6 @@
 			[
 				"isSt",
 				"isStockActiveTemp"
-			],
-			[
-				"glo_colName_",
-				"glo_colName_amountHeld"
 			],
 			[
 				"sellP",
@@ -251,7 +255,7 @@
 			"file": "main.py",
 			"settings":
 			{
-				"buffer_size": 61230,
+				"buffer_size": 61155,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -354,7 +358,7 @@
 	],
 	"find":
 	{
-		"height": 56.0
+		"height": 28.0
 	},
 	"find_in_files":
 	{
@@ -369,6 +373,25 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"getUpdatedOrderStatistics",
+			"getDailyOrders_nordnet",
+			"getUpdatedOrderStatistics",
+			"dict_trade",
+			"mod_shared",
+			"glo_colName_nameNordnet",
+			"getStockStatus",
+			"getRemovalList",
+			"getRemoval",
+			"getStockStatus",
+			"stocksToBuy_list",
+			"setAndGetStockStatusFromNn",
+			"updateAmountAvailable",
+			"setAmountAvailable",
+			"a",
+			"glo_amountAvailable",
+			"getAmountAvailable",
+			"setAndGetStockStatusFromNn",
+			"getAmountAvailableFromNn",
 			"scrapeSbForSignalsAfterMarketIsClosed",
 			"print ('\\nERROR: \\n\\tFile:', glo_file_this, '\\n\\tFunction:', inspect.stack()[0][3], '\\n\\tLine:', format(sys.exc_info()[-1].tb_lineno), '\\n\\tError:', str(e), '\\n')",
 			"Exception",
@@ -477,26 +500,7 @@
 			"latestSignal_date",
 			"list_of_stocks_failed",
 			"scrapeSbForSignalsAfterMarketIsClosed",
-			"sellDecimalSubtraction",
-			"formatNnStockPriceForSell",
-			"getPayloadOrder_dynamic_sell",
-			"nn_price_sell_float",
-			"n",
-			"f",
-			"prec",
-			"f500",
-			"f",
-			"200",
-			"500",
-			"500 ",
-			"500",
-			"f500",
-			"num",
-			"4",
-			",4)",
-			",3)",
-			",2)",
-			",1)"
+			"sellDecimalSubtraction"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -541,15 +545,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 61230,
+						"buffer_size": 61155,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								60918,
-								60918
+								11803,
+								11803
 							]
 						],
 						"settings":
@@ -559,7 +563,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 5172.0,
+						"translation.y": 3308.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -638,8 +642,8 @@
 						"selection":
 						[
 							[
-								746,
-								746
+								33872,
+								33955
 							]
 						],
 						"settings":
@@ -649,10 +653,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 91.3333333333,
+						"translation.y": 7392.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -668,8 +672,8 @@
 						"selection":
 						[
 							[
-								6193,
-								6214
+								15234,
+								15239
 							]
 						],
 						"settings":
@@ -679,10 +683,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1647.33333333,
+						"translation.y": 4108.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -798,7 +802,7 @@
 	"show_minimap": false,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 397.0,
 	"status_bar_visible": true,
 	"template_settings":

@@ -2,3 +2,4 @@ __pycache__/
 output/
 *.sublime-project
 *.sublime-workspace
+input/main/
