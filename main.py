@@ -1321,7 +1321,7 @@ setMaxNumberOfStocks(7)
 setMaxNumberOfActiveAboveMaxHeld(2)
 
 # Comment out to use real value
-# setAmountAvailableStatic(50)
+setAmountAvailableStatic(800)
 
 # Equivalent is also executed in runtime (resetDaily)
 if isStockFileOlderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):
