@@ -24,7 +24,7 @@ from pprint import pformat
 # Only use stop-loss?
 glo_file_this = os.path.basename(__file__)
 
-test_overall = True
+test_overall = False
 
 # --- Global variables
 
@@ -1005,7 +1005,6 @@ def nordnet_placeOrder(payloadOrder, dict_stockStatus, sb_signal_type):
             pprint(payloadOrder)
             setStockActiveTemp(sb_nameShort, sb_signal_type)
             updateAmountAvailable(sb_signal_type, payloadOrder)
-            # writeOrderStatistics(sb_nameShort, payloadOrder)
             mod_shared.sendEmail(sb_nameShort + ':' + sb_signal_type, sb_nameShort + '\n'+ pformat(payloadOrder))
         else:
             print('FAILED: order failed!')
@@ -1322,7 +1321,7 @@ setMaxNumberOfStocks(7)
 setMaxNumberOfActiveAboveMaxHeld(2)
 
 # Comment out to use real value
-setAmountAvailableStatic(1)
+# setAmountAvailableStatic(800)
 
 # Equivalent is also executed in runtime (resetDaily)
 if isStockFileOlderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):
@@ -1337,5 +1336,5 @@ if test_overall:
     # scrapeSbForSignals_afterMarketIsClosed() 
     # scrapeSbForSignals_afterMarketIsClosed()
     # get and set stats of closed orders
-    setOrderStatistics()
-    resetDaily()
+    # setOrderStatistics()
+    # resetDaily()

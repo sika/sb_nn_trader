@@ -3,3 +3,4 @@ output/
 *.sublime-project
 *.sublime-workspace
 input/main/
+input/main-process-monitor/pid.txt
