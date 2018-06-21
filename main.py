@@ -931,17 +931,24 @@ def nordnet_handleOrder_afterClosing(dict_stock, sb_signal_type):
         # get dynamic payload order value depending on sell or buy
         if sb_signal_type == glo_sbSignalSell:
             payloadOrder_dynamic_dict = getPayloadOrder_dynamic_sell(dict_stock, nn_priceClosing_str)
+             if payloadOrder_dynamic_dict.get(glo_orderNn_key_volume) != '0':
+                # should never be zero
+                sbj = '{}: {}: payloadOrder_dynamic_dict VOLUME was zero (0) for SELL:'.format(inspect.stack()[0][3], dict_stock.get(mod_shared.glo_colName_sbNameshort))
+                body = pformat(payloadOrder_dynamic_dict)
+                mod_shared.sendEmail(sbj, body)
+                return
         elif sb_signal_type == glo_sbSignalBuy:
             payloadOrder_dynamic_dict = getPayloadOrder_dynamic_buy(dict_stock, nn_priceClosing_str)
+            if payloadOrder_dynamic_dict.get(glo_orderNn_key_volume) != '0':
+                # will be zero if price of stock is too high (not an error)
+                return
         
-        pprint(payloadOrder_dynamic_dict)
-        
-        if isDynamicPayloadOrderValid(payloadOrder_dynamic_dict) or payloadOrder_dynamic_dict.get(glo_orderNn_key_volume) != '0':
+        if isDynamicPayloadOrderValid(payloadOrder_dynamic_dict):
             # merge payload
             payloadOrder = {**payloadOrder_staticValues_dict, **payloadOrder_dynamic_dict}
             if test_abortOrder == True or test_overall == True:
                 print('Test mode: {}'.format(inspect.stack()[0][3]))
-                print('aborting nordnet order placement')
+                print('aborting nordnet order placement, BUT setting stockActiveTemp')
                 setStockActiveTemp(dict_stock.get(mod_shared.glo_colName_sbNameshort), sb_signal_type)
             else:
                 nordnet_placeOrder(payloadOrder, dict_stock, sb_signal_type)
