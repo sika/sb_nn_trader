@@ -931,7 +931,7 @@ def nordnet_handleOrder_afterClosing(dict_stock, sb_signal_type):
         # get dynamic payload order value depending on sell or buy
         if sb_signal_type == glo_sbSignalSell:
             payloadOrder_dynamic_dict = getPayloadOrder_dynamic_sell(dict_stock, nn_priceClosing_str)
-             if payloadOrder_dynamic_dict.get(glo_orderNn_key_volume) != '0':
+            if payloadOrder_dynamic_dict.get(glo_orderNn_key_volume) != '0':
                 # should never be zero
                 sbj = '{}: {}: payloadOrder_dynamic_dict VOLUME was zero (0) for SELL:'.format(inspect.stack()[0][3], dict_stock.get(mod_shared.glo_colName_sbNameshort))
                 body = pformat(payloadOrder_dynamic_dict)
