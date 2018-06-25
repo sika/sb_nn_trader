@@ -941,6 +941,8 @@ def nordnet_handleOrder_afterClosing(dict_stock, sb_signal_type):
             payloadOrder_dynamic_dict = getPayloadOrder_dynamic_buy(dict_stock, nn_priceClosing_str)
             if payloadOrder_dynamic_dict.get(glo_orderNn_key_volume) == '0':
                 # will be zero if price of stock is too high (not an error)
+                print('VOLUME in payloadOrder_dynamic_dict was 0 (usually due to too high price')
+                pprint(payloadOrder_dynamic_dict)
                 return
         
         if isDynamicPayloadOrderValid(payloadOrder_dynamic_dict):
@@ -1313,8 +1315,8 @@ def incr_scrapeSbForSignalsAfterMarketIsClosed_counter():
     except Exception as e:
         mod_shared.errorHandler(e)
 
-schedule.every().day.at("19:30").do(scrapeSbForSignals_afterMarketIsClosed) 
-schedule.every().day.at("20:30").do(scrapeSbForSignals_afterMarketIsClosed)
+schedule.every().day.at("19:00").do(scrapeSbForSignals_afterMarketIsClosed) 
+schedule.every().day.at("20:00").do(scrapeSbForSignals_afterMarketIsClosed)
 # get and set stats of closed orders
 schedule.every().day.at("21:30").do(setOrderStatistics)
 schedule.every().day.at("22:00").do(resetDaily)
