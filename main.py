@@ -312,6 +312,7 @@ def isStockHeld(sbStockNameShort):
         for row in local_glo_stockStatus_list:
             if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort and row.get(mod_shared.glo_colName_amountHeld) != glo_status_value_amountHeldDefault:
                 return True
+        print('stock NOT held')
         return False # if no match
     except Exception as e:
         mod_shared.errorHandler(e)
@@ -755,6 +756,7 @@ def scrapeSbForSignals_afterMarketIsClosed():
                                 signal_type = glo_sbSignalSell
 
                             sb_nameShort = dict_stock.get(mod_shared.glo_colName_sbNameshort)
+                            nn_nameShort = dict_stock.get(mod_shared.glo_colName_nameShortNordnet)
                             if not isStockActive(sb_nameShort, signal_type) and not isStockActiveTemp(sb_nameShort, signal_type):
                                 if signal_type == glo_sbSignalBuy:
                                     if (
@@ -762,7 +764,7 @@ def scrapeSbForSignals_afterMarketIsClosed():
                                         not isStockHeld(sb_nameShort) and
                                         isStockFulfillingBuyRequirements(dict_stock, signal_priceIntraday)
                                         ):
-                                        print ('{}: adding to {} list'.format(sb_nameShort, glo_sbSignalBuy))
+                                        print ('{}: adding to {} list'.format(nn_nameShort, glo_sbSignalBuy))
                                         # add what to do with stock
                                         dict_stock[glo_status_action] = glo_sbSignalBuy
                                         # add stock to list of stocks for action (used later)
@@ -775,7 +777,7 @@ def scrapeSbForSignals_afterMarketIsClosed():
                                     if (
                                         isStockHeld(sb_nameShort)
                                         ):
-                                        print ('stock', sb_nameShort, ':', signal_type)
+                                        print ('{}: {}'.format(nn_nameShort, signal_type))
                                         nordnet_handleOrder_afterClosing(dict_stock, signal_type)
                     else:
                         # no 24 month signal list returned, continuing with next stock.
@@ -905,12 +907,12 @@ def getPayloadOrder_dynamic_buy(dict_stock, nn_priceClosing_str):
 def getPayloadOrder_dynamic_sell(dict_stock, nn_priceClosing_str):
     try:
         # dynamic values
-            #     'side':'BUY',
+            #     'side':'SELL',
             #     'price':'2.10',
             #     'volume':'1',
         sellDecimalSubtraction_float = mod_shared.getDecimalFromPercentage(mod_shared.glo_sellPercentageSubtraction)
         # variable format: 'xx.xx'
-        nn_priceClosing_str = formatNnStockPriceForSell(nn_priceClosing_str, sellDecimalSubtraction_float)
+        nn_priceClosing_str = formatNnStockPriceForSell_rev(nn_priceClosing_str, sellDecimalSubtraction_float)
         payloadOrder_dynamic_dict = {
             glo_orderNn_key_price: nn_priceClosing_str,
             glo_orderNn_key_volume: dict_stock.get(mod_shared.glo_colName_amountHeld),
@@ -1034,6 +1036,35 @@ def formatNnStockPriceForSell(nn_price_str, sellDecimalSubtraction_float):
         fraction, decimals = getDecimalsAndPrecision(nn_price_float)
 
         return rnd(nn_price_float, fraction, decimals, 'down')
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
+def formatNnStockPriceForSell_rev(nn_price_str, sellDecimalSubtraction_float):
+    try:
+        nn_price_float = float(nn_price_str)
+        nn_price_float = nn_price_float * (1-sellDecimalSubtraction_float)
+
+        if 20 <= nn_price_float:
+            print('20 <= nn_price_float')
+            decimals = 0
+            print('decimals: {}'.format(decimals))
+        elif 5 <= nn_price_float < 20:
+            print('5 <= nn_price_float < 20')
+            decimals = 1
+            print('decimals: {}'.format(decimals))
+        elif 0.2 <= nn_price_float < 5:
+            print('5 <= nn_price_float < 20')
+            decimals = 2
+            print('decimals: {}'.format(decimals))
+        elif nn_price_float < 0.2:
+            print('5 <= nn_price_float < 20')
+            decimals = 3
+            print('decimals: {}'.format(decimals))
+
+        if decimals == 0:
+            return str(int(math.floor(nn_price_float*pow(10,decimals))/pow(10,decimals)))
+        else:
+            return str(math.floor(nn_price_float*pow(10,decimals))/pow(10,decimals))
     except Exception as e:
         mod_shared.errorHandler(e)
 
@@ -1342,6 +1373,7 @@ while True and test_overall == False:
 
 if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
+    BP()
     # scrapeSbForSignals_afterMarketIsClosed() 
     # scrapeSbForSignals_afterMarketIsClosed()
     # get and set stats of closed orders

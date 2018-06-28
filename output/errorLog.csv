@@ -39,3 +39,11 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-06-12;00:12;Tuesday;1;main.py;getUpdatedOrderStatistics;1307;name 'mod_shared' is not defined
 2018-06-12;00:12;Tuesday;2;main.py;setOrderStatistics;1210;object of type 'NoneType' has no len()
 2018-06-12;00:13;Tuesday;1;main.py;setOrderStatistics;1212;name 'mod_shared' is not defined
+2018-06-28;18:01;Thursday;1;create_stock_lists.py;getNnStockPageData;80;'NoneType' object has no attribute 'group'
+2018-06-28;18:01;Thursday;2;create_stock_lists.py;getNnStockPageData;80;'NoneType' object has no attribute 'group'
+2018-06-28;18:07;Thursday;1;create_stock_lists.py;getStocksFromNn;386;
+2018-06-28;18:08;Thursday;1;create_stock_lists.py;getNnStockPageData;80;'NoneType' object has no attribute 'group'
+2018-06-28;18:08;Thursday;2;create_stock_lists.py;getNnStockPageData;80;'NoneType' object has no attribute 'group'
+2018-06-28;18:14;Thursday;1;create_stock_lists.py;getNnStockPageData;80;'NoneType' object has no attribute 'group'
+2018-06-28;18:14;Thursday;2;create_stock_lists.py;getNnStockPageData;78;'NoneType' object has no attribute 'group'
+2018-06-28;18:23;Thursday;1;create_stock_lists.py;setAllStockLists;657;object of type 'bool' has no len()

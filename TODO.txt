@@ -1,0 +1,14 @@
+297 : LIFE B
+no Nordnet match for LIFE B with query: LIFE
+
+365 : OLDM.ST
+no Nordnet match for OLDM.ST with query: OLDM
+
+408 : REZT.ST
+no Nordnet match for REZT.ST with query: REZT
+
+491 : TCT.ST
+no Nordnet match for TCT.ST with query: TCT
+
+535 : WTX.ST
+no Nordnet match for WTX.ST with query: WTX

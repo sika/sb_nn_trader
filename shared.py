@@ -131,7 +131,7 @@ glo_sbLoginFormSubmit = 'ctl00$MainContent$btnSubmit'
 glo_clearWatchlist = 'ctl00$MainContent$DeleteAll'
 
 glo_counter_error = 0
-glo_sellPercentageSubtraction = 10
+glo_sellPercentageSubtraction = 8
 
 def errorHandler(e_msg):
     try:

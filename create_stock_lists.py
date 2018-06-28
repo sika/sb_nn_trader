@@ -31,9 +31,9 @@ glo_sb_history_signal = 'signal'
 
 glo_colValue_notAvailable = 'N/A'
 
-glo_test_bool = False
+glo_test_bool = True
 glo_test_str = 'test-'
-glo_stockInfo_test_file = 'stock-info-raw-4.csv'
+glo_stockInfo_test_file = 'stock-info-raw-1.csv'
 
 glo_runGetStocksFromSb_bool = True
 glo_runSetAllStockLists_bool = True
@@ -666,14 +666,14 @@ def setAllStockLists():
             stockInfo_list = getStocksFromSb(stockInfo_list)
 
             if glo_test_bool:
-                mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockAfterSb_file_updated)
+                mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList+mod_shared.path_input_test + glo_test_str+mod_shared.glo_stockAfterSb_file_updated)
             else:
                 mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList + mod_shared.glo_stockAfterSb_file_updated)
 
         if not glo_runGetStocksFromSb_bool:
             print('glo_runGetStocksFromSb_bool was', glo_runGetStocksFromSb_bool, '- NOT running getStocksFromSb')
             if glo_test_bool:
-                stockInfo_list = mod_shared.getListFromFile(mod_shared.path_input_createList, glo_test_str+mod_shared.glo_stockAfterSb_file_updated)
+                stockInfo_list = mod_shared.getListFromFile(mod_shared.path_input_createList+mod_shared.path_input_test, glo_test_str+mod_shared.glo_stockAfterSb_file_updated)
             else:
                 stockInfo_list = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockAfterSb_file_updated)
 
@@ -698,7 +698,7 @@ def setAllStockLists():
         if stockInfo_list:
             stockInfo_list = mod_shared.setListKeys(stockInfo_list, mod_shared.glo_stockInfoUpdated_colNames)
             if glo_test_bool:
-                mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockInfoUpdated_file)
+                mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList+mod_shared.path_input_test + glo_test_str+mod_shared.glo_stockInfoUpdated_file)
             else:
                 mod_shared.writeListToCsvFile(stockInfo_list, mod_shared.path_input_createList + mod_shared.glo_stockInfoUpdated_file)
     except Exception as e:
@@ -711,7 +711,7 @@ def setStockToBuyList():
     try:
         if glo_test_bool:
             print(inspect.stack()[0][3], 'in TEST MODE!')
-            stockInfoUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList, glo_test_str+mod_shared.glo_stockInfoUpdated_file)
+            stockInfoUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList+mod_shared.path_input_test, glo_test_str+mod_shared.glo_stockInfoUpdated_file)
         else:
             stockInfoUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockInfoUpdated_file)
     
@@ -724,7 +724,7 @@ def setStockToBuyList():
 
             if glo_test_bool:
                 # mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_allData_file)
-                mod_shared.writeListToCsvFile(stocksToBuy_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_file)
+                mod_shared.writeListToCsvFile(stocksToBuy_list, mod_shared.path_input_createList+mod_shared.path_input_test + glo_test_str+mod_shared.glo_stockToBuy_file)
             else:
                 # mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_allData_file)
                 mod_shared.writeListToCsvFile(stocksToBuy_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_file)
