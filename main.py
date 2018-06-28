@@ -1045,21 +1045,21 @@ def formatNnStockPriceForSell_rev(nn_price_str, sellDecimalSubtraction_float):
         nn_price_float = nn_price_float * (1-sellDecimalSubtraction_float)
 
         if 20 <= nn_price_float:
-            print('20 <= nn_price_float')
+            # print('20 <= nn_price_float')
             decimals = 0
-            print('decimals: {}'.format(decimals))
+            # print('decimals: {}'.format(decimals))
         elif 5 <= nn_price_float < 20:
-            print('5 <= nn_price_float < 20')
+            # print('5 <= nn_price_float < 20')
             decimals = 1
-            print('decimals: {}'.format(decimals))
+            # print('decimals: {}'.format(decimals))
         elif 0.2 <= nn_price_float < 5:
-            print('5 <= nn_price_float < 20')
+            # print('5 <= nn_price_float < 20')
             decimals = 2
-            print('decimals: {}'.format(decimals))
+            # print('decimals: {}'.format(decimals))
         elif nn_price_float < 0.2:
-            print('5 <= nn_price_float < 20')
+            # print('5 <= nn_price_float < 20')
             decimals = 3
-            print('decimals: {}'.format(decimals))
+            # print('decimals: {}'.format(decimals))
 
         if decimals == 0:
             return str(int(math.floor(nn_price_float*pow(10,decimals))/pow(10,decimals)))
