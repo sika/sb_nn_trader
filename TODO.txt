@@ -1,14 +1,4 @@
-297 : LIFE B
-no Nordnet match for LIFE B with query: LIFE
+- Use Stop-Loss
+- Record OMX daily percent change for reference in Order Statistics?
 
-365 : OLDM.ST
-no Nordnet match for OLDM.ST with query: OLDM
-
-408 : REZT.ST
-no Nordnet match for REZT.ST with query: REZT
-
-491 : TCT.ST
-no Nordnet match for TCT.ST with query: TCT
-
-535 : WTX.ST
-no Nordnet match for WTX.ST with query: WTX
+- På sikt: prova blankning?

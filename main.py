@@ -1213,17 +1213,17 @@ def getDailyOrders_nordnet():
         if test_getDailyOrders_nordnet:
             print('TEST MODE: {}'.format(inspect.stack()[0][3]))
             temp_list = [
-            {'NAMESHORT_NORDNET': 'SALT B',
-              'TRADE_PRICE': 999,
-              'TRADE_TIME': '2018-05-21 16:37:37',
+            {'NAMESHORT_NORDNET': 'ARCT',
+              'TRADE_PRICE': 5,
+              'TRADE_TIME': '2018-05-27 16:37:37',
               'TRADE_TYPE': 'SELL'},
-            {'NAMESHORT_NORDNET': 'COPP B',
-              'TRADE_PRICE': 50.44,
-              'TRADE_TIME': '2018-05-21 16:22:52',
+            {'NAMESHORT_NORDNET': 'SAVOS',
+              'TRADE_PRICE': 1.44,
+              'TRADE_TIME': '2018-05-27 16:22:52',
               'TRADE_TYPE': 'SELL'},
             {'NAMESHORT_NORDNET': 'STAR A',
               'TRADE_PRICE': 99.8,
-              'TRADE_TIME': '2018-05-21 16:22:52',
+              'TRADE_TIME': '2018-05-27 16:22:52',
               'TRADE_TYPE': 'SELL'}
               ]
             for dict_item in temp_list:
@@ -1278,6 +1278,7 @@ def getDailyOrders_nordnet():
 
 def getUpdatedOrderStatistics(orderStat_list, dailyOrders_nordnet_list):
     try:
+        temp_list = []
         # calc percent change
         for dict_trade in dailyOrders_nordnet_list:
             # get all stock dicts which matches a stock name in dailyOrders_nordnet_list and where it is SELL and where the other stock is BUY
@@ -1292,8 +1293,22 @@ def getUpdatedOrderStatistics(orderStat_list, dailyOrders_nordnet_list):
                 end_value = float(dict_trade.get(mod_shared.glo_colName_trade_price))
                 percentage_change = round(mod_shared.getPercentChange(start_value, end_value), 2)
                 dict_trade[mod_shared.glo_colName_trade_percentChange] = percentage_change
+                
+                excluded_keys_list = [mod_shared.glo_colName_trade_percentChange,
+                    mod_shared.glo_colName_trade_price,
+                    mod_shared.glo_colName_trade_type,
+                    mod_shared.glo_colName_trade_volume
+                ]
+                
+                # below in order to retain all values already existing from previous buys
+                # get key-values from onlyOneStockName_maxDate_dict, except keys from dailyOrders_nordnet_list
+                dict_trade_1 = {key:value for (key,value) in onlyOneStockName_maxDate_dict.items() if key not in excluded_keys_list}
+                # get key-values from dict_trade that are given from Nordnet
+                dict_trade_2 = {key:value for (key,value) in dict_trade.items() if key in excluded_keys_list}
+                dict_trade = {**dict_trade_1, **dict_trade_2}
+                temp_list.append(dict_trade)
 
-        for dict_trade in dailyOrders_nordnet_list:
+        for dict_trade in temp_list:
             orderStat_list.append(dict_trade)
     except Exception as e:
         mod_shared.errorHandler(e)

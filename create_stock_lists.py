@@ -20,7 +20,7 @@ from pprint import pformat
 glo_file_this = os.path.basename(__file__)
 
 # nordnet courtage (mini). https://www.nordnet.se/tjanster/prislista/oversikt.html#/
-glo_costOfCourtage = 0.25
+glo_costOfCourtage = 0.25*2
 
 glo_nn_history_time = 'time'
 glo_nn_history_closing = 'last'

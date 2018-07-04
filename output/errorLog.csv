@@ -47,3 +47,7 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-06-28;18:14;Thursday;1;create_stock_lists.py;getNnStockPageData;80;'NoneType' object has no attribute 'group'
 2018-06-28;18:14;Thursday;2;create_stock_lists.py;getNnStockPageData;78;'NoneType' object has no attribute 'group'
 2018-06-28;18:23;Thursday;1;create_stock_lists.py;setAllStockLists;657;object of type 'bool' has no len()
+2018-07-04;22:50;Wednesday;1;main.py;getUpdatedOrderStatistics;1295;free variable 'excluded_keys_list' referenced before assignment in enclosing scope
+2018-07-04;22:50;Wednesday;1;main.py;getUpdatedOrderStatistics;1303;float() argument must be a string or a number, not 'NoneType'
+2018-07-04;23:10;Wednesday;1;main.py;getUpdatedOrderStatistics;1311;name 'list_new' is not defined
+2018-07-04;23:10;Wednesday;2;main.py;setOrderStatistics;1197;object of type 'NoneType' has no len()
