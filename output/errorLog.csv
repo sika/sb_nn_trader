@@ -51,3 +51,5 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-07-04;22:50;Wednesday;1;main.py;getUpdatedOrderStatistics;1303;float() argument must be a string or a number, not 'NoneType'
 2018-07-04;23:10;Wednesday;1;main.py;getUpdatedOrderStatistics;1311;name 'list_new' is not defined
 2018-07-04;23:10;Wednesday;2;main.py;setOrderStatistics;1197;object of type 'NoneType' has no len()
+2018-07-05;16:50;Thursday;1;main.py;setOrderStatistics;1199;name 'mod_shared' is not defined
+2018-07-05;16:58;Thursday;1;main.py;setOrderStatistics;1206;name 'shared' is not defined

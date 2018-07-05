@@ -1026,6 +1026,7 @@ def nordnet_placeOrder(payloadOrder, dict_stockStatus, sb_signal_type):
             'reason': r.reason,
             'url': r.url
             }
+            mod_shared.sendEmail('Failed order placement in nordnet_placeOrder: ' + sb_nameShort + ':' + sb_signal_type, sb_nameShort + '\n'+ pformat(responseDict))
     except Exception as e:
         mod_shared.errorHandler(e)
 
@@ -1198,7 +1199,10 @@ def setOrderStatistics():
                 if rev_len > org_len:
                     mod_shared.writeListToCsvFile(orderStat_list_updated, mod_shared.path_output + mod_shared.glo_orderStatistics_file)
                 else:
-                    print('Something might have gone wrong in', inspect.stack()[0][3], ': New', mod_shared.glo_orderStatistics_file, 'did not have more rows than old. No changes made.')
+                    sbj = 'Something might have gone wrong in function {}.'.format(inspect.stack()[0][3])
+                    body = 'New {} did not have more rows than old. No changes made.'.format(mod_shared.glo_orderStatistics_file)
+                    print(sbj, body)
+                    mod_shared.sendEmail(sbj, body)
             else:
                 print(mod_shared.glo_orderStatistics_file, 'did not exist. Creating new file with dailyOrders_nordnet_list')
                 mod_shared.writeListToCsvFile(dailyOrders_nordnet_list, mod_shared.path_output + mod_shared.glo_orderStatistics_file)
@@ -1213,18 +1217,18 @@ def getDailyOrders_nordnet():
         if test_getDailyOrders_nordnet:
             print('TEST MODE: {}'.format(inspect.stack()[0][3]))
             temp_list = [
-            {'NAMESHORT_NORDNET': 'ARCT',
-              'TRADE_PRICE': 5,
-              'TRADE_TIME': '2018-05-27 16:37:37',
-              'TRADE_TYPE': 'SELL'},
-            {'NAMESHORT_NORDNET': 'SAVOS',
-              'TRADE_PRICE': 1.44,
-              'TRADE_TIME': '2018-05-27 16:22:52',
-              'TRADE_TYPE': 'SELL'},
-            {'NAMESHORT_NORDNET': 'STAR A',
+            # {'NAMESHORT_NORDNET': 'ARCT',
+            #   'TRADE_PRICE': 5,
+            #   'TRADE_TIME': '2018-05-27 16:37:37',
+            #   'TRADE_TYPE': 'SELL'},
+            # {'NAMESHORT_NORDNET': 'SAVOS',
+            #   'TRADE_PRICE': 1.44,
+            #   'TRADE_TIME': '2018-05-27 16:22:52',
+            #   'TRADE_TYPE': 'SELL'},
+            {'NAMESHORT_NORDNET': 'SALT B',
               'TRADE_PRICE': 99.8,
               'TRADE_TIME': '2018-05-27 16:22:52',
-              'TRADE_TYPE': 'SELL'}
+              'TRADE_TYPE': 'BUY'}
               ]
             for dict_item in temp_list:
                 dict_item[mod_shared.glo_colName_trade_time] = dict_item.get(mod_shared.glo_colName_trade_time).split()[0]
@@ -1306,6 +1310,8 @@ def getUpdatedOrderStatistics(orderStat_list, dailyOrders_nordnet_list):
                 # get key-values from dict_trade that are given from Nordnet
                 dict_trade_2 = {key:value for (key,value) in dict_trade.items() if key in excluded_keys_list}
                 dict_trade = {**dict_trade_1, **dict_trade_2}
+                temp_list.append(dict_trade)
+            else:
                 temp_list.append(dict_trade)
 
         for dict_trade in temp_list:
