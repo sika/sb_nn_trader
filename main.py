@@ -265,7 +265,6 @@ def setAndGetStockStatusFromNn():
 
         # get stocks with held and active info
         nNHeldAndActive_list = getStockStatus()
-
         # scenarios:
         # - not stocks found
         # - stocks found: non-existing in stocksToBuy_list
@@ -367,6 +366,7 @@ def isMaxStockHeldAndActive():
         currentNumberOfStocksActiveSell = getCurrentNumberOfStocksActiveSell()
         currentStockHeldAndActive = currentNumberOfStocksHeld + currentNumberOfStocksActiveBuy - currentNumberOfStocksActiveSell 
         if  currentStockHeldAndActive >= maxNumberOfStocks:
+            print('Max number of stocks already held or are active buys')
             return True
         else:
             return False
@@ -821,6 +821,7 @@ def scrapeSbForSignals_afterMarketIsClosed():
                     row[mod_shared.glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange]) 
 
             for dict_stock in stocks_for_action:
+                print(dict_stock[mod_shared.glo_colName_sbNameshort]) 
                 # check if already owning max amount of stocks
                 if not isMaxStockHeldAndActive():
                     nordnet_handleOrder_afterClosing(dict_stock, glo_sbSignalBuy)
@@ -950,7 +951,7 @@ def nordnet_handleOrder_afterClosing(dict_stock, sb_signal_type):
         if isDynamicPayloadOrderValid(payloadOrder_dynamic_dict):
             # merge payload
             payloadOrder = {**payloadOrder_staticValues_dict, **payloadOrder_dynamic_dict}
-            if test_abortOrder == True or test_overall == True:
+            if test_abortOrder == True:
                 print('Test mode: {}'.format(inspect.stack()[0][3]))
                 print('aborting nordnet order placement, BUT setting stockActiveTemp')
                 setStockActiveTemp(dict_stock.get(mod_shared.glo_colName_sbNameshort), sb_signal_type)
@@ -964,6 +965,9 @@ def nordnet_handleOrder_afterClosing(dict_stock, sb_signal_type):
             mod_shared.sendEmail(sbj, body)
     except Exception as e:
         mod_shared.errorHandler(e)
+
+    else:
+        return
 
 def isDynamicPayloadOrderValid(payloadOrder_dynamic_dict):
     try:
@@ -1297,6 +1301,8 @@ def getUpdatedOrderStatistics(orderStat_list, dailyOrders_nordnet_list):
                 end_value = float(dict_trade.get(mod_shared.glo_colName_trade_price))
                 percentage_change = round(mod_shared.getPercentChange(start_value, end_value), 2)
                 dict_trade[mod_shared.glo_colName_trade_percentChange] = percentage_change
+                # modify percent change with courtage cost
+                percentage_change -= mod_list.glo_costOfCourtage
                 
                 excluded_keys_list = [mod_shared.glo_colName_trade_percentChange,
                     mod_shared.glo_colName_trade_price,
@@ -1394,6 +1400,8 @@ while True and test_overall == False:
 
 if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
+    BP()
+    setAndGetStockStatusFromNn()
     BP()
     # scrapeSbForSignals_afterMarketIsClosed() 
     # scrapeSbForSignals_afterMarketIsClosed()
