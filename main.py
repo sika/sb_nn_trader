@@ -1301,7 +1301,7 @@ def getUpdatedOrderStatistics(orderStat_list, dailyOrders_nordnet_list):
                 excluded_keys_list = [mod_shared.glo_colName_trade_percentChange,
                     mod_shared.glo_colName_trade_price,
                     mod_shared.glo_colName_trade_type,
-                    mod_shared.glo_colName_trade_volume
+                    mod_shared.glo_colName_trade_time
                 ]
                 
                 # below in order to retain all values already existing from previous buys

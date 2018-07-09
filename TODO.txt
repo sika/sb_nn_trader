@@ -1,4 +1,5 @@
 - Use Stop-Loss
 - Record OMX daily percent change for reference in Order Statistics?
+- Ensure stock has been sold at sell order
 
 - På sikt: prova blankning?
