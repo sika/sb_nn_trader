@@ -82,7 +82,8 @@ glo_afterMarketHoursOpen = datetime.time(20,30)
 glo_afterMarketHoursClosed = datetime.time(21,00)
 
 # amount to deal with
-glo_currentNumberOfStocksHeld = glo_maxNumberOfStocks = glo_maxNumberOfActiveAboveMaxHeld = None # saftey reason: will not trade if something goes wrong
+glo_numberOfStocksHeld = glo_maxNumberOfStocks = glo_maxNumberOfActiveAboveMaxHeld = None # saftey reason: will not trade if something goes wrong
+glo_numberOfStocksActiveBuy = glo_numberOfStocksActiveSell = glo_activeBuy_temp = glo_activeSell_temp = 0
 glo_amountAvailable = glo_amountAvailableStatic = None
 
 # statistics
@@ -179,7 +180,6 @@ def getStockStatus():
     try:
         r, header, s = mod_shared.nordnetLogin() # login to nordnet
 
-        # test = True
         test = False
         
         # get HELD
@@ -265,6 +265,31 @@ def setAndGetStockStatusFromNn():
 
         # get stocks with held and active info
         nNHeldAndActive_list = getStockStatus()
+
+        # set stocks held
+        counter_held = 0
+        for heldAndActive_dict in nNHeldAndActive_list:
+            if mod_shared.glo_colName_amountHeld in heldAndActive_dict:
+                counter_held += 1
+        if counter_held:
+            setNumberOfStocksHeld(counter_held)
+
+        # set stocks active buy
+        counter_active_buy = 0
+        for heldAndActive_dict in nNHeldAndActive_list:
+            if heldAndActive_dict.get(mod_shared.glo_colName_active) == glo_status_value_activeBuy:
+                counter_active_buy += 1
+        if counter_active_buy:
+            setNumberOfStocksActiveBuy(counter_active_buy)
+
+        # set stock active sell
+        counter_active_sell = 0
+        for heldAndActive_dict in nNHeldAndActive_list:
+            if heldAndActive_dict.get(mod_shared.glo_colName_active) == glo_status_value_activeSell:
+                counter_active_sell += 1
+        if counter_active_sell:
+            setNumberOfStocksActiveSell(counter_active_sell)
+
         # scenarios:
         # - not stocks found
         # - stocks found: non-existing in stocksToBuy_list
@@ -341,6 +366,13 @@ def setStockActiveTemp(sbStockNameShort, sbActiveType):
                 row.update({mod_shared.glo_colName_activeTemp:sbActiveType})
                 print('stock was set ACTIVE_TEMP: {}'.format(sbActiveType))
         mod_shared.setListGlobal(glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)
+
+        # update number of temp active
+        if sbActiveType == glo_status_value_activeBuy:
+            incrActiveBuy_temp()
+        if sbActiveType == glo_status_value_activeSell:
+            incrActiveSell_temp()
+
     except Exception as e:
         mod_shared.errorHandler(e)
 
@@ -361,11 +393,21 @@ def isStockActiveTemp(sb_nameShort, sb_activeType):
 def isMaxStockHeldAndActive():
     try:
         maxNumberOfStocks = getMaxNumberOfStocks()
-        currentNumberOfStocksHeld = getCurrentNumberOfStocksHeld()
-        currentNumberOfStocksActiveBuy = getCurrentNumberOfStocksActiveBuy()
-        currentNumberOfStocksActiveSell = getCurrentNumberOfStocksActiveSell()
-        currentStockHeldAndActive = currentNumberOfStocksHeld + currentNumberOfStocksActiveBuy - currentNumberOfStocksActiveSell 
-        if  currentStockHeldAndActive >= maxNumberOfStocks:
+        numberOfStocksHeld = getNumberOfStocksHeld()
+        print('numberOfStocksHeld: {}'.format(numberOfStocksHeld))
+        numberOfStocksActiveBuy = getNumberOfStocksActiveBuy()
+        print('numberOfStocksActiveBuy: {}'.format(numberOfStocksActiveBuy))
+        numberOfStocksActiveSell = getNumberOfStocksActiveSell()
+        print('numberOfStocksActiveSell: {}'.format(numberOfStocksActiveSell))
+        numberOfStocksActiveBuy_temp = getNumberOfActiveBuy_temp()
+        print('numberOfStocksActiveBuy_temp: {}'.format(numberOfStocksActiveBuy_temp))
+        numberOfStocksActiveSell_temp = getNumberOfActiveSell_temp()
+        print('numberOfStocksActiveSell_temp: {}'.format(numberOfStocksActiveSell_temp))
+
+        stockHeldAndActive = numberOfStocksHeld + numberOfStocksActiveBuy + numberOfStocksActiveBuy_temp - numberOfStocksActiveSell - numberOfStocksActiveSell_temp
+        print('stockHeldAndActive: {}'.format(stockHeldAndActive))
+
+        if stockHeldAndActive >= maxNumberOfStocks:
             print('Max number of stocks already held or are active buys')
             return True
         else:
@@ -418,36 +460,83 @@ def getAmountAvailable():
     except Exception as e:
         mod_shared.errorHandler(e)
 
-def getCurrentNumberOfStocksHeld():
+def setNumberOfStocksHeld(numberHeld_int):
     try:
-        counter = 0
-        local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)
-        for row in local_glo_stockStatus_list:
-            if row.get(mod_shared.glo_colName_amountHeld) != glo_status_value_amountHeldDefault:
-                counter += 1
-        return counter
+        global glo_numberOfStocksHeld
+        glo_numberOfStocksHeld = numberHeld_int
     except Exception as e:
         mod_shared.errorHandler(e)
 
-def getCurrentNumberOfStocksActiveBuy():
+def getNumberOfStocksHeld():
     try:
-        counter = 0
-        local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)
-        for row in local_glo_stockStatus_list:
-            if row.get(mod_shared.glo_colName_activeTemp) == glo_status_value_activeBuy:
-                counter += 1
-        return counter
+        if glo_numberOfStocksHeld:
+            return glo_numberOfStocksHeld
+        else:
+            return 0
     except Exception as e:
         mod_shared.errorHandler(e)
 
-def getCurrentNumberOfStocksActiveSell():
+def setNumberOfStocksActiveBuy(numberActiveBuy_int):
     try:
-        counter = 0
-        local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)
-        for row in local_glo_stockStatus_list:
-            if row.get(mod_shared.glo_colName_activeTemp) == glo_status_value_activeSell:
-                counter += 1
-        return counter
+        global glo_numberOfStocksActiveBuy
+        glo_numberOfStocksActiveBuy = numberActiveBuy_int
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
+def getNumberOfStocksActiveBuy():
+    try:
+        if glo_numberOfStocksActiveBuy:
+            return glo_numberOfStocksActiveBuy
+        else:
+            return 0
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
+def setNumberOfStocksActiveSell(numberActiveSell_int):
+    try:
+        global glo_numberOfStocksActiveSell
+        glo_numberOfStocksActiveSell = numberActiveSell_int
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
+def getNumberOfStocksActiveSell():
+    try:
+        if glo_numberOfStocksActiveSell:
+            return glo_numberOfStocksActiveSell
+        else:
+            return 0
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
+def incrActiveBuy_temp():
+    try:
+        global glo_activeBuy_temp
+        glo_activeBuy_temp += 1
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
+def getNumberOfActiveBuy_temp():
+    try:
+        if glo_activeBuy_temp:
+            return glo_activeBuy_temp
+        else:
+            return 0
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
+def incrActiveSell_temp():
+    try:
+        global glo_activeSell_temp
+        glo_activeSell_temp += 1
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
+def getNumberOfActiveSell_temp():
+    try:
+        if glo_activeSell_temp:
+            return glo_activeSell_temp
+        else:
+            return 0
     except Exception as e:
         mod_shared.errorHandler(e)
 
@@ -485,7 +574,7 @@ def getNnStockVolume(orderNnValuePriceStr):
         amountAvailableInt = getAmountAvailable()
         maxNumberOfStocksInt = getMaxNumberOfStocks()
         maxNumberOfActiveAboveMaxHeldInt = getMaxNumberOfActiveAboveMaxHeld() # to have loose cash to pay stock if both sell and buy at same time
-        currentNumberOfTotalHeldAndActive = getCurrentNumberOfStocksHeld() + getCurrentNumberOfStocksActiveBuy() - getCurrentNumberOfStocksActiveSell()
+        currentNumberOfTotalHeldAndActive = getNumberOfStocksHeld() + getNumberOfStocksActiveBuy() - getNumberOfStocksActiveSell()
         orderNnValuePriceFloat = float(orderNnValuePriceStr)
         orderNnValueVolumeStr = str(int(amountAvailableInt / (maxNumberOfStocksInt + maxNumberOfActiveAboveMaxHeldInt - currentNumberOfTotalHeldAndActive) / orderNnValuePriceFloat))
 
@@ -609,6 +698,19 @@ def resetTempActive():
     except Exception as e:
         mod_shared.errorHandler(e)   
 
+def resetActiveTrade():
+    print (inspect.stack()[0][3])
+    try:
+        global glo_numberOfStocksActiveBuy
+        global glo_numberOfStocksActiveSell
+        global glo_activeBuy_temp
+        global glo_activeSell_temp
+
+        glo_numberOfStocksActiveBuy = glo_numberOfStocksActiveSell = glo_activeBuy_temp = glo_activeSell_temp = 0
+
+    except Exception as e:
+        mod_shared.errorHandler(e)   
+
 def resetDaily():
     print (inspect.stack()[0][3])
     print(mod_shared.getTimestampStr())
@@ -621,6 +723,8 @@ def resetDaily():
         checkIfStockListNeedUpdating()
         # reset error counter
         mod_shared.resetCounterError()
+        # reset active buy/sell
+        resetActiveTrade()
     except Exception as e:
         mod_shared.errorHandler(e)
 
@@ -1384,7 +1488,7 @@ schedule.every().day.at("22:00").do(resetDaily)
 # for surverying script (in case of crash)
 createPidFile(mod_shared.path_input_monitorProcess, mod_shared.glo_pid_file)
 
-setMaxNumberOfStocks(7)
+setMaxNumberOfStocks(12)
 setMaxNumberOfActiveAboveMaxHeld(2)
 
 # Comment out to use real value
@@ -1402,6 +1506,7 @@ if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
     BP()
     setAndGetStockStatusFromNn()
+    isMaxStockHeldAndActive()
     BP()
     # scrapeSbForSignals_afterMarketIsClosed() 
     # scrapeSbForSignals_afterMarketIsClosed()

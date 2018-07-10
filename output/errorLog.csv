@@ -53,3 +53,6 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-07-04;23:10;Wednesday;2;main.py;setOrderStatistics;1197;object of type 'NoneType' has no len()
 2018-07-05;16:50;Thursday;1;main.py;setOrderStatistics;1199;name 'mod_shared' is not defined
 2018-07-05;16:58;Thursday;1;main.py;setOrderStatistics;1206;name 'shared' is not defined
+2018-07-10;18:11;Tuesday;1;main.py;setAndGetStockStatusFromNn;269;name 'HeldAndActive_list' is not defined
+2018-07-10;18:11;Tuesday;1;main.py;getCurrentNumberOfStocksHeld;437;name 'currentNumberOfStocksHeld' is not defined
+2018-07-10;18:59;Tuesday;1;main.py;incrActiveBuy_temp;514;unsupported operand type(s) for +=: 'NoneType' and 'int'
