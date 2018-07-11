@@ -709,7 +709,7 @@ def resetActiveTrade():
         glo_numberOfStocksActiveBuy = glo_numberOfStocksActiveSell = glo_activeBuy_temp = glo_activeSell_temp = 0
 
     except Exception as e:
-        mod_shared.errorHandler(e)   
+        mod_shared.errorHandler(e)
 
 def resetDaily():
     print (inspect.stack()[0][3])
@@ -1477,7 +1477,7 @@ def incr_scrapeSbForSignalsAfterMarketIsClosed_counter():
     except Exception as e:
         mod_shared.errorHandler(e)
 
-schedule.every().day.at("19:30").do(scrapeSbForSignals_afterMarketIsClosed) 
+schedule.every().day.at("19:45").do(scrapeSbForSignals_afterMarketIsClosed) 
 schedule.every().day.at("20:30").do(scrapeSbForSignals_afterMarketIsClosed)
 # get and set stats of closed orders
 schedule.every().day.at("21:30").do(setOrderStatistics)
@@ -1488,7 +1488,7 @@ schedule.every().day.at("22:00").do(resetDaily)
 # for surverying script (in case of crash)
 createPidFile(mod_shared.path_input_monitorProcess, mod_shared.glo_pid_file)
 
-setMaxNumberOfStocks(12)
+setMaxNumberOfStocks(10)
 setMaxNumberOfActiveAboveMaxHeld(2)
 
 # Comment out to use real value

@@ -31,7 +31,7 @@ glo_sb_history_signal = 'signal'
 
 glo_colValue_notAvailable = 'N/A'
 
-glo_test_bool = True
+glo_test_bool = False
 glo_test_str = 'test-'
 glo_stockInfo_test_file = 'stock-info-raw-1.csv'
 

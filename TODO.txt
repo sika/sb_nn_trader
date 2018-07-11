@@ -1,8 +1,6 @@
-- check (and fix  if needed) "for dict_stock in stocks_for_action:"-part (make sure loops)
-- Fix isMaxStockHeldAndActive() (getCurrentNumberOfStocksHeld, maybe more, returns 0)
-
-- Use Stop-Loss
 - Record OMX daily percent change for reference in Order Statistics?
 - Ensure stock has been sold at sell order
 
+- Autostarta script vid start på PI (prova ACTIONAZ) eller ordna online
 - På sikt: prova blankning?
+- Use Stop-Loss?
