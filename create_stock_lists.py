@@ -182,7 +182,7 @@ def getStocksFromSb(stockInfo_list):
                     percent_correct_6 = percent_correct_12 = percent_correct_24 = percent_average = value_average = price_last_close = ''
 
                     try:
-                        price_last_close = float(soup.find(id='MainContent_lastpriceboxsub').get_text(strip=True).replace(',', ''))
+                        price_last_close = float(soup.find(id='MainContent_real_lastpriceboxsub').get_text(strip=True).replace(',', ''))
                     except Exception as e:
                         print('price_last_close FAILED')
                         mod_shared.errorHandler(e)

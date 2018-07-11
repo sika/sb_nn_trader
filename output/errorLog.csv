@@ -56,3 +56,4 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-07-10;18:11;Tuesday;1;main.py;setAndGetStockStatusFromNn;269;name 'HeldAndActive_list' is not defined
 2018-07-10;18:11;Tuesday;1;main.py;getCurrentNumberOfStocksHeld;437;name 'currentNumberOfStocksHeld' is not defined
 2018-07-10;18:59;Tuesday;1;main.py;incrActiveBuy_temp;514;unsupported operand type(s) for +=: 'NoneType' and 'int'
+2018-07-12;01:01;Thursday;1;/mnt/e/Dokument/Dropbox/development/sb_nn_trader/create_stock_lists.py;getStocksFromSb;185;'NoneType' object has no attribute 'get_text'
