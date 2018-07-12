@@ -1,5 +1,8 @@
+- Make sure stocks do NOT sell at less than 10% below closing (not allowed)
 - Record OMX daily percent change for reference in Order Statistics?
 - Ensure stock has been sold at sell order
+- find a way to sell stocks which have risen very high (before they go down again) (compare with stats?)
+
 
 - Autostarta script vid start på PI (prova ACTIONAZ) eller ordna online
 - På sikt: prova blankning?

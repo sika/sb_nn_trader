@@ -131,7 +131,7 @@ glo_sbLoginFormSubmit = 'ctl00$MainContent$btnSubmit'
 glo_clearWatchlist = 'ctl00$MainContent$DeleteAll'
 
 glo_counter_error = 0
-glo_sellPercentageSubtraction = 8
+glo_sellPercentageSubtraction = 7 # max percent change low seems to be 10%
 
 def errorHandler(e_msg):
     try:
