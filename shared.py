@@ -131,7 +131,8 @@ glo_sbLoginFormSubmit = 'ctl00$MainContent$btnSubmit'
 glo_clearWatchlist = 'ctl00$MainContent$DeleteAll'
 
 glo_counter_error = 0
-glo_sellPercentageSubtraction = 7 # max percent change low seems to be 10%
+# max percent change low seems to be 10%
+glo_sellPercentageSubtraction = 9.8
 
 def errorHandler(e_msg):
     try:
@@ -505,7 +506,7 @@ def requests_retry_session(retries=3, backoff_factor=0.3, session=None):
     except Exception as e:
         mod_shared.errorHandler(e)
 
-def getPercentChange(start_value, end_value):
+def getPercentChange(start_value, end_value): # float, float
     try:
         # positive result: end_value is higher than start_value
         return ((end_value - start_value) / start_value)*100

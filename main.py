@@ -872,6 +872,7 @@ def scrapeSbForSignals_afterMarketIsClosed():
                             if not isStockActive(sb_nameShort, signal_type) and not isStockActiveTemp(sb_nameShort, signal_type):
                                 if signal_type == glo_sbSignalBuy:
                                     if (
+                                        print('checking BUY')
                                         # not if already owning stock
                                         not isStockHeld(sb_nameShort) and
                                         isStockFulfillingBuyRequirements(dict_stock, signal_priceIntraday)
@@ -887,6 +888,7 @@ def scrapeSbForSignals_afterMarketIsClosed():
 
                                 elif signal_type == glo_sbSignalSell:
                                     if (
+                                        print('checking SELL')
                                         isStockHeld(sb_nameShort)
                                         ):
                                         print ('{}: {}'.format(nn_nameShort, signal_type))
@@ -1158,30 +1160,42 @@ def formatNnStockPriceForSell(nn_price_str, sellDecimalSubtraction_float):
 
 def formatNnStockPriceForSell_rev(nn_price_str, sellDecimalSubtraction_float):
     try:
-        nn_price_float = float(nn_price_str)
-        nn_price_float = nn_price_float * (1-sellDecimalSubtraction_float)
+        nn_price_float_org = float(nn_price_str)
+        nn_price_float_rev = nn_price_float_org * (1-sellDecimalSubtraction_float)
 
-        if 20 <= nn_price_float:
-            # print('20 <= nn_price_float')
+        if 20 <= nn_price_float_rev:
+            # print('20 <= nn_price_float_rev')
             decimals = 0
             # print('decimals: {}'.format(decimals))
-        elif 5 <= nn_price_float < 20:
-            # print('5 <= nn_price_float < 20')
+        elif 5 <= nn_price_float_rev < 20:
+            # print('5 <= nn_price_float_rev < 20')
             decimals = 1
             # print('decimals: {}'.format(decimals))
-        elif 0.2 <= nn_price_float < 5:
-            # print('5 <= nn_price_float < 20')
+        elif 0.2 <= nn_price_float_rev < 5:
+            # print('5 <= nn_price_float_rev < 20')
             decimals = 2
             # print('decimals: {}'.format(decimals))
-        elif nn_price_float < 0.2:
-            # print('5 <= nn_price_float < 20')
+        elif nn_price_float_rev < 0.2:
+            # print('5 <= nn_price_float_rev < 20')
             decimals = 3
             # print('decimals: {}'.format(decimals))
 
         if decimals == 0:
-            return str(int(math.floor(nn_price_float*pow(10,decimals))/pow(10,decimals)))
+            high = int(math.ceil(nn_price_float_rev*pow(10,decimals))/pow(10,decimals))
+            low = int(math.floor(nn_price_float_rev*pow(10,decimals))/pow(10,decimals))
+            # return the lowest number of it is larger than the set limit
+            if mod_shared.getPercentChange(nn_price_float_org, low) > -(1*mod_shared.glo_sellPercentageSubtraction):
+                return str(low)
+            else:
+                return str(high)
+            # return str(int(math.ceil(nn_price_float*pow(10,decimals))/pow(10,decimals)))
         else:
-            return str(math.floor(nn_price_float*pow(10,decimals))/pow(10,decimals))
+            high = math.ceil(nn_price_float_rev*pow(10,decimals))/pow(10,decimals)
+            low = math.floor(nn_price_float_rev*pow(10,decimals))/pow(10,decimals)
+            if mod_shared.getPercentChange(nn_price_float_org, low) > -(1*mod_shared.glo_sellPercentageSubtraction):
+                return str(low)
+            else:
+                return str(high)
     except Exception as e:
         mod_shared.errorHandler(e)
 
