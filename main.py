@@ -872,7 +872,6 @@ def scrapeSbForSignals_afterMarketIsClosed():
                             if not isStockActive(sb_nameShort, signal_type) and not isStockActiveTemp(sb_nameShort, signal_type):
                                 if signal_type == glo_sbSignalBuy:
                                     if (
-                                        print('checking BUY')
                                         # not if already owning stock
                                         not isStockHeld(sb_nameShort) and
                                         isStockFulfillingBuyRequirements(dict_stock, signal_priceIntraday)
@@ -888,7 +887,6 @@ def scrapeSbForSignals_afterMarketIsClosed():
 
                                 elif signal_type == glo_sbSignalSell:
                                     if (
-                                        print('checking SELL')
                                         isStockHeld(sb_nameShort)
                                         ):
                                         print ('{}: {}'.format(nn_nameShort, signal_type))
