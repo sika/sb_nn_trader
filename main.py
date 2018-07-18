@@ -255,10 +255,18 @@ def getStockStatus():
     except Exception as e:
         mod_shared.errorHandler(e)
 
+def formatStrToFloat(arg_str):
+    try:
+        # remove spaces and convert ',' to '.'. E.g., '2 245,55' -> 2245.55
+        return float(arg_str.replace(",", ".").replace(" ", ""))
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
 def setAndGetStockStatusFromNn():
     try:
         nNAmountAvailable_str = getAmountAvailableFromNn()
-        setAmountAvailable(int(float(nNAmountAvailable_str)))
+        nNAmountAvailable_float = formatStrToFloat(nNAmountAvailable_str)
+        setAmountAvailable(int(nNAmountAvailable_float))
         
         stocksToBuy_list = mod_shared.getListFromFile(mod_shared.path_input_main, mod_shared.glo_stockToBuy_file)
         stocksToBuy_list = resetStockStatus(stocksToBuy_list) # set default values to ACTIVE, AMOUNT_HELD etc
@@ -1505,8 +1513,11 @@ while True and test_overall == False:
 if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
     BP()
+    # scrapeSbForSignals_afterMarketIsClosed()
+    # resetDaily()
     setAndGetStockStatusFromNn()
-    isMaxStockHeldAndActive()
+    getAmountAvailable()
+    # isMaxStockHeldAndActive()
     BP()
     # scrapeSbForSignals_afterMarketIsClosed() 
     # scrapeSbForSignals_afterMarketIsClosed()
