@@ -803,7 +803,7 @@ def askIfToRerunStockFile():
 def scrapeSbForSignals_afterMarketIsClosed():
     print(inspect.stack()[0][3])
     try:
-        print('\t'.format(mod_shared.getTimestampStr()))
+        print('\t{}'.format(mod_shared.getTimestampStr()))
         # if first time function is running after resetTempActive, get active and held from Nordnet. Otherwise tempActive applies
         if glo_scrapeSbForSignalsAfterMarketIsClosed_counter == 0:
             print('\tGetting active and held from Nordnet')
@@ -875,6 +875,8 @@ def scrapeSbForSignals_afterMarketIsClosed():
                             # set 'SHORT' to 'SELL'
                             if signal_type == glo_sbSignalShort:
                                 signal_type = glo_sbSignalSell
+
+                            print(signal_type)
 
                             sb_nameShort = dict_stock.get(mod_shared.glo_colName_sbNameshort)
                             nn_nameShort = dict_stock.get(mod_shared.glo_colName_nameShortNordnet)
@@ -962,12 +964,13 @@ def isStockFulfillingBuyRequirements(dict_stockStatus, signal_priceIntraday):
             # check nordnet for latest price
             nn_priceClosing = getNnStockPrice(dict_stockStatus.get(mod_shared.glo_colName_url_nn))
             intradayClosing_percentChange = mod_shared.getPercentChange(float(signal_priceIntraday), float(nn_priceClosing)) # start value, end value
-            if intradayClosing_percentChange <= float(dict_stockStatus.get(mod_shared.glo_colName_median_buy_intradayClosingChange_percent)):
+            median_buy_intradayClosingChange_percent = float(dict_stockStatus.get(mod_shared.glo_colName_median_buy_intradayClosingChange_percent))
+            if intradayClosing_percentChange <= median_buy_intradayClosingChange_percent:
                 return True
     except Exception as e:
         mod_shared.errorHandler(e)
     else:
-        print('\t intradayClosing_percentChange ({}) was higher than MEDIAN_BUY_INTRADAY-CLOSING-CHANGE_PERCENT ({})'.format(intradayClosing_percentChange, mod_shared.glo_colName_median_buy_intradayClosingChange_percent))
+        print('\t intradayClosing_percentChange ({}) was higher than MEDIAN_BUY_INTRADAY-CLOSING-CHANGE_PERCENT ({})'.format(intradayClosing_percentChange, median_buy_intradayClosingChange_percent))
         return False
 
 def getNnStockPrice(nn_url):
