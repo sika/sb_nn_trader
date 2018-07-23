@@ -177,6 +177,7 @@ def getRemovalList(list_to_keep, list_to_remove, key_selector):
         mod_shared.errorHandler(e)
 
 def getStockStatus():
+    print(inspect.stack()[0][3])
     try:
         r, header, s = mod_shared.nordnetLogin() # login to nordnet
 
@@ -185,7 +186,7 @@ def getStockStatus():
         # get HELD
         temp_nNHeld_list = []
         if test:
-            print('TEST MODE: {}'.format(inspect.stack()[0][3]))
+            print('\tTEST MODE: {}'.format(inspect.stack()[0][3]))
             temp_nNHeld_dict = OrderedDict()
             temp_nNHeld_dict[mod_shared.glo_colName_nameNordnet] = 'Copperstone Resources AB ser. B'
             temp_nNHeld_dict[mod_shared.glo_colName_amountHeld] = '100'
@@ -326,7 +327,7 @@ def setAndGetStockStatusFromNn():
         mod_shared.errorHandler(e)
 
 def resetStockStatus(stockStatus_list):
-    print ('\n', inspect.stack()[0][3])
+    print(inspect.stack()[0][3])
     try:
         for row in stockStatus_list:
             row[mod_shared.glo_colName_active] = glo_status_value_activeDefault
@@ -339,40 +340,42 @@ def resetStockStatus(stockStatus_list):
         mod_shared.errorHandler(e)
 
 def isStockHeld(sbStockNameShort):
+    print(inspect.stack()[0][3])
     try:
         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)
         for row in local_glo_stockStatus_list:
             if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort and row.get(mod_shared.glo_colName_amountHeld) != glo_status_value_amountHeldDefault:
                 return True
-        print('stock NOT held')
+        print('\tstock NOT held')
         return False # if no match
     except Exception as e:
         mod_shared.errorHandler(e)
 
 def isStockActive(sbStockNameShort, sbActiveType):
+    print(inspect.stack()[0][3])
     try:
         local_glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)
         for row in local_glo_stockStatus_list:
             if sbActiveType == glo_sbSignalBuy:
                 if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort and row.get(mod_shared.glo_colName_active) == glo_status_value_activeBuy:
-                    print('stock is ACTIVE: {}'.format(sbActiveType))
+                    print('\tstock is ACTIVE: {}'.format(sbActiveType))
                     return True
             elif sbActiveType == glo_sbSignalSell:
                 if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort and row.get(mod_shared.glo_colName_active) == glo_status_value_activeSell:
-                    print('stock is ACTIVE: {}'.format(sbActiveType))
+                    print('\tstock is ACTIVE: {}'.format(sbActiveType))
                     return True
         return False # if no match
     except Exception as e:
         mod_shared.errorHandler(e)
 
 def setStockActiveTemp(sbStockNameShort, sbActiveType):
-    print ('\n', inspect.stack()[0][3])
+    print(inspect.stack()[0][3])
     try:
         glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)
         for row in glo_stockStatus_list:
             if row.get(mod_shared.glo_colName_sbNameshort) == sbStockNameShort:
                 row.update({mod_shared.glo_colName_activeTemp:sbActiveType})
-                print('stock was set ACTIVE_TEMP: {}'.format(sbActiveType))
+                print('\tstock was set ACTIVE_TEMP: {}'.format(sbActiveType))
         mod_shared.setListGlobal(glo_stockStatus_list, mod_shared.glo_stockStatus_list_name)
 
         # update number of temp active
@@ -385,38 +388,40 @@ def setStockActiveTemp(sbStockNameShort, sbActiveType):
         mod_shared.errorHandler(e)
 
 def isStockActiveTemp(sb_nameShort, sb_activeType):
+    print(inspect.stack()[0][3])
     try:
         glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)
         for dict_stock in glo_stockStatus_list:
             if dict_stock.get(mod_shared.glo_colName_sbNameshort) == sb_nameShort and dict_stock.get(mod_shared.glo_colName_activeTemp) == glo_status_value_activeBuy:
-                print('stock {} is ACTIVE_TEMP: {}'.format(sb_nameShort, sb_activeType))
+                print('\tstock {} is ACTIVE_TEMP: {}'.format(sb_nameShort, sb_activeType))
                 return True
             if dict_stock.get(mod_shared.glo_colName_sbNameshort) == sb_nameShort and dict_stock.get(mod_shared.glo_colName_activeTemp) == glo_status_value_activeSell:
-                print('stock {} is ACTIVE_TEMP: {}'.format(sb_nameShort, sb_activeType))
+                print('\tstock {} is ACTIVE_TEMP: {}'.format(sb_nameShort, sb_activeType))
                 return True
         return False # if no match
     except Exception as e:
         mod_shared.errorHandler(e)
 
 def isMaxStockHeldAndActive():
+    print(inspect.stack()[0][3])
     try:
         maxNumberOfStocks = getMaxNumberOfStocks()
         numberOfStocksHeld = getNumberOfStocksHeld()
-        print('numberOfStocksHeld: {}'.format(numberOfStocksHeld))
+        print('\tnumberOfStocksHeld: {}'.format(numberOfStocksHeld))
         numberOfStocksActiveBuy = getNumberOfStocksActiveBuy()
-        print('numberOfStocksActiveBuy: {}'.format(numberOfStocksActiveBuy))
+        print('\tnumberOfStocksActiveBuy: {}'.format(numberOfStocksActiveBuy))
         numberOfStocksActiveSell = getNumberOfStocksActiveSell()
-        print('numberOfStocksActiveSell: {}'.format(numberOfStocksActiveSell))
+        print('\tnumberOfStocksActiveSell: {}'.format(numberOfStocksActiveSell))
         numberOfStocksActiveBuy_temp = getNumberOfActiveBuy_temp()
-        print('numberOfStocksActiveBuy_temp: {}'.format(numberOfStocksActiveBuy_temp))
+        print('\tnumberOfStocksActiveBuy_temp: {}'.format(numberOfStocksActiveBuy_temp))
         numberOfStocksActiveSell_temp = getNumberOfActiveSell_temp()
-        print('numberOfStocksActiveSell_temp: {}'.format(numberOfStocksActiveSell_temp))
+        print('\tnumberOfStocksActiveSell_temp: {}'.format(numberOfStocksActiveSell_temp))
 
         stockHeldAndActive = numberOfStocksHeld + numberOfStocksActiveBuy + numberOfStocksActiveBuy_temp - numberOfStocksActiveSell - numberOfStocksActiveSell_temp
-        print('stockHeldAndActive: {}'.format(stockHeldAndActive))
+        print('\tstockHeldAndActive: {}'.format(stockHeldAndActive))
 
         if stockHeldAndActive >= maxNumberOfStocks:
-            print('Max number of stocks already held or are active buys')
+            print('\tMax number of stocks already held or are active buys')
             return True
         else:
             return False
@@ -424,7 +429,7 @@ def isMaxStockHeldAndActive():
         mod_shared.errorHandler(e)
 
 def setAmountAvailable(amountInt):
-    print ('\n', inspect.stack()[0][3])
+    print(inspect.stack()[0][3])
     try:
         global glo_amountAvailable
         glo_amountAvailable = amountInt
@@ -432,15 +437,16 @@ def setAmountAvailable(amountInt):
         mod_shared.errorHandler(e)
 
 def setAmountAvailableStatic(amountInt):
+    print(inspect.stack()[0][3])
     try:
         global glo_amountAvailableStatic
         glo_amountAvailableStatic = amountInt
-        print('{}: {}'.format(inspect.stack()[0][3], amountInt))
+        print('\t{}: {}'.format(inspect.stack()[0][3], amountInt))
     except Exception as e:
         mod_shared.errorHandler(e)
 
 def updateAmountAvailable(sbSignalType, payloadOrder):
-    print ('\n', inspect.stack()[0][3])
+    print(inspect.stack()[0][3])
     try:
         global glo_amountAvailable
         global glo_amountAvailableStatic
@@ -549,10 +555,11 @@ def getNumberOfActiveSell_temp():
         mod_shared.errorHandler(e)
 
 def setMaxNumberOfStocks(numberOfStocksInt):
+    print(inspect.stack()[0][3])
     try:
         global glo_maxNumberOfStocks
         glo_maxNumberOfStocks = numberOfStocksInt
-        print('{}: {}'.format(inspect.stack()[0][3], numberOfStocksInt))
+        print('\t{}: {}'.format(inspect.stack()[0][3], numberOfStocksInt))
     except Exception as e:
         mod_shared.errorHandler(e)
 
@@ -563,10 +570,11 @@ def getMaxNumberOfStocks():
         mod_shared.errorHandler(e)
 
 def setMaxNumberOfActiveAboveMaxHeld(numberOfStocksInt):
+    print(inspect.stack()[0][3])
     try:
         global glo_maxNumberOfActiveAboveMaxHeld
         glo_maxNumberOfActiveAboveMaxHeld = numberOfStocksInt
-        print('{}: {}'.format(inspect.stack()[0][3], numberOfStocksInt))
+        print('\t{}: {}'.format(inspect.stack()[0][3], numberOfStocksInt))
     except Exception as e:
         mod_shared.errorHandler(e)
 
@@ -733,6 +741,7 @@ def resetDaily():
         mod_shared.resetCounterError()
         # reset active buy/sell
         resetActiveTrade()
+        print('----------------------------------END OF DAY----------------------------------\n')
     except Exception as e:
         mod_shared.errorHandler(e)
 
@@ -792,16 +801,16 @@ def askIfToRerunStockFile():
         mod_shared.errorHandler(e)   
 
 def scrapeSbForSignals_afterMarketIsClosed():
-    print('\n',inspect.stack()[0][3])
+    print(inspect.stack()[0][3])
     try:
-        print(mod_shared.getTimestampStr())
+        print('\t'.format(mod_shared.getTimestampStr()))
         # if first time function is running after resetTempActive, get active and held from Nordnet. Otherwise tempActive applies
         if glo_scrapeSbForSignalsAfterMarketIsClosed_counter == 0:
-            print('Getting active and held from Nordnet')
+            print('\tGetting active and held from Nordnet')
             stockStatus_list = setAndGetStockStatusFromNn()
             mod_shared.setListGlobal(stockStatus_list, mod_shared.glo_stockStatus_list_name)
         else:
-            print('glo_scrapeSbForSignalsAfterMarketIsClosed_counter was not zero (it was {}), using tempActive'.format(glo_scrapeSbForSignalsAfterMarketIsClosed_counter))
+            print('\tglo_scrapeSbForSignalsAfterMarketIsClosed_counter was not zero (it was {}), using tempActive'.format(glo_scrapeSbForSignalsAfterMarketIsClosed_counter))
 
         glo_stockStatus_list = mod_shared.getGlobalList(mod_shared.glo_stockStatus_list_name)
         stocks_for_action = []
@@ -810,10 +819,10 @@ def scrapeSbForSignals_afterMarketIsClosed():
         signalListTable_delta = 0 # 0 will pick first row in sb signal list table; 1 second row and so on
         breakAtFirstBuy = False
         if dayDelta != 0 or breakAtFirstBuy != False or signalListTable_delta != 0:
-            print('TEST MODE: {}'.format(inspect.stack()[0][3]))
-            print('dayDelta: {} (date: {})'.format(dayDelta, mod_shared.getDate_deltaToday_customFormat_str(dayDelta, "%d.%m.%Y")))
-            print('signalListTable_delta: {}'.format(signalListTable_delta))
-            print('breakAtFirstBuy: {}'.format(breakAtFirstBuy))
+            print('\tTEST MODE: {}'.format(inspect.stack()[0][3]))
+            print('\tdayDelta: {} (date: {})'.format(dayDelta, mod_shared.getDate_deltaToday_customFormat_str(dayDelta, "%d.%m.%Y")))
+            print('\tsignalListTable_delta: {}'.format(signalListTable_delta))
+            print('\tbreakAtFirstBuy: {}'.format(breakAtFirstBuy))
         
         requests_should_retry = True
         attempts_counter = 0
@@ -823,18 +832,18 @@ def scrapeSbForSignals_afterMarketIsClosed():
             # empty failed stock list before each attempt
             stocks_failed_list = []
 
-            print('scraping for new signals...')
+            print('\tscraping for new signals...')
             for dict_stock in glo_stockStatus_list:
-                print('\n{}/{}: {}'.format(counter, len(glo_stockStatus_list), dict_stock.get(mod_shared.glo_colName_sbNameshort)))
+                print('\t\n{}/{}: {}'.format(counter, len(glo_stockStatus_list), dict_stock.get(mod_shared.glo_colName_sbNameshort)))
                 counter += 1
                 try:
                     r = mod_shared.requests_retry_session().get(dict_stock.get(mod_shared.glo_colName_url_sb))
                     if r.status_code != 200:
-                        print('URL request FAILED')
-                        print('r.status_code did not return 200')
-                        print('status_code:', r.status_code)
-                        print('text:', r.text[:150])
-                        print('adding to stocks_failed_list')
+                        print('\tURL request FAILED')
+                        print('\tr.status_code did not return 200')
+                        print('\tstatus_code:', r.status_code)
+                        print('\ttext:', r.text[:150])
+                        print('\tadding to stocks_failed_list')
                         dict_stock[glo_key_statusCode] = r.status_code
                         dict_stock[glo_key_statusText] = r.text[:150]
                         stocks_failed_list.append(dict_stock)
@@ -842,7 +851,7 @@ def scrapeSbForSignals_afterMarketIsClosed():
                         continue
                 except Exception as e:
                     # mod_shared.errorHandler(e)
-                    print('Exception raised. Adding to stocks_failed_list')
+                    print('\tException raised. Adding to stocks_failed_list')
                     dict_stock[glo_key_errorMsg] = str(e)
                     dict_stock[glo_key_errorLine] = format(sys.exc_info()[-1].tb_lineno)
                     dict_stock[glo_key_errorFunction] = inspect.stack()[0][3]
@@ -893,21 +902,24 @@ def scrapeSbForSignals_afterMarketIsClosed():
                                         nordnet_handleOrder_afterClosing(dict_stock, signal_type)
                     else:
                         # no 24 month signal list returned, continuing with next stock.
-                        print('- stock', dict_stock.get(mod_shared.glo_colName_sbNameshort), '(', dict_stock.get(mod_shared.glo_colName_url_sb), ') did NOT return a 24 month signal list table: Continuing with next stock.')
+                        print('\tstock', dict_stock.get(mod_shared.glo_colName_sbNameshort), '(', dict_stock.get(mod_shared.glo_colName_url_sb), ') did NOT return a 24 month signal list table: Continuing with next stock.')
+                        sbj = 'Stock {} did NOT return a 24 month signal list table: Continuing with next stock'.format(mod_shared.glo_colName_sbNameshort)
+                        body = 'Function: {}'.format(inspect.stack()[1][3])
+                        mod_shared.sendEmail(sbj, body)
                         continue
             # END 'for dict_stock in glo_stockStatus_list'
             # If stocks failed: first attempt
             if stocks_failed_list and attempts_counter < max_attempts:
-                print('\nStocks failed:')
+                print('\t\nStocks failed:')
                 for stock_failed in stocks_failed_list:
                     print(stock_failed.get(mod_shared.glo_colName_sbNameshort))
-                print('trying again...')
+                print('\ttrying again...')
                 # below will make content of stocks_failed_list run in next loop scraping SB 
                 glo_stockStatus_list = stocks_failed_list
             # if stocks failed after max attempts
             elif stocks_failed_list and requests_should_retry:
-                print('\nStocks failed AGAIN:')
-                print('Max attempts exceeded ({}), will NOT try again'.format(max_attempts))
+                print('\t\nStocks failed AGAIN:')
+                print('\tMax attempts exceeded ({}), will NOT try again'.format(max_attempts))
                 for stock_failed in stocks_failed_list:
                     print(stock_failed.get(mod_shared.glo_colName_sbNameshort))
                 emailBodyInPformat = getStockFailedMessageForEmail(stocks_failed_list)
@@ -925,7 +937,7 @@ def scrapeSbForSignals_afterMarketIsClosed():
             stocks_for_action = sorted(stocks_for_action, 
             key=lambda k: k[mod_shared.glo_colName_median_buyAndFailKeyValue_and_median_buyAndSellIntradayClosingPercentChange], 
             reverse=True) # (list to sort; column to sort on; order)
-            print('\nbuy list order:')
+            print('\t\nbuy list order:')
             for row in stocks_for_action:
                 print(row[mod_shared.glo_colName_sbNameshort],':', 
                     row[mod_shared.glo_colName_stockToBuy_group],':', 'price:',
@@ -943,6 +955,7 @@ def scrapeSbForSignals_afterMarketIsClosed():
         mod_shared.errorHandler(e)
 
 def isStockFulfillingBuyRequirements(dict_stockStatus, signal_priceIntraday):
+    print(inspect.stack()[0][3])
     try:
         # Buy only if intraday-closing percent change is less than MEDIAN_BUY_INTRADAY-CLOSING-CHANGE_PERCENT
         if dict_stockStatus.get(mod_shared.glo_colName_stockToBuy_group) == mod_shared.glo_value_group_1:
@@ -951,10 +964,10 @@ def isStockFulfillingBuyRequirements(dict_stockStatus, signal_priceIntraday):
             intradayClosing_percentChange = mod_shared.getPercentChange(float(signal_priceIntraday), float(nn_priceClosing)) # start value, end value
             if intradayClosing_percentChange <= float(dict_stockStatus.get(mod_shared.glo_colName_median_buy_intradayClosingChange_percent)):
                 return True
-
     except Exception as e:
         mod_shared.errorHandler(e)
     else:
+        print('\t intradayClosing_percentChange ({}) was higher than MEDIAN_BUY_INTRADAY-CLOSING-CHANGE_PERCENT ({})'.format(intradayClosing_percentChange, mod_shared.glo_colName_median_buy_intradayClosingChange_percent))
         return False
 
 def getNnStockPrice(nn_url):
@@ -1037,6 +1050,7 @@ def getPayloadOrder_dynamic_sell(dict_stock, nn_priceClosing_str):
         return payloadOrder_dynamic_dict
 
 def nordnet_handleOrder_afterClosing(dict_stock, sb_signal_type):
+    print(inspect.stack()[0][3])
     try:
         test_abortOrder = False
 
@@ -1056,7 +1070,7 @@ def nordnet_handleOrder_afterClosing(dict_stock, sb_signal_type):
             payloadOrder_dynamic_dict = getPayloadOrder_dynamic_buy(dict_stock, nn_priceClosing_str)
             if payloadOrder_dynamic_dict.get(glo_orderNn_key_volume) == '0':
                 # will be zero if price of stock is too high (not an error)
-                print('VOLUME in payloadOrder_dynamic_dict was 0 (usually due to too high price')
+                print('\tVOLUME in payloadOrder_dynamic_dict was 0 (usually due to too high price')
                 pprint(payloadOrder_dynamic_dict)
                 return
         
@@ -1064,13 +1078,13 @@ def nordnet_handleOrder_afterClosing(dict_stock, sb_signal_type):
             # merge payload
             payloadOrder = {**payloadOrder_staticValues_dict, **payloadOrder_dynamic_dict}
             if test_abortOrder == True:
-                print('Test mode: {}'.format(inspect.stack()[0][3]))
-                print('aborting nordnet order placement, BUT setting stockActiveTemp')
+                print('\tTest mode: {}'.format(inspect.stack()[0][3]))
+                print('\taborting nordnet order placement, BUT setting stockActiveTemp')
                 setStockActiveTemp(dict_stock.get(mod_shared.glo_colName_sbNameshort), sb_signal_type)
             else:
                 nordnet_placeOrder(payloadOrder, dict_stock, sb_signal_type)
         else:
-            print('payloadOrder_dynamic_dict was INCORRECT: {}'.format(dict_stock.get(mod_shared.glo_colName_sbNameshort)))
+            print('\tpayloadOrder_dynamic_dict was INCORRECT: {}'.format(dict_stock.get(mod_shared.glo_colName_sbNameshort)))
             pprint(payloadOrder_dynamic_dict)
             sbj = '{}: {}: payloadOrder_dynamic_dict was INCORRECT:'.format(inspect.stack()[0][3], dict_stock.get(mod_shared.glo_colName_sbNameshort))
             body = pformat(payloadOrder_dynamic_dict)
@@ -1082,32 +1096,33 @@ def nordnet_handleOrder_afterClosing(dict_stock, sb_signal_type):
         return
 
 def isDynamicPayloadOrderValid(payloadOrder_dynamic_dict):
+    print(inspect.stack()[0][3])
     try:
         price = payloadOrder_dynamic_dict.get(glo_orderNn_key_price)
         volume = payloadOrder_dynamic_dict.get(glo_orderNn_key_volume)
         side = payloadOrder_dynamic_dict.get(glo_orderNn_key_side)
         # checking volume is only digits
         if not volume.isdigit():
-            print('function {}: {} was not only digits, it was: {}'.format(inspect.stack()[0][3], glo_orderNn_key_volume, volume))
-            print('returning False')
+            print('\tfunction {}: {} was not only digits, it was: {}'.format(inspect.stack()[0][3], glo_orderNn_key_volume, volume))
+            print('\treturning False')
             return False
 
         # checking volume is NOT '0'
         if int(volume) == 0:
-            print('function {}: {} was zero, result: {}'.format(inspect.stack()[0][3], glo_orderNn_key_volume, volume))
-            print('returning False')
+            print('\tfunction {}: {} was zero, result: {}'.format(inspect.stack()[0][3], glo_orderNn_key_volume, volume))
+            print('\treturning False')
             return False
 
         # checking if price contains other chars than digits or '.'
         if not price.replace(".", "").isdigit():
-            print('function {}: {} contained none allowed chars, it was: {}'.format(inspect.stack()[0][3], glo_orderNn_key_price, price))
-            print('returning False')
+            print('\tfunction {}: {} contained none allowed chars, it was: {}'.format(inspect.stack()[0][3], glo_orderNn_key_price, price))
+            print('\treturning False')
             return False
 
         # checking 'BUY' or 'SELL'
         if side != 'BUY' and side != 'SELL':
-            print('function {}: {} was not "BUY" or "SELL", it was: {}'.format(inspect.stack()[0][3], glo_orderNn_key_side, side))
-            print('returning False')
+            print('\tfunction {}: {} was not "BUY" or "SELL", it was: {}'.format(inspect.stack()[0][3], glo_orderNn_key_side, side))
+            print('\treturning False')
             return False
 
     except Exception as e:
@@ -1116,6 +1131,7 @@ def isDynamicPayloadOrderValid(payloadOrder_dynamic_dict):
         return True
 
 def nordnet_placeOrder(payloadOrder, dict_stockStatus, sb_signal_type):
+    print(inspect.stack()[0][3])
     try:
         sb_nameShort = dict_stockStatus.get(mod_shared.glo_colName_sbNameshort)
 
@@ -1127,16 +1143,16 @@ def nordnet_placeOrder(payloadOrder, dict_stockStatus, sb_signal_type):
         r = s.post(urlOrder, headers=header, data=payloadOrder)
 
         if r.status_code == 200:
-            print ('SUCCESS: order placed!')
+            print('\tSUCCESS: order placed!')
             print(sb_nameShort)
             pprint(payloadOrder)
             setStockActiveTemp(sb_nameShort, sb_signal_type)
             updateAmountAvailable(sb_signal_type, payloadOrder)
             mod_shared.sendEmail(sb_nameShort + ':' + sb_signal_type, sb_nameShort + '\n'+ pformat(payloadOrder))
         else:
-            print('FAILED: order failed!')
-            print('status_code:', r.status_code)
-            print('text:', r.text)
+            print('\tFAILED: order failed!')
+            print('\tstatus_code:', r.status_code)
+            print('\ttext:', r.text)
             responseDict = {
             'status_code': str(r.status_code),
             'reason': r.reason,
@@ -1305,7 +1321,7 @@ def rnd(price_float,frac,dec,direction=''): #float number; fraction number (e.g.
         mod_shared.errorHandler(e)
 
 def setOrderStatistics():
-    print('\n{}'.format(inspect.stack()[0][3]))
+    print(inspect.stack()[0][3])
     # updates order statistics by using new orders from Nordnet and old order information from order-statistics.csv
     try:
         dailyOrders_nordnet_list = getDailyOrders_nordnet()
@@ -1524,11 +1540,11 @@ while True and test_overall == False:
 
 if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
-    BP()
-    # scrapeSbForSignals_afterMarketIsClosed()
+    # BP()
+    scrapeSbForSignals_afterMarketIsClosed()
     # resetDaily()
-    setAndGetStockStatusFromNn()
-    getAmountAvailable()
+    # setAndGetStockStatusFromNn()
+    # getAmountAvailable()
     # isMaxStockHeldAndActive()
     BP()
     # scrapeSbForSignals_afterMarketIsClosed() 
