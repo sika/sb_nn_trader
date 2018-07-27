@@ -106,6 +106,7 @@ glo_key_statusText = 'status_text'
 
 glo_scrapeSbForSignalsAfterMarketIsClosed_counter = 0
 
+glo_url_omxspi = 'https://indexes.nasdaqomx.com/Index/History/OMXSPI'
 # red days
 glo_redDays = {
     'Mar_29_2018': {
@@ -735,12 +736,12 @@ def resetDaily():
         resetTempActive()
         # once reset, scrapeSbForSignals_afterMarketIsClosed() will use live data from Nordnet (first run next day)
         reset_scrapeSbForSignalsAfterMarketIsClosed_counter()
+        # reset active buy/sell
+        resetActiveTrade()
         # if stocks-to-buy.csv is older than x, renew by running create_stock_lists.py
         checkIfStockListNeedUpdating()
         # reset error counter
         mod_shared.resetCounterError()
-        # reset active buy/sell
-        resetActiveTrade()
         print('----------------------------------END OF DAY----------------------------------\n')
     except Exception as e:
         mod_shared.errorHandler(e)
@@ -1516,6 +1517,86 @@ def incr_scrapeSbForSignalsAfterMarketIsClosed_counter():
     except Exception as e:
         mod_shared.errorHandler(e)
 
+# def setOrderStatistics_omxspi():
+#     print(inspect.stack()[0][3])
+#     try:
+#         omxspi_date_reference = '2018-06-10'
+#         omxspi_dateData = 'aaData'
+#         omxspi_dateData_ts = 'TimeStamp'
+#         omxspi_dateData_value = 'Value'
+#         omxspi_valueDate_list = []
+#         omxspi_date_exclude = []
+
+#         glo_omxspi_dateData_ts = 'TimeStamp'
+#         glo_omxspi_dateData_value = 'Value'
+#         glo_omxspi_dateData_date = 'Date'
+#         glo_omxspi_dateData_percentChange
+
+#         form_data = {'id': 'OMXSPI',
+#             'startDate': '{}T00:00:00.000'.format(omxspi_date_reference),
+#             'endDate': '{}T00:00:00.000'.format(mod_shared.getDateToday_customFormat_str('%Y-%m-%d')),
+#             'timeOfDay': 'EOD'
+#             }
+#         r = mod_shared.requests_retry_session().post(mod_shared.glo_omxspi_url, data=form_data)
+#         # if r.response was not 200
+#         if not isUrlResponseStatus200(r):
+#             print('\t{} FAILED. Returning'.format(inspect.stack()[0][3]))
+#             return
+        
+#         # page html. Will return string 
+#         soup = BeautifulSoup(r.content, 'html.parser')
+#         # convert string to a list of dicts. 4 dicts: aaData; iTotalDisplayRecords; iTotalRecords; sEcho
+#         # list_of_dicts_omxspi = json.loads(str(soup))
+#         list_of_dicts_omxspi = json.loads(str(soup)).get(omxspi_dateData)
+#         for dict_omxspi in list_of_dicts_omxspi:
+#             omxspi_dict = {}
+#             # dict_omxspi.get('TimeStamp') returns '/Date(xxxxxxxxxxxxx)/'
+#             ts_int = int(int(dict_omxspi.get('TimeStamp').replace('/Date(','').replace(')/',''))/1000)
+#             # get timestamp from set date
+#             ts_ref_int = mod_shared.getTimestampFromDateStr(omxspi_date_reference, '%Y-%m-%d')
+#             if ts_int >= ts_ref_int:
+#                 omxspi_dict[omxspi_dict_date] = mod_shared.getDateFromTimestamp(ts_int, '%Y-%m-%d')
+#                 omxspi_dict[omxspi_dict_date] = mod_shared.getDateFromTimestamp(ts_int, '%Y-%m-%d')
+                
+#                 # print('ts_int: {}'.format(ts_int))
+#                 # print('ts_ref_int: {}'.format(ts_ref_int))
+#                 # BP()
+#                 print(mod_shared.getDateFromTimestamp(ts_int, '%Y-%m-%d'))
+#             # break
+
+#        # table with 24 months signal list
+#         # omxspi_tradeTable = soup.find_all(id="historyTable")
+#         # if omxspi_tradeTable:
+#         #     for omxspi_row in omxspi_tradeTable:
+#         #         BP()
+#         # else:
+#         #     print('\tomxspi_tradeTable returned empty. Returning'.format(inspect.stack()[0][3]))
+#         #     return
+
+
+#         # get date or check dates (compare against latest in doc to see if missing after 2018-06-11)
+#         # get index values
+#         # calc percent change
+#         # add to bottom of doc
+
+#         # URL: https://indexes.nasdaqomx.com/Index/History/OMXSPI
+#         # if is market day
+#         # if does not exist: create document; else, use existing
+#     except Exception as e:
+#         mod_shared.errorHandler(e)
+
+def isUrlResponseStatus200(r):
+    try:
+        if r.status_code != 200:
+            print('\tURL request FAILED for: {}'.format(r.url))
+            print('\tStatus code: {}'.format(r.status_code))
+            print('\ttext: {}'.format(r.text[:150]))
+            return False
+        else:
+            return True
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
 schedule.every().day.at("19:45").do(scrapeSbForSignals_afterMarketIsClosed) 
 schedule.every().day.at("20:30").do(scrapeSbForSignals_afterMarketIsClosed)
 # get and set stats of closed orders
@@ -1544,7 +1625,8 @@ while True and test_overall == False:
 if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
     # BP()
-    scrapeSbForSignals_afterMarketIsClosed()
+    setOrderStatistics_omxspi()
+    # scrapeSbForSignals_afterMarketIsClosed()
     # resetDaily()
     # setAndGetStockStatusFromNn()
     # getAmountAvailable()

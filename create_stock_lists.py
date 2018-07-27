@@ -372,7 +372,7 @@ def getStocksFromNn(stockInfo_list):
             list_of_stockRequests_failed = []
             for stock in stockInfo_list:
                 sbNameshort = stock.get(mod_shared.glo_colName_sbNameshort)
-                print(counter,':',sbNameshort)
+                print('{}: {}'.format(counter, sbNameshort))
                 counter += 1
 
                 if not stock.get(mod_shared.glo_colName_url_sb):

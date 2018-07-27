@@ -130,13 +130,19 @@ glo_sbLoginFormSubmit = 'ctl00$MainContent$btnSubmit'
 
 glo_clearWatchlist = 'ctl00$MainContent$DeleteAll'
 
+glo_omxspi_url = 'https://indexes.nasdaqomx.com/Index/HistoryData'
+glo_omxspi_dateData_ts = 'TimeStamp'
+glo_omxspi_dateData_value = 'Value'
+glo_omxspi_dateData_date = 'Date'
+glo_omxspi_dateData_percentChange = 'PercentChange'
+        
+
 glo_counter_error = 0
 # max percent change low seems to be 10%
 glo_sellPercentageSubtraction = 9.8
 
 def errorHandler(e_msg):
     try:
-        # print ('\nERROR: \n\tFile:', temp_glo_file_this, '\n\tFunction:', calling_function, '\n\tLine:', line_number, '\n\tError:', str(e_msg), '\n')
         print ('\nERROR: \n\tFile:', inspect.stack()[1][1], '\n\tFunction:', inspect.stack()[1][3], '\n\tLine:', format(sys.exc_info()[-1].tb_lineno), '\n\tError:', str(e_msg), '\n')
         writeErrorLog(inspect.stack()[1][3], format(sys.exc_info()[-1].tb_lineno), inspect.stack()[1][1], str(e_msg))
     except Exception as e:
@@ -313,6 +319,12 @@ def getTimestamp():
 
 def getTimestampStr():
     return datetime.datetime.now().strftime('%Y-%m-%d %H-%M-%S')
+
+def getTimestampFromDateStr(dateStr, customFormat):
+    return int(time.mktime(datetime.datetime.strptime(dateStr, customFormat).timetuple()))
+
+def getDateFromTimestamp(ts_int, customFormat): #could be '%Y-%m-%d %H:%M:%S'
+    return datetime.datetime.fromtimestamp(ts_int).strftime(customFormat)
 
 def getOrderedDictFromDict(dictTemp, order_of_keys_list):
     try:

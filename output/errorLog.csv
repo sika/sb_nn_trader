@@ -59,3 +59,18 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-07-12;01:01;Thursday;1;/mnt/e/Dokument/Dropbox/development/sb_nn_trader/create_stock_lists.py;getStocksFromSb;185;'NoneType' object has no attribute 'get_text'
 2018-07-19;01:39;Thursday;1;test.py;formatNnStockPriceForSell_rev;57;name 'nn_price_float' is not defined
 2018-07-19;01:46;Thursday;1;test.py;formatNnStockPriceForSell_rev;59;name 'glo_sellPercentageSubtraction' is not defined
+2018-07-25;16:19;Wednesday;1;main.py;setOrderStatistics_omxspi;1537;
+2018-07-25;20:14;Wednesday;1;main.py;setOrderStatistics_omxspi;1542;
+2018-07-25;20:38;Wednesday;1;main.py;setOrderStatistics_omxspi;1543;
+2018-07-25;20:48;Wednesday;1;main.py;setOrderStatistics_omxspi;1548;name 'getDateFromTimestamp' is not defined
+2018-07-25;20:49;Wednesday;1;main.py;setOrderStatistics_omxspi;1548;year is out of range
+2018-07-25;20:56;Wednesday;1;main.py;setOrderStatistics_omxspi;1545;unsupported operand type(s) for /: 'str' and 'int'
+2018-07-27;07:18;Friday;1;create_stock_lists.py;getStocksFromNn;453;Expecting value: line 1 column 1 (char 0)
+2018-07-27;07:20;Friday;1;create_stock_lists.py;setAllStockLists;670;name 'mod_shared' is not defined
+2018-07-27;07:21;Friday;1;create_stock_lists.py;getStocksFromNn;375;tuple index out of range
+2018-07-27;07:24;Friday;1;create_stock_lists.py;getStocksFromNn;452;Expecting value: line 1 column 1 (char 0)
+2018-07-27;07:26;Friday;1;create_stock_lists.py;getNnStockPageData;90;'NoneType' object has no attribute 'get_text'
+2018-07-27;07:26;Friday;2;create_stock_lists.py;getNnStockPageData;90;'NoneType' object has no attribute 'get_text'
+2018-07-27;07:26;Friday;3;create_stock_lists.py;getNnStockPageData;90;'NoneType' object has no attribute 'get_text'
+2018-07-27;07:26;Friday;4;create_stock_lists.py;getNnStockPageData;90;'NoneType' object has no attribute 'get_text'
+2018-07-27;07:26;Friday;5;create_stock_lists.py;getNnStockPageData;90;'NoneType' object has no attribute 'get_text'
