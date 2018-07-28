@@ -16,6 +16,7 @@ import sys
 from collections import OrderedDict
 from pprint import pprint
 from pprint import pformat
+from shutil import copyfile
 
 glo_file_this = os.path.basename(__file__)
 
@@ -33,7 +34,7 @@ glo_colValue_notAvailable = 'N/A'
 
 glo_test_bool = False
 glo_test_str = 'test-'
-glo_stockInfo_test_file = 'stock-info-raw-1.csv'
+glo_stockInfo_test_file = 'test-stock-info-raw-2.csv'
 
 glo_runGetStocksFromSb_bool = True
 glo_runSetAllStockLists_bool = True
@@ -341,7 +342,7 @@ def getStocksFromSb(stockInfo_list):
                 requests_should_retry = False
 
         if list_of_stocks_failed:
-            print('\nStocks failed after '+ str(max_attempts) +' - discarding')
+            print('\nStocks failed after '+ str(max_attempts) +' attempts - discarding')
             stock_counter=1
             body = []
             for stock_failed in list_of_stocks_failed:
@@ -402,8 +403,9 @@ def getStocksFromNn(stockInfo_list):
                     # join list with space for alternative sb->nnNameShort match (SB might be SAGA-B while NN SAGA B)
                     sb_nn_nameShort_match = " ".join(sbNameshort_split_list)
                     
-                    # join list with a '+'-sign between words for query. exaple: ['SAGA', 'B'] -> SAGA+B
-                    query = "+".join(sbNameshort_split_list)
+                    # join list with a '+'-sign between words for query. exaple: ['SAGA', 'B'] -> SAGA+B (saga+b)
+                    query = "+".join(sbNameshort_split_list).lower()
+                    # query = "+".join(sbNameshort_split_list)
                     
                     urlNn = 'https://www.nordnet.se'
                     urlNnSearch = 'https://www.nordnet.se/search/load.html'
@@ -432,52 +434,70 @@ def getStocksFromNn(stockInfo_list):
                                         stock.update(OrderedDict(list_of_tuples))
                                         stock_was_found = True
                                         break
-                            if not stock_was_found:
-                                list_of_stockRequests_failed.append(stock)
+                            # if not stock_was_found:
+                            #     list_of_stockRequests_failed.append(stock)
 
                 # get intraday-closing price percent changes
                 market_id = stock.get(mod_shared.glo_colName_market_id)
                 identifier_id = stock.get(mod_shared.glo_colName_identifier_id)
                 # if market_id and identifier_id was previously found 
                 if market_id and identifier_id:
-                    dateYesterdayStr = mod_shared.getDate_deltaToday_customFormat_str(-1, '%Y-%m-%d') # today's date only works when Nordnet has had time to updated historic figures
+                    dateYesterdayStr = mod_shared.getDate_deltaToday_customFormat_str(-1, '%Y-%m-%d') # today's date only works when Nordnet has had time to update historic figures
                     url = 'https://www.nordnet.se/graph/instrument/'+ market_id +'/'+identifier_id+'?from=1970-01-01&to='+dateYesterdayStr+'&fields=last,open,high,low,volume'
                     try:
                         r = mod_shared.requests_retry_session().get(url)
+                        # r = mod_shared.requests_retry_session().get('https://httpstat.us/200')
                     except Exception as e:
+                        print('failed :{}'.format(str(e)))
                         list_of_stockRequests_failed.append(stock)
                         continue
                     else:
                         soup = BeautifulSoup(r.content, 'html.parser') # active are placed in "share"
-                        list_of_dicts_nn = json.loads(str(soup))
-                        list_of_dicts_sb = stock.get(mod_shared.glo_colName_historySignalPrice)
-                        
-                        intraday_closing_buy_percent_changes = []
-                        intraday_closing_sellAndShort_percent_changes = []
+                        # soup = None
+                        # if soup == None:
+                        #     print('\tsoup was {}'.format(soup))
+                        #     print('\tmarket_id: {}; identifier_id: {}'.format(market_id, identifier_id))
+                        #     print('\tAction: adding to list_of_stockRequests_failed')
+                        #     # list_of_stockRequests_failed.append(stock)
+                        #     # continue
+                        try:
+                            list_of_dicts_nn = json.loads(str(soup))
+                        except Exception as e:
+                            print('\tERROR :{}'.format(str(e)))
+                            print('\tmarket_id: {}; identifier_id: {}'.format(market_id, identifier_id))
+                            print('\tsoup: {}'.format(soup))
+                            print('\tAction: adding to list_of_stockRequests_failed')
+                            list_of_stockRequests_failed.append(stock)
+                            continue
+                        else:
+                            list_of_dicts_sb = stock.get(mod_shared.glo_colName_historySignalPrice)
+                            
+                            intraday_closing_buy_percent_changes = []
+                            intraday_closing_sellAndShort_percent_changes = []
 
-                        # for each signal in history from SB 
-                        for dict_sb in list_of_dicts_sb:
-                            # '%d.%m.%Y' -> '%Y-%m-%d'
-                            date_sb = datetime.datetime.strptime(dict_sb.get(glo_sb_history_date), '%d.%m.%Y').strftime('%Y-%m-%d')
-                            price_sb_str = dict_sb.get(glo_sb_history_price).replace(",", "")
-                            price_sb = float(price_sb_str)
-                            signal_sb = dict_sb.get(glo_sb_history_signal)
-                            for dict_date_nn in list_of_dicts_nn:
-                                # microsec -> sec + 1 (to ensure ends at correct side of date)
-                                epoch_sec = int(dict_date_nn.get(glo_nn_history_time)/1000)+1
-                                # epoch_sec -> 'YYYY-MM-DD'
-                                date_nn = time.strftime('%Y-%m-%d', time.localtime(epoch_sec))
-                                price_nn = dict_date_nn.get(glo_nn_history_closing)
+                            # for each signal in history from SB 
+                            for dict_sb in list_of_dicts_sb:
+                                # '%d.%m.%Y' -> '%Y-%m-%d'
+                                date_sb = datetime.datetime.strptime(dict_sb.get(glo_sb_history_date), '%d.%m.%Y').strftime('%Y-%m-%d')
+                                price_sb_str = dict_sb.get(glo_sb_history_price).replace(",", "")
+                                price_sb = float(price_sb_str)
+                                signal_sb = dict_sb.get(glo_sb_history_signal)
+                                for dict_date_nn in list_of_dicts_nn:
+                                    # microsec -> sec + 1 (to ensure ends at correct side of date)
+                                    epoch_sec = int(dict_date_nn.get(glo_nn_history_time)/1000)+1
+                                    # epoch_sec -> 'YYYY-MM-DD'
+                                    date_nn = time.strftime('%Y-%m-%d', time.localtime(epoch_sec))
+                                    price_nn = dict_date_nn.get(glo_nn_history_closing)
 
-                                # if dates of sb and nn match
-                                if date_sb == date_nn:
-                                    # positive result: end_value (closing price) is higher than start_value (intraday price)
-                                    if dict_sb.get(glo_sb_history_signal) == 'BUY':
-                                        percentChange = mod_shared.getPercentChange(price_sb, price_nn) # start value; end value
-                                        intraday_closing_buy_percent_changes.append(percentChange)
-                                    elif dict_sb.get(glo_sb_history_signal) == 'SELL' or dict_sb.get(glo_sb_history_signal) == 'SHORT':
-                                        percentChange = mod_shared.getPercentChange(price_sb, price_nn) # start value; end value
-                                        intraday_closing_sellAndShort_percent_changes.append(percentChange)
+                                    # if dates of sb and nn match
+                                    if date_sb == date_nn:
+                                        # positive result: end_value (closing price) is higher than start_value (intraday price)
+                                        if dict_sb.get(glo_sb_history_signal) == 'BUY':
+                                            percentChange = mod_shared.getPercentChange(price_sb, price_nn) # start value; end value
+                                            intraday_closing_buy_percent_changes.append(percentChange)
+                                        elif dict_sb.get(glo_sb_history_signal) == 'SELL' or dict_sb.get(glo_sb_history_signal) == 'SHORT':
+                                            percentChange = mod_shared.getPercentChange(price_sb, price_nn) # start value; end value
+                                            intraday_closing_sellAndShort_percent_changes.append(percentChange)
 
                         # delete data of historic prices after usage
                         stock.pop(mod_shared.glo_colName_historySignalPrice, None)
@@ -523,23 +543,31 @@ def getStocksFromNn(stockInfo_list):
             else:
                 requests_should_retry = False
 
-        if stocks_not_matched:
-            print('\nstocks not matched on Nordnet:')
-            pprint(stocks_not_matched)
-            sbj = 'stocks not matched on Nordnet inside '+inspect.stack()[0][3]
-            mod_shared.sendEmail(sbj, stocks_not_matched)
+        # if stocks_not_matched:
+        #     print('\nstocks not matched on Nordnet:')
+        #     pprint(stocks_not_matched)
+        #     sbj = 'stocks not matched on Nordnet inside '+inspect.stack()[0][3]
+        #     mod_shared.sendEmail(sbj, stocks_not_matched)
 
-        if list_of_stockRequests_failed:
-            print('\nStocks failed after '+ str(max_attempts) +' attempts - discarding')
-            stock_counter=1
-            body = []
-            for stock_failed in list_of_stockRequests_failed:
-                body.append(stock_failed.get(mod_shared.glo_colName_sbNameshort))
-                print(str(stock_counter)+': '+stock_failed.get(mod_shared.glo_colName_sbNameshort))
-                stock_counter += 1
-            sbj = 'Failed stock requests inside '+inspect.stack()[0][3]
+        if list_of_stockRequests_failed or stocks_not_matched:
+            sbj = 'Failed stocks inside '+inspect.stack()[0][3]
+            body = ''
+            if list_of_stockRequests_failed:
+                print('\nStocks failed after '+ str(max_attempts) +' attempts - discarding')
+                stock_counter=1
+                body = 'list_of_stockRequests_failed:\n'
+                for stock_failed in list_of_stockRequests_failed:
+                    body += '- {}\n'.format(stock_failed.get(mod_shared.glo_colName_sbNameshort))
+                    # body.append(stock_failed.get(mod_shared.glo_colName_sbNameshort))
+                    print(str(stock_counter)+': '+stock_failed.get(mod_shared.glo_colName_sbNameshort))
+                    stock_counter += 1
+
+            if stocks_not_matched:
+                body += '\nstocks not matched on Nordnet:\n'
+                for stock_noMatch in stocks_not_matched:
+                    body += '- {}\n'.format(stock_noMatch)
+
             mod_shared.sendEmail(sbj, body)
-
         return stockInfo_request_success
     except Exception as e:
         mod_shared.errorHandler(e)
@@ -714,19 +742,23 @@ def setStockToBuyList():
             stockInfoUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList+mod_shared.path_input_test, glo_test_str+mod_shared.glo_stockInfoUpdated_file)
         else:
             stockInfoUpdated_list = mod_shared.getListFromFile(mod_shared.path_input_createList, mod_shared.glo_stockInfoUpdated_file)
-    
         if stockInfoUpdated_list:
             stocksToBuy_list = filterStocksToWatch(stockInfoUpdated_list)
-            # BP()
-
-            # stockToBuy_allData_list = mod_shared.setListKeys(stocksToBuy_list, mod_shared.glo_stockToBuy_allData_colNames)
             stocksToBuy_list = mod_shared.setListKeys(stocksToBuy_list, mod_shared.glo_stockToBuy_colNames)
 
+            src_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file
+            dest_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file_noExtension+'-backup.csv'
+            file_exists = os.path.isfile(src_path_and_file)
+            if file_exists:
+                print('\tmaking copy of: {}'.format(src_path_and_file))
+                copyfile(src_path_and_file, dest_path_and_file)
+            else:
+                print('\tno file existing: {}'.format(src_path_and_file))
+                print('\taction: no backup copy made')
+
             if glo_test_bool:
-                # mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_createList + glo_test_str+mod_shared.glo_stockToBuy_allData_file)
                 mod_shared.writeListToCsvFile(stocksToBuy_list, mod_shared.path_input_createList+mod_shared.path_input_test + glo_test_str+mod_shared.glo_stockToBuy_file)
             else:
-                # mod_shared.writeListToCsvFile(stockToBuy_allData_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_allData_file)
                 mod_shared.writeListToCsvFile(stocksToBuy_list, mod_shared.path_input_main+mod_shared.glo_stockToBuy_file)
     except Exception as e:
         mod_shared.errorHandler(e)

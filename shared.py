@@ -39,6 +39,7 @@ glo_stockAfterSb_file_updated = 'stock-info-afterSb.csv'
 glo_stockToBuy_allData_file = 'stocks-to-buy-all-data.csv'
 glo_stockToBuy_allData_file_template = 'stocks-to-buy-all-data-template.csv'
 glo_stockToBuy_file = 'stocks-to-buy.csv'
+glo_stockToBuy_file_noExtension = 'stocks-to-buy'
 glo_stockToBuy_file_template = 'stocks-to-buy-template.csv'
 glo_orderStatistics_file = 'order-statistics.csv'
 glo_orderStatistics_file_template = 'order-statistics-template.csv'
@@ -302,6 +303,7 @@ def getDate_deltaToday_customFormat_str(days, customFormat):
     return (datetime.date.today() + datetime.timedelta(days)).strftime(customFormat)
 
 def getTimestampCustomStr(customFormat):
+    # timestamp now to date and time
     return datetime.datetime.now().strftime(customFormat)
 
 def getSecondsFromTime(days, hours, minutes, seconds):
@@ -502,6 +504,7 @@ def setGlobalColNames():
         mod_shared.errorHandler(e)
 
 def requests_retry_session(retries=3, backoff_factor=0.3, session=None):
+    # will throw exception at call when not getting reply. Both 200 and 404 IS a reply.
     try:
         session = session or requests.Session()
         retry = Retry(
@@ -559,6 +562,19 @@ def getDecimalFromPercentage(percentageNumber):
         return float(percentageNumber/100)
     except Exception as e:
         errorHandler(e)
+
+def isUrlResponseStatus200(r):
+    try:
+        if r.status_code != 200:
+            print('\tURL request FAILED for: {}'.format(r.url))
+            print('\tStatus code: {}'.format(r.status_code))
+            print('\ttext: {}'.format(r.text[:150]))
+            return False
+        else:
+            return True
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
 
 def main():
     try:

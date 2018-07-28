@@ -19,109 +19,124 @@ import math
 
 glo_file_this = os.path.basename(__file__)
 
+# START copy file-------------
+
+from shutil import copyfile
+
+# copyfile(mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file, '{}{}{}_backup'.format(mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file))
+src_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file
+dest_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file_noExtension+'_backup.csv'
+file_exists = os.path.isfile(src_path_and_file)
+if file_exists:
+    print('making copy of: '.format(src_path_and_file))
+    copyfile(src_path_and_file, dest_path_and_file)
+else:
+    print('no file existing: {}'.format(src_path_and_file))
+    print('action: no backup copy made')
+
 # START evaluating selling price change-------------
-import decimal
-from operator import itemgetter
+# import decimal
+# from operator import itemgetter
 
-def formatNnStockPriceForSell_rev(nn_price_str, sellDecimalSubtraction_float):
-    try:
-        nn_price_float_org = float(nn_price_str)
-        nn_price_float_rev = nn_price_float_org * (1-sellDecimalSubtraction_float)
+# def formatNnStockPriceForSell_rev(nn_price_str, sellDecimalSubtraction_float):
+#     try:
+#         nn_price_float_org = float(nn_price_str)
+#         nn_price_float_rev = nn_price_float_org * (1-sellDecimalSubtraction_float)
 
-        if 20 <= nn_price_float_rev:
-            # print('20 <= nn_price_float_rev')
-            decimals = 0
-            # print('decimals: {}'.format(decimals))
-        elif 5 <= nn_price_float_rev < 20:
-            # print('5 <= nn_price_float_rev < 20')
-            decimals = 1
-            # print('decimals: {}'.format(decimals))
-        elif 0.2 <= nn_price_float_rev < 5:
-            # print('5 <= nn_price_float_rev < 20')
-            decimals = 2
-            # print('decimals: {}'.format(decimals))
-        elif nn_price_float_rev < 0.2:
-            # print('5 <= nn_price_float_rev < 20')
-            decimals = 3
-            # print('decimals: {}'.format(decimals))
+#         if 20 <= nn_price_float_rev:
+#             # print('20 <= nn_price_float_rev')
+#             decimals = 0
+#             # print('decimals: {}'.format(decimals))
+#         elif 5 <= nn_price_float_rev < 20:
+#             # print('5 <= nn_price_float_rev < 20')
+#             decimals = 1
+#             # print('decimals: {}'.format(decimals))
+#         elif 0.2 <= nn_price_float_rev < 5:
+#             # print('5 <= nn_price_float_rev < 20')
+#             decimals = 2
+#             # print('decimals: {}'.format(decimals))
+#         elif nn_price_float_rev < 0.2:
+#             # print('5 <= nn_price_float_rev < 20')
+#             decimals = 3
+#             # print('decimals: {}'.format(decimals))
 
-        if decimals == 0:
-            high = int(math.ceil(nn_price_float_rev*pow(10,decimals))/pow(10,decimals))
-            low = int(math.floor(nn_price_float_rev*pow(10,decimals))/pow(10,decimals))
-            if mod_shared.getPercentChange(nn_price_float_org, low) > -(1*mod_shared.glo_sellPercentageSubtraction):
-                return str(low)
-            else:
-                return str(high)
-            # return str(int(math.ceil(nn_price_float*pow(10,decimals))/pow(10,decimals)))
-        else:
-            high = math.ceil(nn_price_float_rev*pow(10,decimals))/pow(10,decimals)
-            low = math.floor(nn_price_float_rev*pow(10,decimals))/pow(10,decimals)
-            if mod_shared.getPercentChange(nn_price_float_org, low) > -(1*mod_shared.glo_sellPercentageSubtraction):
-                return str(low)
-            else:
-                return str(high)
+#         if decimals == 0:
+#             high = int(math.ceil(nn_price_float_rev*pow(10,decimals))/pow(10,decimals))
+#             low = int(math.floor(nn_price_float_rev*pow(10,decimals))/pow(10,decimals))
+#             if mod_shared.getPercentChange(nn_price_float_org, low) > -(1*mod_shared.glo_sellPercentageSubtraction):
+#                 return str(low)
+#             else:
+#                 return str(high)
+#             # return str(int(math.ceil(nn_price_float*pow(10,decimals))/pow(10,decimals)))
+#         else:
+#             high = math.ceil(nn_price_float_rev*pow(10,decimals))/pow(10,decimals)
+#             low = math.floor(nn_price_float_rev*pow(10,decimals))/pow(10,decimals)
+#             if mod_shared.getPercentChange(nn_price_float_org, low) > -(1*mod_shared.glo_sellPercentageSubtraction):
+#                 return str(low)
+#             else:
+#                 return str(high)
 
-            # return str(math.ceil(nn_price_float*pow(10,decimals))/pow(10,decimals))
-    except Exception as e:
-        mod_shared.errorHandler(e)
+#             # return str(math.ceil(nn_price_float*pow(10,decimals))/pow(10,decimals))
+#     except Exception as e:
+#         mod_shared.errorHandler(e)
 
-def frange(start, stop, step):
-    i = start
-    while i < stop:
-        yield i
-        i += step
+# def frange(start, stop, step):
+#     i = start
+#     while i < stop:
+#         yield i
+#         i += step
 
-result_list = []
-counter = 0
-counter_break = 100
-counter_bool = False
-start = 20
-end = 1001
-step = 0.1
-# mod_shared.glo_decimals_20
-for i in frange (start, end, step):
+# result_list = []
+# counter = 0
+# counter_break = 100
+# counter_bool = False
+# start = 20
+# end = 1001
+# step = 0.1
+# # mod_shared.glo_decimals_20
+# for i in frange (start, end, step):
 
-    if counter_bool and counter >= counter_break:
-        break
-    else:
-        decimal_int = abs(decimal.Decimal(str(step)).as_tuple().exponent)
-        # to prevent long, weired values
-        stockPrice_begin = round(i, decimal_int)
-        print(stockPrice_begin)
-        sellDecimalSubtraction_float = mod_shared.getDecimalFromPercentage(mod_shared.glo_sellPercentageSubtraction)
+#     if counter_bool and counter >= counter_break:
+#         break
+#     else:
+#         decimal_int = abs(decimal.Decimal(str(step)).as_tuple().exponent)
+#         # to prevent long, weired values
+#         stockPrice_begin = round(i, decimal_int)
+#         print(stockPrice_begin)
+#         sellDecimalSubtraction_float = mod_shared.getDecimalFromPercentage(mod_shared.glo_sellPercentageSubtraction)
 
-        stockPrice_end = formatNnStockPriceForSell_rev(str(stockPrice_begin), sellDecimalSubtraction_float)
-        stockPrice_perChange = round(mod_shared.getPercentChange(float(stockPrice_begin), float(stockPrice_end)), 2)
+#         stockPrice_end = formatNnStockPriceForSell_rev(str(stockPrice_begin), sellDecimalSubtraction_float)
+#         stockPrice_perChange = round(mod_shared.getPercentChange(float(stockPrice_begin), float(stockPrice_end)), 2)
         
-        # print('{}:\t {}:\t {}'.format(stockPrice_begin, stockPrice_end, stockPrice_perChange))
+#         # print('{}:\t {}:\t {}'.format(stockPrice_begin, stockPrice_end, stockPrice_perChange))
 
-        result_dict = {'stockPrice_begin':stockPrice_begin, 'stockPrice_end': stockPrice_end, 'stockPrice_perChange': stockPrice_perChange}
-        # print(result_dict)
-        result_list.append(result_dict)
+#         result_dict = {'stockPrice_begin':stockPrice_begin, 'stockPrice_end': stockPrice_end, 'stockPrice_perChange': stockPrice_perChange}
+#         # print(result_dict)
+#         result_list.append(result_dict)
 
-        counter += 1
+#         counter += 1
 
-# for dict_result in result_list:
-#     print(dict_result)
+# # for dict_result in result_list:
+# #     print(dict_result)
+
+# # print('\n')
+# print('DECENDING')
+# result_list_perChange_decending = sorted(result_list, key=itemgetter('stockPrice_perChange'), reverse=True)
+# range_stop = 30
+# # # for dict_result in result_list_perChange_decending:
+# # #     print(dict_result)
+# for i in range (0, range_stop):
+#     print(result_list_perChange_decending[i])
 
 # print('\n')
-print('DECENDING')
-result_list_perChange_decending = sorted(result_list, key=itemgetter('stockPrice_perChange'), reverse=True)
-range_stop = 30
-# # for dict_result in result_list_perChange_decending:
+# print('ACENDING')
+# result_list_perChange_acending = sorted(result_list, key=itemgetter('stockPrice_perChange'))
+# # for dict_result in result_list_perChange_acending:
 # #     print(dict_result)
-for i in range (0, range_stop):
-    print(result_list_perChange_decending[i])
+# range_stop = 30
 
-print('\n')
-print('ACENDING')
-result_list_perChange_acending = sorted(result_list, key=itemgetter('stockPrice_perChange'))
-# for dict_result in result_list_perChange_acending:
-#     print(dict_result)
-range_stop = 30
-
-for i in range (0, range_stop):
-    print(result_list_perChange_acending[i])
+# for i in range (0, range_stop):
+#     print(result_list_perChange_acending[i])
 
 # print(result_list)
 

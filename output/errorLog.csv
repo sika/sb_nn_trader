@@ -74,3 +74,9 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-07-27;07:26;Friday;3;create_stock_lists.py;getNnStockPageData;90;'NoneType' object has no attribute 'get_text'
 2018-07-27;07:26;Friday;4;create_stock_lists.py;getNnStockPageData;90;'NoneType' object has no attribute 'get_text'
 2018-07-27;07:26;Friday;5;create_stock_lists.py;getNnStockPageData;90;'NoneType' object has no attribute 'get_text'
+2018-07-28;14:59;Saturday;1;create_stock_lists.py;getStocksFromNn;474;'str' object has no attribute 'get'
+2018-07-28;15:01;Saturday;1;create_stock_lists.py;getStocksFromNn;475;'str' object has no attribute 'get'
+2018-07-28;15:02;Saturday;1;create_stock_lists.py;getStocksFromNn;521;local variable 'query' referenced before assignment
+2018-07-28;15:42;Saturday;1;create_stock_lists.py;getStocksFromNn;458;Expecting value: line 1 column 1 (char 0)
+2018-07-28;16:02;Saturday;1;create_stock_lists.py;getStocksFromNn;450;name 'x' is not defined
+2018-07-28;19:42;Saturday;1;create_stock_lists.py;setStockToBuyList;750;name 'getTimestampCustomStr' is not defined
