@@ -80,3 +80,11 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-07-28;15:42;Saturday;1;create_stock_lists.py;getStocksFromNn;458;Expecting value: line 1 column 1 (char 0)
 2018-07-28;16:02;Saturday;1;create_stock_lists.py;getStocksFromNn;450;name 'x' is not defined
 2018-07-28;19:42;Saturday;1;create_stock_lists.py;setStockToBuyList;750;name 'getTimestampCustomStr' is not defined
+2018-07-29;13:22;Sunday;1;test.py;cpr;27;'NoneType' object has no attribute 'tb_lineno'
+2018-07-29;13:33;Sunday;1;test.py;cpr;27;'tuple' object has no attribute 'tb_lineno'
+2018-07-29;13:38;Sunday;1;test.py;cpr;28;'NoneType' object has no attribute 'tb_lineno'
+2018-07-29;13:38;Sunday;1;test.py;cpr;27;'NoneType' object has no attribute 'tb_lineno'
+2018-07-29;13:38;Sunday;1;test.py;cpr;27;'NoneType' object has no attribute 'tb_lineno'
+2018-07-29;13:38;Sunday;1;test.py;cpr;27;'NoneType' object has no attribute 'tb_lineno'
+2018-07-29;13:49;Sunday;1;test.py;cpr;28;'NoneType' object has no attribute 'tb_lineno'
+2018-07-30;12:37;Monday;1;main.py;isStockFileOlderThanCondition;770;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/main/stocks-to-buy.csv'

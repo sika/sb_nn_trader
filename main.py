@@ -765,9 +765,13 @@ def getAmountAvailableFromNn():
     else:
         return amountAvailable_str
 
-def isStockFileOlderThanCondition(time_condition_dict, file_name):
+def isNotFileExisting_or_olderThanCondition(time_condition_dict, file_name):
     try:
-        epochSecSinceLastModification = os.path.getmtime(mod_shared.path_base + mod_shared.path_input_main + file_name)
+        path_and_file = mod_shared.path_base + mod_shared.path_input_main + file_name
+        if not os.path.isfile(path_and_file):
+            return True
+
+        epochSecSinceLastModification = os.path.getmtime(path_and_file)
         epochSecNow = time.time()
 
         ageSecDelta = epochSecNow - epochSecSinceLastModification
@@ -790,7 +794,7 @@ def askIfToRerunStockFile():
     try:
         # if ask if to run for for new list
             while True:
-                answer = input(mod_shared.glo_stockToBuy_file + ' was older than time condition. Do you wish to create new file? (y/n): ')
+                answer = input(mod_shared.glo_stockToBuy_file + ' was older than time condition or did not exist. Do you wish to create new file? (y/n): ')
                 if answer == 'n':
                     break
                 elif answer == 'y':
@@ -1474,7 +1478,7 @@ def getUpdatedOrderStatistics(orderStat_list, dailyOrders_nordnet_list):
 def checkIfStockListNeedUpdating():
     print(inspect.stack()[0][3])
     try:
-        if isStockFileOlderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):
+        if isNotFileExisting_or_olderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):
             mod_list.main()
     except Exception as e:
         mod_shared.errorHandler(e)
@@ -1604,7 +1608,7 @@ setMaxNumberOfActiveAboveMaxHeld(2)
 # setAmountAvailableStatic(800)
 
 # Equivalent is also executed in runtime (resetDaily)
-if isStockFileOlderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):
+if isNotFileExisting_or_olderThanCondition(glo_timeConditionRerunStockFile, mod_shared.glo_stockToBuy_file):
     askIfToRerunStockFile()
 
 while True and test_overall == False:

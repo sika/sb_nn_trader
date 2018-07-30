@@ -32,9 +32,9 @@ glo_sb_history_signal = 'signal'
 
 glo_colValue_notAvailable = 'N/A'
 
-glo_test_bool = False
+glo_test_bool = True
 glo_test_str = 'test-'
-glo_stockInfo_test_file = 'test-stock-info-raw-2.csv'
+glo_stockInfo_test_file = 'test-stock-info-raw-1.csv'
 
 glo_runGetStocksFromSb_bool = True
 glo_runSetAllStockLists_bool = True
@@ -746,15 +746,7 @@ def setStockToBuyList():
             stocksToBuy_list = filterStocksToWatch(stockInfoUpdated_list)
             stocksToBuy_list = mod_shared.setListKeys(stocksToBuy_list, mod_shared.glo_stockToBuy_colNames)
 
-            src_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file
-            dest_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file_noExtension+'-backup.csv'
-            file_exists = os.path.isfile(src_path_and_file)
-            if file_exists:
-                print('\tmaking copy of: {}'.format(src_path_and_file))
-                copyfile(src_path_and_file, dest_path_and_file)
-            else:
-                print('\tno file existing: {}'.format(src_path_and_file))
-                print('\taction: no backup copy made')
+            backupStockToBuy()
 
             if glo_test_bool:
                 mod_shared.writeListToCsvFile(stocksToBuy_list, mod_shared.path_input_createList+mod_shared.path_input_test + glo_test_str+mod_shared.glo_stockToBuy_file)
@@ -764,6 +756,26 @@ def setStockToBuyList():
         mod_shared.errorHandler(e)
     else:
         print('END', inspect.stack()[0][3], '\n')
+
+def backupStockToBuy():
+    try:
+        src_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file
+        # timestamp of last modification of file ('x[...]x.y[...]y')
+        ts_str = os.path.getmtime(src_path_and_file)
+        # convert ts_str to date and time string
+        time_lastModification = mod_shared.getDateFromTimestamp(int(ts_str), '%Y-%m-%d %H-%M')
+        extraString = ' {}'.format(time_lastModification)
+        dest_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_backup_noExtension_file+extraString+'.csv'
+        
+        file_exists = os.path.isfile(src_path_and_file)
+        if file_exists:
+            print('\tmaking copy of: {}'.format(src_path_and_file))
+            copyfile(src_path_and_file, dest_path_and_file)
+        else:
+            print('\tno file existing: {}'.format(src_path_and_file))
+            print('\taction: no backup copy made')
+    except Exception as e:
+        mod_shared.errorHandler(e)
 
 def main():
     try:

@@ -15,24 +15,48 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 import sys
 import os    
-import math 
+import math
 
 glo_file_this = os.path.basename(__file__)
+
+# START print methods-------------
+
+# def cpr(str):
+#     """Returns the current line number in our program."""
+#     line = inspect.currentframe().f_back.f_lineno
+#     return print('\t{}: {}'.format(line, str))
+
+# cpr('some shitty output a´la kuk')
+
+# print('we are back')
+# # START file modification time -------------
+
+# ts_str = os.path.getmtime(src_path_and_file)
+# # convert ts_str to date and time string
+# time_lastModification = mod_shared.getDateFromTimestamp(int(ts_str), '%Y-%m-%d %H-%M')
+# extraString = '-backup {}'.format(time_lastModification)
+# dest_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file_noExtension+extraString+'.csv'
 
 # START copy file-------------
 
 from shutil import copyfile
+import glob
 
 # copyfile(mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file, '{}{}{}_backup'.format(mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file))
-src_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file
-dest_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file_noExtension+'_backup.csv'
-file_exists = os.path.isfile(src_path_and_file)
-if file_exists:
-    print('making copy of: '.format(src_path_and_file))
-    copyfile(src_path_and_file, dest_path_and_file)
-else:
-    print('no file existing: {}'.format(src_path_and_file))
-    print('action: no backup copy made')
+src_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_backup_noExtension_file
+BP()
+
+
+# dest_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file_noExtension+'_backup.csv'
+# file_exists = os.path.isfile(src_path_and_file)
+# if file_exists:
+#     print('making copy of: '.format(src_path_and_file))
+#     copyfile(src_path_and_file, dest_path_and_file)
+# else:
+#     print('no file existing: {}'.format(src_path_and_file))
+#     print('action: no backup copy made')
+
+
 
 # START evaluating selling price change-------------
 # import decimal

@@ -40,6 +40,7 @@ glo_stockToBuy_allData_file = 'stocks-to-buy-all-data.csv'
 glo_stockToBuy_allData_file_template = 'stocks-to-buy-all-data-template.csv'
 glo_stockToBuy_file = 'stocks-to-buy.csv'
 glo_stockToBuy_file_noExtension = 'stocks-to-buy'
+glo_stockToBuy_backup_noExtension_file = 'stocks-to-buy-backup'
 glo_stockToBuy_file_template = 'stocks-to-buy-template.csv'
 glo_orderStatistics_file = 'order-statistics.csv'
 glo_orderStatistics_file_template = 'order-statistics-template.csv'
@@ -141,6 +142,7 @@ glo_omxspi_dateData_percentChange = 'PercentChange'
 glo_counter_error = 0
 # max percent change low seems to be 10%
 glo_sellPercentageSubtraction = 9.8
+
 
 def errorHandler(e_msg):
     try:
