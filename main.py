@@ -823,11 +823,14 @@ def scrapeSbForSignals_afterMarketIsClosed():
         dayDelta = 0 # 0 will check signal list date against date of today (-1 date of yesterday and so on)
         signalListTable_delta = 0 # 0 will pick first row in sb signal list table; 1 second row and so on
         breakAtFirstBuy = False
-        if dayDelta != 0 or breakAtFirstBuy != False or signalListTable_delta != 0:
+        remove_list_items = 0 #this will KEEP this many items in glo_stockStatus_list (for quicker testing)
+        if dayDelta != 0 or breakAtFirstBuy != False or signalListTable_delta != 0 or remove_list_items != 0:
             print('\tTEST MODE: {}'.format(inspect.stack()[0][3]))
             print('\tdayDelta: {} (date: {})'.format(dayDelta, mod_shared.getDate_deltaToday_customFormat_str(dayDelta, "%d.%m.%Y")))
             print('\tsignalListTable_delta: {}'.format(signalListTable_delta))
             print('\tbreakAtFirstBuy: {}'.format(breakAtFirstBuy))
+            print('\t# of glo_stockStatus_list items to keep: {}'.format(remove_list_items))
+            glo_stockStatus_list = glo_stockStatus_list[:remove_list_items]
         
         requests_should_retry = True
         attempts_counter = 0
@@ -909,10 +912,10 @@ def scrapeSbForSignals_afterMarketIsClosed():
                                         nordnet_handleOrder_afterClosing(dict_stock, signal_type)
                     else:
                         # no 24 month signal list returned, continuing with next stock.
-                        print('\tstock', dict_stock.get(mod_shared.glo_colName_sbNameshort), '(', dict_stock.get(mod_shared.glo_colName_url_sb), ') did NOT return a 24 month signal list table: Continuing with next stock.')
-                        sbj = 'Stock {} did NOT return a 24 month signal list table: Continuing with next stock'.format(mod_shared.glo_colName_sbNameshort)
-                        body = 'Function: {}'.format(inspect.stack()[1][3])
-                        mod_shared.sendEmail(sbj, body)
+                        print('\tstock', dict_stock.get(mod_shared.glo_colName_sbNameshort), '(', dict_stock.get(mod_shared.glo_colName_url_sb), ') did NOT return a 24 month signal list table.')
+                        if dict_stock not in stocks_failed_list:
+                            print('\tAction: Adding stocks_failed_list AND continuing with next stock')
+                            stocks_failed_list.append(dict_stock)
                         continue
             # END 'for dict_stock in glo_stockStatus_list'
             # If stocks failed: first attempt
@@ -1618,8 +1621,8 @@ while True and test_overall == False:
 if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
     # BP()
-    setOrderStatistics_omxspi()
-    # scrapeSbForSignals_afterMarketIsClosed()
+    # setOrderStatistics_omxspi()
+    scrapeSbForSignals_afterMarketIsClosed()
     # resetDaily()
     # setAndGetStockStatusFromNn()
     # getAmountAvailable()

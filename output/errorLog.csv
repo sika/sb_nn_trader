@@ -88,3 +88,4 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-07-29;13:38;Sunday;1;test.py;cpr;27;'NoneType' object has no attribute 'tb_lineno'
 2018-07-29;13:49;Sunday;1;test.py;cpr;28;'NoneType' object has no attribute 'tb_lineno'
 2018-07-30;12:37;Monday;1;main.py;isStockFileOlderThanCondition;770;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/main/stocks-to-buy.csv'
+2018-08-07;16:27;Tuesday;1;main.py;scrapeSbForSignals_afterMarketIsClosed;847;

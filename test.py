@@ -19,6 +19,19 @@ import math
 
 glo_file_this = os.path.basename(__file__)
 
+# START keep x items in list-------------
+
+list_of_items = [0, 1,2,3,4,5,6,7,8,9,9,9,9,9]
+print(list_of_items[3:])
+print(list_of_items[:3])
+
+
+
+
+
+
+
+
 # START print methods-------------
 
 # def cpr(str):
@@ -39,12 +52,12 @@ glo_file_this = os.path.basename(__file__)
 
 # START copy file-------------
 
-from shutil import copyfile
-import glob
+# from shutil import copyfile
+# import glob
 
-# copyfile(mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file, '{}{}{}_backup'.format(mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file))
-src_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_backup_noExtension_file
-BP()
+# # copyfile(mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file, '{}{}{}_backup'.format(mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file))
+# src_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_backup_noExtension_file
+# BP()
 
 
 # dest_path_and_file = mod_shared.path_base+mod_shared.path_input_main+mod_shared.glo_stockToBuy_file_noExtension+'_backup.csv'
