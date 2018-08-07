@@ -69,7 +69,7 @@ glo_allowedSignals_list = [glo_sbSignalBuy,
 
 # time condition
 glo_timeConditionRerunStockFile = {
-    'days': 14,
+    'days': 13,
     'hours': 0,
     'minutes': 0,
     'seconds': 0
@@ -633,6 +633,15 @@ def isWeekDay():
     except Exception as e:
         mod_shared.errorHandler(e)
 
+def isFriday():
+    try:
+        if mod_shared.getTimestamp().isoweekday() == 5: #fri <-> 5
+            return True
+        else:
+            return False
+    except Exception as e:
+        mod_shared.errorHandler(e)
+
 def isNotRedDay():
     try:
         for date, time in glo_redDays.items():
@@ -738,8 +747,9 @@ def resetDaily():
         reset_scrapeSbForSignalsAfterMarketIsClosed_counter()
         # reset active buy/sell
         resetActiveTrade()
-        # if stocks-to-buy.csv is older than x, renew by running create_stock_lists.py
-        checkIfStockListNeedUpdating()
+        # if is Friday and stocks-to-buy.csv is older than x, renew by running create_stock_lists.py
+        if isFriday():
+            checkIfStockListNeedUpdating()
         # reset error counter
         mod_shared.resetCounterError()
         print('----------------------------------END OF DAY----------------------------------\n')
@@ -1598,7 +1608,6 @@ schedule.every().day.at("20:30").do(scrapeSbForSignals_afterMarketIsClosed)
 # get and set stats of closed orders
 schedule.every().day.at("21:30").do(setOrderStatistics)
 schedule.every().day.at("22:00").do(resetDaily)
-
 # triggerError()
 
 # for surverying script (in case of crash)
@@ -1620,14 +1629,15 @@ while True and test_overall == False:
 
 if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
+    if isFriday():
+        checkIfStockListNeedUpdating()
     # BP()
     # setOrderStatistics_omxspi()
-    scrapeSbForSignals_afterMarketIsClosed()
+    # scrapeSbForSignals_afterMarketIsClosed()
     # resetDaily()
     # setAndGetStockStatusFromNn()
     # getAmountAvailable()
     # isMaxStockHeldAndActive()
-    BP()
     # scrapeSbForSignals_afterMarketIsClosed() 
     # scrapeSbForSignals_afterMarketIsClosed()
     # get and set stats of closed orders
