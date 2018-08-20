@@ -1,6 +1,9 @@
-- only run get new stocks at fridays
-- Record OMX daily percent change for reference in Order Statistics?
 - Ensure stock has been sold at sell order
+- Notify if stock not sold
+- In confirm email, show original price
+- Confirm that stock is put at Active on Nordnet
+
+- Record OMX daily percent change for reference in Order Statistics?
 - find a way to sell stocks which have risen very high (before they go down again) (compare with stats?)
 
 

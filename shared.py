@@ -141,7 +141,7 @@ glo_omxspi_dateData_percentChange = 'PercentChange'
 
 glo_counter_error = 0
 # max percent change low seems to be 10%
-glo_sellPercentageSubtraction = 9.8
+glo_sellPercentageSubtraction = 8
 
 
 def errorHandler(e_msg):
