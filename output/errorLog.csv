@@ -89,3 +89,15 @@ DATE;TIME;DAY;ERROR_COUNTER;File;CALLING_FUNCTION;Line;E_MSG
 2018-07-29;13:49;Sunday;1;test.py;cpr;28;'NoneType' object has no attribute 'tb_lineno'
 2018-07-30;12:37;Monday;1;main.py;isStockFileOlderThanCondition;770;[Errno 2] No such file or directory: '/mnt/e/Dokument/Dropbox/development/sb_nn_trader/input/main/stocks-to-buy.csv'
 2018-08-07;16:27;Tuesday;1;main.py;scrapeSbForSignals_afterMarketIsClosed;847;
+2018-09-05;17:18;Wednesday;1;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:19;Wednesday;2;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:19;Wednesday;3;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:19;Wednesday;4;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:19;Wednesday;5;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:19;Wednesday;6;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:19;Wednesday;7;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:19;Wednesday;8;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:19;Wednesday;9;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:19;Wednesday;10;create_stock_lists.py;getNnStockPageData;100;local variable 'stock_heading_sentence' referenced before assignment
+2018-09-05;17:30;Wednesday;1;create_stock_lists.py;getStocksFromNn;578;local variable 'stock_failed' referenced before assignment
+2018-09-05;17:30;Wednesday;1;create_stock_lists.py;getStocksFromNn;578;'str' object has no attribute 'get'

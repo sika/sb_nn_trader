@@ -88,7 +88,15 @@ def getNnStockPageData(url_stock):
             soup = BeautifulSoup(r.content, 'html.parser')
 
             # Note: below line throws error if not finding searched title (e.g., when Nordnet page requires login to view content). Can be ignored
-            stock_heading_sentence = soup.find('h1', class_="title").get_text(strip=True)
+            try:
+                stock_heading_sentence = soup.find('h1', class_="title").get_text(strip=True)
+            except Exception as e:
+                # ignore error if str message is below (Nordnet requires login to view page)
+                if str(e) == "'NoneType' object has no attribute 'get_text'":
+                    print('IGNORED ERROR in {}: Nordnet requires login to view page'.format(inspect.stack()[0][3]))
+                    return
+                else:
+                    mod_shared.errorHandler(e)            
             # get nordnet name
             nnName = re.search(r'Kursdata för (.*?) \(', stock_heading_sentence).group(1)
             
@@ -136,7 +144,7 @@ def getStocksFromSb(stockInfo_list):
         if glo_test_bool:
             print(inspect.stack()[0][3], 'in TEST MODE!')
 
-        counter = 2
+        counter = 1
         stockInfo_request_success = []
         requests_should_retry = True
         attempts_counter = 0
@@ -362,7 +370,7 @@ def getStocksFromNn(stockInfo_list):
         if glo_test_bool:
             print(inspect.stack()[0][3], 'in TEST MODE!')
         
-        counter = 2
+        counter = 1
         stockInfo_request_success = []
         stocks_not_matched = []
         requests_should_retry = True
@@ -563,9 +571,13 @@ def getStocksFromNn(stockInfo_list):
                     stock_counter += 1
 
             if stocks_not_matched:
+                print('\nStocks not matched:')
+                stock_counter=1
                 body += '\nstocks not matched on Nordnet:\n'
                 for stock_noMatch in stocks_not_matched:
                     body += '- {}\n'.format(stock_noMatch)
+                    print(str(stock_counter)+': '+stock_noMatch)
+                    stock_counter += 1
 
             mod_shared.sendEmail(sbj, body)
         return stockInfo_request_success
