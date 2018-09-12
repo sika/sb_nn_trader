@@ -275,7 +275,6 @@ def setAndGetStockStatusFromNn():
 
         # get stocks with held and active info
         nNHeldAndActive_list = getStockStatus()
-
         # set stocks held
         counter_held = 0
         for heldAndActive_dict in nNHeldAndActive_list:
@@ -320,9 +319,18 @@ def setAndGetStockStatusFromNn():
             list_of_key_selectors = [mod_shared.glo_colName_nameNordnet]
             list_of_key_overwriters = list(mod_shared.glo_stockToBuy_colNames.keys())
             nNHeldAndActive_list = mod_shared.updateListFromListByKeys(nNHeldAndActive_list, stocksAllUpdated_list, list_of_key_selectors, list_of_key_overwriters) # list to overwrite, list to overwrite with, -, -
+            # confirm that all active and held have been matched correctly
+            for heldAndActive_dict in nNHeldAndActive_list:
+                # if mod_shared.glo_colName_sbNameshort in heldAndActive_dict == '':
+                # if mod_shared.glo_colName_sbNameshort in heldAndActive_dict.values() == '':
+                if heldAndActive_dict.get(mod_shared.glo_colName_sbNameshort) == '':
+                    print('- {}: NOT matched correctly'.format(heldAndActive_dict.get(mod_shared.glo_colName_nameNordnet)))
+                    sbj = 'ignored error in {}: stock not matched'.format(inspect.stack()[0][3])
+                    body = sbj + '\n\n Stock: {} was not matched correctly in file {}. \n To fix: change name in {}'.format(heldAndActive_dict.get(mod_shared.glo_colName_nameNordnet), mod_shared.glo_stockInfoUpdated_file, mod_shared.glo_stockInfoUpdated_file)
+                    mod_shared.sendEmail(sbj, body)
+
             # merge the lists
             stocksToBuy_list += nNHeldAndActive_list
-
             return stocksToBuy_list
     except Exception as e:
         mod_shared.errorHandler(e)
@@ -1629,11 +1637,12 @@ while True and test_overall == False:
 
 if test_overall:
     print('TEST MODE: {}'.format(inspect.stack()[0][1]))
-    if isFriday():
-        checkIfStockListNeedUpdating()
+    setAndGetStockStatusFromNn()
+    # scrapeSbForSignals_afterMarketIsClosed()
+    # if isFriday():
+    #     checkIfStockListNeedUpdating()
     # BP()
     # setOrderStatistics_omxspi()
-    # scrapeSbForSignals_afterMarketIsClosed()
     # resetDaily()
     # setAndGetStockStatusFromNn()
     # getAmountAvailable()
