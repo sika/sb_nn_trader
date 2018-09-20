@@ -1,4 +1,3 @@
-- fix errros
 - only search stocks during market is open-days (now searching weekends)
 - Ensure stock has been sold at sell order
 - Notify if stock not sold
